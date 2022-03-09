@@ -12,5 +12,15 @@ List<GetPage<dynamic>> routes = [
   GetPage(
     name: '/MobileNumber',
     page: () => MobileNumber(),
+  ),
+  GetPage(
+    name: '/OtpScreen',
+    page: () => OtpScreen(),
+    binding: OtpBinding()
+  ),
+  GetPage(
+    name: '/BottomBar',
+    page: () => BottomBar(),
+    binding: BottomBarBinding()
   )
 ];

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
@@ -76,7 +77,7 @@ class MobileNumber extends StatelessWidget {
                   ),
                   const SizedBox(height: 20,),
                   RoundedRectangleButton(
-                    onPress: (){},
+                    onPress: (){Get.toNamed('/OtpScreen');},
                     title: 'Get Started',
                   ),
                 ],
