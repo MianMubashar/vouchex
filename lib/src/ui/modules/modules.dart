@@ -11,3 +11,6 @@ export 'home/tab_view/business.dart';
 export 'home/tab_view/vouchers.dart';
 
 export 'home/request.dart';
+
+export 'voucher/voucher_details.dart';
+export 'voucher/widgets/voucher_data.dart';

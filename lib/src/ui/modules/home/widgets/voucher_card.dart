@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
@@ -68,7 +69,13 @@ class VoucherCard extends StatelessWidget {
             const SizedBox(height: 10,),
             DetailsButton(
               title: "Details",
-              onPress: (){},
+              onPress: (){
+                AppDialog(title: 'Adidas want to exchange voucher with design services. '
+                    'we need mockups design for our brand.Adidas want to exchange voucher with design services. we need mockups design for our brand.',
+                  cancelPressed: (){Get.back();},
+                  oKPressed: (){Get.toNamed('/VoucherDetails');}
+                ).show(context);
+              },
             ),
             const SizedBox(height: 20,),
           ],

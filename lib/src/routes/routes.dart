@@ -22,5 +22,10 @@ List<GetPage<dynamic>> routes = [
     name: '/BottomBar',
     page: () => BottomBar(),
     binding: BottomBarBinding()
+  ),
+  GetPage(
+    name: '/VoucherDetails',
+    page: () => VoucherDetails(),
+    binding: VoucherDataBinding()
   )
 ];

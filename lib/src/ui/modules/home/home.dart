@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 controller: _homeTabs.controller,
-                children: const [
+                children: [
                   BusinessScreen(),
                   VouchersScreen()
                 ],
