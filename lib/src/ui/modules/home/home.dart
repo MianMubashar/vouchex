@@ -16,11 +16,12 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const CustomAppBar(
+            CustomAppBar(
               title: "Register as Business for\nmore features",
               textAlign: TextAlign.start,
               showTrailingIcon: true,
-                profileImage: "assets/images/profile_img.png"
+                profileImage: "assets/images/profile_img.png",
+              trailingIconPressed: () {Get.toNamed('/Profile');},
             ),
             TabBar(
               labelColor: Colors.black,

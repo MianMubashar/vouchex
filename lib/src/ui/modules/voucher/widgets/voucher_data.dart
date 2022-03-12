@@ -7,7 +7,6 @@ import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/modules/home/tab_view/vouchers.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
-import '../../modules.dart';
 
 class VoucherData extends StatelessWidget {
    VoucherData({Key? key}) : super(key: key);

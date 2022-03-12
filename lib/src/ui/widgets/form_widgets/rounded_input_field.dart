@@ -14,6 +14,8 @@ class RoundedInputField extends StatelessWidget {
   final ValueChanged<String?>? onChanged;
   final String? Function(String?)? validator;
   final int? maxLine;
+  final Color? fillColor;
+  final Color? borderColor;
   const RoundedInputField({
     Key? key,
     this.hintText,
@@ -28,7 +30,9 @@ class RoundedInputField extends StatelessWidget {
     this.onSubmitted,
     this.onChanged,
     this.validator,
-    this.maxLine = 1
+    this.maxLine = 1,
+    this.fillColor =secondaryColor,
+    this.borderColor = secondaryColor
   }) : super(key:key);
   @override
   Widget build(BuildContext context) {

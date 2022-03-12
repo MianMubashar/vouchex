@@ -5,13 +5,13 @@ class SmallButton extends StatelessWidget {
   final String? title;
   final VoidCallback onPress;
   final Color titleColor;
-  final double? size;
+  final double? fontSize;
   final double? height;
   const SmallButton({
     Key? key,
     this.title,
     this.titleColor = whiteText,
-    this.size = 14.0,
+    this.fontSize = 14.0,
     this.height = 32,
     required this.onPress
   }): super(key:key);
@@ -32,7 +32,7 @@ class SmallButton extends StatelessWidget {
         onPressed: onPress,
         child: Text(
           title ?? '',
-          style: TextStyle(fontSize: size, fontWeight: FontWeight.w600, color: titleColor, fontFamily: 'Nunito'),
+          style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w600, color: titleColor, fontFamily: 'Nunito'),
         ),
       ),
     );
