@@ -11,3 +11,4 @@ export 'voucher/voucher_data_binding.dart';
 export 'history/tab_view_binding.dart';
 
 export 'my_vouchers/myVouchers_tabView_binding.dart';
+export 'my_vouchers/create_voucher_binding.dart';

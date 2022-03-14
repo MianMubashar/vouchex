@@ -45,5 +45,22 @@ List<GetPage<dynamic>> routes = [
     name: '/MyVouchers',
     page: () => MyVouchersScreen(),
     binding: MyVouchersTabViewBinding()
+  ),
+  GetPage(
+    name: '/CreateNewVoucher',
+    page: () => CreateNewVoucher(),
+    binding: CreateNewVoucherBinding()
+  ),
+  GetPage(
+    name: '/SearchResults',
+    page: () => SearchResult()
+  ),
+  GetPage(
+    name: '/HelpSupport',
+    page: () => HelpAndSupport()
+  ),
+  GetPage(
+    name: '/About',
+    page: () => About(),
   )
 ];

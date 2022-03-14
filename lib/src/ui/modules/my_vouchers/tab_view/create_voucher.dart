@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
@@ -17,7 +18,7 @@ class CreateVoucher extends StatelessWidget {
               child: Align(
                 alignment: Alignment.center,
                   child: InkWell(
-                    onTap: (){},
+                    onTap: (){Get.toNamed('/CreateNewVoucher');},
                       child: titleText("Tap to Create a Voucher", size: 20, clr: primaryColor),
                   ),
               ),

@@ -7,6 +7,7 @@ class SmallButton extends StatelessWidget {
   final Color titleColor;
   final double? fontSize;
   final double? height;
+
   const SmallButton({
     Key? key,
     this.title,

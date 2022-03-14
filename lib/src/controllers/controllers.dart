@@ -7,8 +7,12 @@ export 'widgets/tab_view.dart';
 
 export 'vouchers/voucher_data_controller.dart';
 
+
 export 'qr/qr_controller.dart';
 
 export 'history/tab_view_controller.dart';
 
 export 'my_voucher/myVoucher_tabView_controller.dart';
+export 'my_voucher/create_voucher_controller.dart';
+
+export 'search/search_controller.dart';

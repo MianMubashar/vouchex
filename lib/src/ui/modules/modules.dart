@@ -22,3 +22,10 @@ export 'history/history.dart';
 export 'notification/notifications.dart';
 
 export 'my_vouchers/my_vouchers.dart';
+export 'my_vouchers/create_new_voucher.dart';
+
+export 'search/search_result.dart';
+
+export 'help_support/help_and_support.dart';
+
+export 'about/about.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 import '../../../../data/model/models.dart';
 import '../widgets/business_card.dart';

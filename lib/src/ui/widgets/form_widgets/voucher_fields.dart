@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:vouchex/src/data/constants.dart';
 
-class RoundedInputField extends StatelessWidget {
+class VoucherFields extends StatelessWidget {
   final String? hintText, name, labelText;
   final bool obscureText;
   final bool readOnly;
@@ -18,7 +18,8 @@ class RoundedInputField extends StatelessWidget {
   final int? maxLine;
   final Color? fillColor;
   final Color? borderColor;
-  const RoundedInputField({
+  final double? height;
+  const VoucherFields({
     Key? key,
     this.hintText,
     this.obscureText = false,
@@ -35,13 +36,14 @@ class RoundedInputField extends StatelessWidget {
     this.onChanged,
     this.validator,
     this.maxLine = 1,
-    this.fillColor = secondaryColor,
-    this.borderColor = secondaryColor
+    this.fillColor = whiteText,
+    this.borderColor = const Color.fromRGBO(0, 0, 0, 0.1),
+    this.height
   }) : super(key:key);
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
+      height: height,
       child: FormBuilderTextField(
         controller: textEditingController,
         name: name ?? '',
@@ -54,35 +56,35 @@ class RoundedInputField extends StatelessWidget {
         textInputAction: textInputAction,
         maxLines: maxLine,
         decoration: InputDecoration(
-          prefixIcon: icon!= null
-              ? Icon(
-            icon,
-            color: primaryColor,
-            size: 30,
-          ): null,
-          suffixIcon: suffixIcon!= null ?
-              IconButton(
-                onPressed: suffixIconPressed,
-                icon: Icon(suffixIcon, color: Colors.black, size: 15,),
-              ) : null,
-          hintText: hintText,
-          labelText: labelText,
-          filled: true,
-          fillColor: fillColor,
+            prefixIcon: icon!= null
+                ? Icon(
+              icon,
+              color: primaryColor,
+              size: 30,
+            ): null,
+            suffixIcon: suffixIcon!= null ?
+            IconButton(
+              onPressed: suffixIconPressed,
+              icon: Icon(suffixIcon, color: Colors.black, size: 15,),
+            ) : null,
+            hintText: hintText,
+            labelText: labelText,
+            filled: true,
+            fillColor: fillColor,
             border:  OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(26)),
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
                 borderSide: BorderSide(color: borderColor!, width: 1)
             ),
             enabledBorder:  OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(26)),
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
                 borderSide: BorderSide(color: borderColor!, width: 1)
             ),
             focusedBorder:  OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(26)),
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
                 borderSide: BorderSide(color: borderColor!, width: 1)
             ),
-          labelStyle: const TextStyle(fontSize: 16, color: greyText, fontFamily: 'Nunito'),
-          hintStyle: const TextStyle(fontSize: 16, color: greyText, fontFamily: 'Nunito')
+            labelStyle: const TextStyle(fontSize: 16, color: greyText, fontFamily: 'Nunito'),
+            hintStyle: const TextStyle(fontSize: 16, color: greyText, fontFamily: 'Nunito')
         ),
       ),
     );

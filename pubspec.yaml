@@ -39,6 +39,8 @@ dependencies:
   persistent_bottom_nav_bar: ^4.0.2
   flutter_form_builder: ^7.1.1
   qr_code_scanner: ^0.7.0
+  custom_radio_grouped_button: ^2.1.2
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
