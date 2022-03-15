@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:vouchex/src/data/model/models.dart';
-import 'package:vouchex/src/ui/modules/home/widgets/voucher_card.dart';
+import 'package:get/get.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
-class RequestScreen extends StatelessWidget {
-  const RequestScreen({Key? key}) : super(key: key);
+import '../../../data/model/models.dart';
+import 'modules.dart';
+
+class FAQ extends StatelessWidget {
+  const FAQ({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,17 +14,18 @@ class RequestScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const CustomAppBar(
-              title: "Exchange Requests",
+            CustomAppBar(
+              title: "FAQ",
               showLeadingIcon: true,
+              leadingIconPressed: () {Get.back();} ,
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(height: 15,),
             Expanded(
               child: ListView.builder(
-                itemCount: voucherList.length,
+                itemCount: faqList.length,
                 itemBuilder: (context, index) {
-                  return VoucherCard(model: voucherList[index], vx: false,);
-              },
+                  return FAQCard(faqModel: faqList[index]);
+                },
               ),
             ),
           ],

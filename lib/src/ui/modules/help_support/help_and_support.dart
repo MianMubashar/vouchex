@@ -17,15 +17,15 @@ class HelpAndSupport extends StatelessWidget {
               leadingIconPressed: () {Get.back();} ,
             ),
             ListTile(
-              onTap: (){},
+              onTap: (){Get.toNamed('/FAQ');},
               title: titleText('FAQ', size: 20, fontWeight: FontWeight.w400),
             ),
             ListTile(
-              onTap: (){},
+              onTap: (){Get.toNamed('/Terms');},
               title: titleText('Terms and Conditions', size: 20, fontWeight: FontWeight.w400),
             ),
             ListTile(
-              onTap: (){},
+              onTap: (){Get.toNamed('/ContactUs');},
               title: titleText('Contact Us', size: 20, fontWeight: FontWeight.w400),
             )
           ],

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
+import 'package:vouchex/src/data/services/authentication.dart';
 import 'package:vouchex/src/ui/modules/profile/profile_list_tile.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
 class UserProfileScreen extends StatelessWidget {
-  const UserProfileScreen({Key? key}) : super(key: key);
+   UserProfileScreen({Key? key}) : super(key: key);
 
+  final AuthService authService = AuthService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +58,10 @@ class UserProfileScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: RoundedButtonSolidColor(
-                onPress: (){},
+                onPress: (){
+                  authService.signOut();
+                  Get.offAllNamed('/');
+                  },
                 title: 'Log Out',
               ),
             )

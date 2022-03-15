@@ -5,6 +5,8 @@ export 'custom_widgets/details_button.dart';
 export 'custom_widgets/dialog.dart';
 export 'custom_widgets/small_button.dart';
 export 'custom_widgets/simple_dialog.dart';
+export 'custom_widgets/modal_progress.dart';
+export 'custom_widgets/notifications.dart';
 
 export 'form_widgets/otp_textfields.dart';
 export 'form_widgets/rounded_input_field.dart';

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:vouchex/src/bindings/bindings.dart';
+import 'package:vouchex/src/ui/modules/create_business/create_business_page.dart';
 import 'package:vouchex/src/ui/modules/modules.dart';
 
 
@@ -12,6 +13,7 @@ List<GetPage<dynamic>> routes = [
   GetPage(
     name: '/MobileNumber',
     page: () => MobileNumber(),
+    binding: PhoneBinding()
   ),
   GetPage(
     name: '/OtpScreen',
@@ -60,7 +62,28 @@ List<GetPage<dynamic>> routes = [
     page: () => HelpAndSupport()
   ),
   GetPage(
+      name: '/FAQ',
+      page: () => FAQ()
+  ),
+  GetPage(
+    name: '/Terms',
+    page: () => TermsAndCondition()
+  ),
+  GetPage(
+    name: '/ContactUs',
+    page: () => ContactUs()
+  ),
+  GetPage(
     name: '/About',
     page: () => About(),
+  ),
+  GetPage(
+    name: '/VxVouchers',
+    page: () => VouchexVouchers()
+  ),
+  GetPage(
+    name: '/CreateBusiness',
+    page: () => CreateBusinessPage(),
+    binding: CreateBusinessBinding()
   )
 ];

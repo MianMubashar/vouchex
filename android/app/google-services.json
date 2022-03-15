@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "777556907362",
+    "project_id": "vouchex",
+    "storage_bucket": "vouchex.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:777556907362:android:70fd4f94a7c0dd0024c83b",
+        "android_client_info": {
+          "package_name": "com.app.vouchex.vouchex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "777556907362-20gfh0s4nqet787o8siilhg1k6ga1l48.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX6alN80cHOjFLxxdqIZluiT3xYg3MNN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "777556907362-20gfh0s4nqet787o8siilhg1k6ga1l48.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

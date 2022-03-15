@@ -11,70 +11,82 @@ class OtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset("assets/images/otp_img.png", width: 267,height: 197,),
-          const SizedBox(height: 30,),
-          smallText("Enter OTP", size: 18, clr: blackText),
-          const SizedBox(height: 5,),
-          smallText("We have sent you access code via SMS\nfor Mobile Verification", size: 15, textAlign: TextAlign.center),
-          Padding(
-            padding: const EdgeInsets.only(left: 40, right: 40, top: 40),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: Obx(() =>
+          ModalProgress(
+            call: _otpController.isLoading.value,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                OtpInput(controller: _otpController.fieldOne, autoFocus: false,
-                  onChanged: (value) {
-                  if (value!.length == 1) {
-                    FocusScope.of(context).nextFocus();
-                  }
-                }),
-                OtpInput(controller: _otpController.fieldTwo, autoFocus: false,
-                    onChanged: (value) {
-                      if (value!.length == 1) {
-                        FocusScope.of(context).nextFocus();
-                      }
-                    }
+                Image.asset("assets/images/otp_img.png", width: 267,height: 197,),
+                const SizedBox(height: 30,),
+                smallText("Enter OTP", size: 18, clr: blackText),
+                const SizedBox(height: 5,),
+                smallText("We have sent you access code via SMS\nfor Mobile Verification", size: 15, textAlign: TextAlign.center),
+                Padding(
+                  padding: const EdgeInsets.only(left: 40, right: 40, top: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      OtpInput(controller: _otpController.fieldOne, autoFocus: false,
+                          onChanged: (value) {
+                            if (value!.length == 1) {
+                              FocusScope.of(context).nextFocus();
+                            }
+                          }),
+                      OtpInput(controller: _otpController.fieldTwo, autoFocus: false,
+                          onChanged: (value) {
+                            if (value!.length == 1) {
+                              FocusScope.of(context).nextFocus();
+                            }
+                          }
+                      ),
+                      OtpInput(controller: _otpController.fieldThree, autoFocus: false,
+                          onChanged: (value) {
+                            if (value!.length == 1) {
+                              FocusScope.of(context).nextFocus();
+                            }
+                          }
+                      ),
+                      OtpInput(controller: _otpController.fieldFour, autoFocus: false,
+                          onChanged: (value) {
+                            if (value!.length == 1) {
+                              FocusScope.of(context).nextFocus();
+                            }
+                          }
+                      ),
+                      OtpInput(controller: _otpController.fieldFive, autoFocus: false,
+                          onChanged: (value) {
+                            if (value!.length == 1) {
+                              FocusScope.of(context).nextFocus();
+                            }
+                          }
+                      ),
+                      OtpInput(controller: _otpController.fieldSix, autoFocus: false,
+                          onChanged: (value) {
+                            if (value!.length == 1) {
+                              FocusScope.of(context).unfocus();
+                            }
+                          }
+                      ),
+                    ],
+                  ),
                 ),
-                OtpInput(controller: _otpController.fieldThree, autoFocus: false,
-                    onChanged: (value) {
-                      if (value!.length == 1) {
-                        FocusScope.of(context).nextFocus();
-                      }
-                    }
+                SizedBox(height: MediaQuery.of(context).size.height/15),
+                RoundedRectangleButton(
+                  onPress: (){_otpController.verifyOtp();},
+                  title: 'Verify',
                 ),
-                OtpInput(controller: _otpController.fieldFour, autoFocus: false,
-                    onChanged: (value) {
-                      if (value!.length == 1) {
-                        FocusScope.of(context).nextFocus();
-                      }
-                    }
-                ),
-                OtpInput(controller: _otpController.fieldFive, autoFocus: false,
-                    onChanged: (value) {
-                      if (value!.length == 1) {
-                        FocusScope.of(context).unfocus();
-                      }
-                    }
+                SizedBox(height: MediaQuery.of(context).size.height/25),
+                smallText("Didn’t Receive the OTP?", size: 20),
+                InkWell(
+                  onTap: (){},
+                  child: smallText("Resend Code", clr: blackText, size: 20),
                 ),
               ],
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height/15),
-          RoundedRectangleButton(
-            onPress: (){Get.toNamed('/BottomBar');},
-            title: 'Verify',
-          ),
-          SizedBox(height: MediaQuery.of(context).size.height/25),
-          smallText("Didn’t Receive the OTP?", size: 20),
-          InkWell(
-            onTap: (){},
-              child: smallText("Resend Code", clr: blackText, size: 20),
-          ),
-        ],
-      ),
+      )
     );
   }
 }

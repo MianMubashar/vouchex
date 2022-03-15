@@ -84,7 +84,7 @@ class VoucherFields extends StatelessWidget {
                 borderSide: BorderSide(color: borderColor!, width: 1)
             ),
             labelStyle: const TextStyle(fontSize: 16, color: greyText, fontFamily: 'Nunito'),
-            hintStyle: const TextStyle(fontSize: 16, color: greyText, fontFamily: 'Nunito')
+            hintStyle: const TextStyle(fontSize: 14, color: greyText, fontFamily: 'Nunito')
         ),
       ),
     );

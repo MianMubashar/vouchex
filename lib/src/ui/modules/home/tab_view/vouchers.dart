@@ -28,7 +28,7 @@ class VouchersScreen extends StatelessWidget {
               child: ListView.builder(
                 itemCount: voucherList.length,
                 itemBuilder: (context, index) {
-                  return VoucherCard(model: voucherList[index]);
+                  return VoucherCard(model: voucherList[index], vx: false,);
                 },
               ),
             ),

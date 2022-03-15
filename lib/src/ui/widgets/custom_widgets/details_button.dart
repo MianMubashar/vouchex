@@ -7,20 +7,22 @@ class DetailsButton extends StatelessWidget {
   final Color titleColor;
   final Color? buttonColor;
   final bool? showIcon;
+  final double? width;
   const DetailsButton({
     Key? key,
     this.title,
     this.titleColor = blackText,
     required this.onPress,
     this.buttonColor = detailsButtonColor,
-    this.showIcon = true
+    this.showIcon = true,
+    this.width = 382
   }): super(key:key);
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15),
       child: Container(
-        width: 382,
+        width: width,
         height: 40,
         decoration:  BoxDecoration(
           color: buttonColor!,

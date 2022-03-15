@@ -27,5 +27,9 @@ export 'my_vouchers/create_new_voucher.dart';
 export 'search/search_result.dart';
 
 export 'help_support/help_and_support.dart';
+export 'help_support/modules.dart';
 
 export 'about/about.dart';
+
+export 'vouchex_vouchers/vouchex_vouchers.dart';
+

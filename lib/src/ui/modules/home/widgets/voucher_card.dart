@@ -4,7 +4,12 @@ import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
 class VoucherCard extends StatelessWidget {
-   const VoucherCard({Key? key, required this.model}) : super(key: key);
+  final bool vx;
+   const VoucherCard({
+     Key? key,
+     required this.model,
+     required this.vx
+   }) : super(key: key);
 
   final VoucherModel model;
   @override
@@ -67,16 +72,21 @@ class VoucherCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10,),
+            vx == false ?
             DetailsButton(
               title: "Details",
               onPress: (){
                 AppDialog(title: 'Adidas want to exchange voucher with design services. '
                     'we need mockups design for our brand.Adidas want to exchange voucher with design services. we need mockups design for our brand.',
-                  cancelPressed: (){Get.back();},
-                  oKPressed: (){Get.toNamed('/VoucherDetails');}
+                    cancelPressed: (){Get.back();},
+                    oKPressed: (){Get.toNamed('/VoucherDetails');}
                 ).show(context);
               },
-            ),
+            ) :
+                RoundedRectangleButton(
+                  onPress: () {  },
+                  title: 'Buy Now',
+                ),
             const SizedBox(height: 20,),
           ],
         ),
