@@ -78,13 +78,18 @@ class VoucherCard extends StatelessWidget {
               onPress: (){
                 AppDialog(title: 'Adidas want to exchange voucher with design services. '
                     'we need mockups design for our brand.Adidas want to exchange voucher with design services. we need mockups design for our brand.',
+                    profileImage: model.circleImage,
+                    bgImage: model.backgroundImage,
+                    vTitle: model.title,
+                    subtitle: model.subtitle,
+                    code: model.number,
                     cancelPressed: (){Get.back();},
                     oKPressed: (){Get.toNamed('/VoucherDetails');}
                 ).show(context);
               },
             ) :
                 RoundedRectangleButton(
-                  onPress: () {  },
+                  onPress: () {},
                   title: 'Buy Now',
                 ),
             const SizedBox(height: 20,),

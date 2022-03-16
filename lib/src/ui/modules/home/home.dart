@@ -23,11 +23,21 @@ class HomeScreen extends StatelessWidget {
                 profileImage: "assets/images/profile_img.png",
               trailingIconPressed: () {Get.toNamed('/Profile');},
             ),
-            TabBar(
-              labelColor: Colors.black,
-              indicatorColor: primaryColor,
-              tabs: _homeTabs.tabs,
-              controller: _homeTabs.controller,
+            const SizedBox(height: 5,),
+            Container(
+              color: secondaryColor,
+              child: TabBar(
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.black,
+                labelStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700,fontFamily: 'Nunito'),
+                unselectedLabelStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700, fontFamily: 'Nunito'),
+                indicatorColor: primaryColor,
+                tabs: _homeTabs.tabs,
+                controller: _homeTabs.controller,
+                indicator: const BoxDecoration(
+                  color: primaryColor,
+                ),
+              ),
             ),
             Expanded(
               child: TabBarView(

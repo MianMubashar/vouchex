@@ -36,7 +36,7 @@ class ImageDialog {
                   child: Center(
                     child: IconButton(
                       onPressed: (){Get.back();},
-                      icon: const Icon(Icons.clear, size: 20, color: primaryColor,),
+                      icon: Image.asset("assets/images/cancel_img.png"),
                     ),
                   ),
                 ),

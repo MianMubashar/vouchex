@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vouchex/src/data/model/models.dart';
+import 'package:get/get.dart';
 import 'package:vouchex/src/ui/modules/home/widgets/voucher_card.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
@@ -12,9 +13,10 @@ class RequestScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const CustomAppBar(
+            CustomAppBar(
               title: "Exchange Requests",
               showLeadingIcon: true,
+              leadingIconPressed: () {Get.back();},
             ),
             const SizedBox(height: 10,),
             Expanded(

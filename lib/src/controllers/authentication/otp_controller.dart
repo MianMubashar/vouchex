@@ -23,7 +23,7 @@ class OtpController extends GetxController{
       await _auth.signInWithCredential(phoneAuthCredential);
       isLoading.value = false;
       if(authCredential.user != null){
-        Get.toNamed('/BottomBar');
+        Get.offAllNamed('/BottomBar');
       }
 
     } on FirebaseAuthException catch (e) {

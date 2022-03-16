@@ -21,32 +21,30 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 89,
       color: primaryColor,
-      /*padding: const EdgeInsets.symmetric(
-        vertical: 16,
-        horizontal: 20,
-      ),*/
+      padding: const EdgeInsets.symmetric(
+        vertical: 20,
+        horizontal: 10,
+      ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           showLeadingIcon ?
           IconButton(
             icon: Image.asset('assets/images/back_button.png'),
             onPressed: leadingIconPressed,)
-              : const SizedBox(
-            width: 20,
-            height: 30,
-          ),
+              : const SizedBox(),
           Expanded(
-            child: Text(
-              title,
-              textAlign: textAlign,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-                fontSize: 20,
-                fontFamily: 'Nunito',
+            child: Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Text(
+                title,
+                textAlign: textAlign,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                  fontFamily: 'Nunito',
+                ),
               ),
             ),
           ),

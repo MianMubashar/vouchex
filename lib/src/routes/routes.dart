@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:vouchex/src/bindings/bindings.dart';
-import 'package:vouchex/src/ui/modules/create_business/create_business_page.dart';
 import 'package:vouchex/src/ui/modules/modules.dart';
 
 
@@ -85,5 +84,9 @@ List<GetPage<dynamic>> routes = [
     name: '/CreateBusiness',
     page: () => CreateBusinessPage(),
     binding: CreateBusinessBinding()
+  ),
+  GetPage(
+    name: '/BusinessDetails',
+    page: () => BusinessDetails()
   )
 ];

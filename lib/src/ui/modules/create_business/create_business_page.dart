@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
@@ -20,6 +19,7 @@ class CreateBusinessPage extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomAppBar(
                 title: "Create Your Business Page",
@@ -44,29 +44,63 @@ class CreateBusinessPage extends StatelessWidget {
                               titleText('Update your cover', size: 15)
                             ],
                           ) :
-                          Image.file(File(_businessController.selectedCoverImagePath.value), width: MediaQuery.of(context).size.width,),
+                          Image.file(File(_businessController.selectedCoverImagePath.value), fit: BoxFit.fill,),
                         ),
                       ),
-                      Positioned.fill(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10, top: 100),
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: InkWell(
-                              onTap: () {_businessController.getProfileImage(ImageSource.gallery);},
-                              child: CircleAvatar(
-                                radius: 30,
-                                backgroundColor: Colors.white,
-                                child: _businessController.selectedProfileImagePath.value == '' ?
-                                const Icon(Icons.camera_alt_outlined, color: Colors.black,) :
-                                Image.file(File(_businessController.selectedProfileImagePath.value), width: 200, height: 200,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15, top: 65),
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: InkWell(
+                            onTap: () {_businessController.getProfileImage(ImageSource.gallery);},
+                            child: _businessController.selectedProfileImagePath.value == '' ?
+                            Container(
+                              width: 71,
+                              height: 71,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:const  BorderRadius.all(Radius.circular(35)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.shade300,
+                                    blurRadius: 20,
+                                    offset: const Offset(2, 2), // Shadow position
+                                  ),
+                                ],
                               ),
-                            ),
-                          ),
+                              child: const Icon(Icons.camera_alt_outlined, color: Colors.black, size: 30,),
+                            ) :
+                            CircleAvatar(
+                                radius: 35,
+                                backgroundColor: Colors.blue,
+                                backgroundImage: FileImage(File(_businessController.selectedProfileImagePath.value),)
+                            )
+                          )
                         ),
                       )
                     ],
                   ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Row(
+                  children: [
+                    smallText("North 9", size: 20, clr: Colors.black),
+                    IconButton(
+                      onPressed: (){},
+                      icon: const Icon(Icons.edit_outlined, color: primaryColor,),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: smallText("North 9 Designs@gmail.com"),
+              ),
+              const SizedBox(height: 15,),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                child: Container(color: const Color(0XFFE1E1E1), height: 0.5,),
               ),
               const SizedBox(height: 30,),
               Padding(
@@ -112,7 +146,7 @@ class CreateBusinessPage extends StatelessWidget {
                               borderSide: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.1), width: 1)
                           ),
                         ),
-                        initialCountryCode: 'PK',
+                        initialCountryCode: 'US',
                         flagsButtonPadding: const EdgeInsets.only(left: 10),
                         dropdownIcon: const Icon(Icons.arrow_drop_down, color: primaryColor,),
                         cursorColor: primaryColor,
