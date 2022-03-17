@@ -61,10 +61,52 @@ class CreateNewVoucher extends StatelessWidget {
                       ),
                       DropDownButton(
                         list: _createVoucherController.services,
+                        borderColor: const Color.fromRGBO(0, 0, 0, 0.1),
                         name: 'services',
                         onChanged: (value) {
                           _createVoucherController.selectedService.value = value!;
+                          if(_createVoucherController.selectedServicesList.length <= 6) {
+                            _createVoucherController.selectedServicesList.add(value);
+                          }
                         },
+                      ),
+                      Obx(() =>
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: smallText(_createVoucherController.selectedServicesList.isNotEmpty ? "Note: you are able to Select 7 services " : " ", size: 12),
+                          )
+                      ),
+                      Obx(() =>
+                      _createVoucherController.selectedServicesList.isNotEmpty ?
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: SizedBox(
+                              height: 30,
+                              width: MediaQuery.of(context).size.width,
+                              child: ListView.separated(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                separatorBuilder: (BuildContext context, int index) {
+                                  return const SizedBox(width: 5,);
+                                },
+                                itemCount: _createVoucherController.selectedServicesList.length,
+                                itemBuilder: (context, index) {
+                                  return Chip(
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(7))
+                                    ),
+                                    padding: EdgeInsets.zero,
+                                    backgroundColor: detailsButtonColor,
+                                    label: smallText(_createVoucherController.selectedServicesList[index], size: 12, clr: blackText),
+                                    deleteIcon: const Icon(Icons.clear, color: blackText, size: 12,),
+                                    onDeleted: (){
+                                      _createVoucherController.selectedServicesList.removeWhere((element) => element == _createVoucherController.selectedServicesList[index]);
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          ) : Container()
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
@@ -113,7 +155,7 @@ class CreateNewVoucher extends StatelessWidget {
                           onTap: (){_createVoucherController.selectDate();},
                           tileColor: Colors.white,
                           title: smallText(DateFormat("dd/MM/yy").format(_createVoucherController.selectedDate.value).toString()),
-                          trailing: const Icon(Icons.date_range_sharp, color: Color(0xFFB7B7B7)),
+                          trailing: const Icon(Icons.date_range_sharp, color: Colors.black),
                           shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(Radius.circular(12),
                               ),

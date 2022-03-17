@@ -12,14 +12,12 @@ class ProfileListTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15),
       child: ListTile(
+        onTap: (){Get.toNamed(profileModel.route);},
         contentPadding: EdgeInsets.zero,
         tileColor: Colors.white,
         leading: Image.asset(profileModel.imageUrl, width: 27, height: 27,),
         title: smallText(profileModel.title, clr: Colors.black, size: 18),
-        trailing: IconButton(
-          onPressed: (){Get.toNamed(profileModel.route);},
-          icon: const Icon(Icons.arrow_forward_ios, color: Colors.black, size: 20,),
-        ),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Colors.black, size: 20,),
       ),
     );
   }

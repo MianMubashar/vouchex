@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:vouchex/src/bindings/bindings.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
+import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/routes/routes.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
@@ -20,6 +22,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  Stripe.publishableKey = stripePublishKey;
+  await Stripe.instance.applySettings();
   runApp(const MyApp());
 }
 

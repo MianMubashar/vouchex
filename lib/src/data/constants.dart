@@ -10,3 +10,5 @@ const Color bottomBarInactiveIconColor = Color(0XFF595959);
 const Color qrBackgroundColor = Color(0XFF114147);
 const Color detailsButtonColor = Color(0XFFF0F0F0);
 const Color profileBg = Color(0XFFF7F7F7);
+
+String stripePublishKey = "pk_test_51KeI62B3gOhC8ewaKLgFR9ILzH9ipJIVeyY1D7uRBUaCBVwXGoH0XSi7JvSlLE3xV3lPETI3nUNuFF9kixnrdFEL00XT4Egk0E";

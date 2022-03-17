@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vouchex/src/controllers/stripe/stripe_controller.dart';
+import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
 class VoucherCard extends StatelessWidget {
   final bool vx;
-   const VoucherCard({
+    VoucherCard({
      Key? key,
      required this.model,
      required this.vx
    }) : super(key: key);
 
   final VoucherModel model;
+  final StripeController _stripeController = Get.put(StripeController());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -65,7 +68,7 @@ class VoucherCard extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 20, right: 20),
                     child: Align(
                       alignment: Alignment.bottomRight,
-                        child: titleText(model.number, size: 18),
+                        child: vx == false ? titleText(model.number, size: 18) : titleText("${model.number}usd", size: 18),
                     ),
                   ),
                 ),
@@ -83,13 +86,21 @@ class VoucherCard extends StatelessWidget {
                     vTitle: model.title,
                     subtitle: model.subtitle,
                     code: model.number,
-                    cancelPressed: (){Get.back();},
-                    oKPressed: (){Get.toNamed('/VoucherDetails');}
+                    cancelPressed: (){
+                      Get.back();
+                      Get.snackbar("Decline", "You have decline exchange request", colorText: primaryColor, icon: const Icon(Icons.cancel, color: primaryColor,),backgroundColor: Colors.white);
+                  },
+                    oKPressed: (){
+                      Get.snackbar("Accepted", "You accepted exchange request", colorText: blackText, icon: const Icon(Icons.verified_outlined, color: Colors.black,),backgroundColor: Colors.white);
+                  Get.toNamed('/VoucherDetails');
+                }
                 ).show(context);
               },
             ) :
                 RoundedRectangleButton(
-                  onPress: () {},
+                  onPress: () async  {
+                    await _stripeController.makePayment(model.number);
+                  },
                   title: 'Buy Now',
                 ),
             const SizedBox(height: 20,),

@@ -30,6 +30,6 @@ List<VoucherModel> swappedVoucherList = <VoucherModel>[
 ];
 
 List<VoucherModel> vouchexList = <VoucherModel>[
-  VoucherModel(backgroundImage: "assets/images/vx_bg.png", circleImage: "assets/images/vx_img.png", title: "Up to 10% off on per\nMockup Designs", number: "50usd"),
-  VoucherModel(backgroundImage: "assets/images/vx_bg.png", circleImage: "assets/images/vx_img.png", title: "Up to 10% off on per\nMockup Designs", number: "15usd"),
+  VoucherModel(backgroundImage: "assets/images/vx_bg.png", circleImage: "assets/images/vx_img.png", title: "Up to 10% off on per\nMockup Designs", number: "50"),
+  VoucherModel(backgroundImage: "assets/images/vx_bg.png", circleImage: "assets/images/vx_img.png", title: "Up to 10% off on per\nMockup Designs", number: "15"),
 ];

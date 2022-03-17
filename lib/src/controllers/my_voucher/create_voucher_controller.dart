@@ -11,6 +11,7 @@ class CreateVoucherController extends GetxController {
 
   var selectedDate = DateTime.now().obs;
   List<String> services = ['Mockup designs 1', 'Mockup designs 2', 'Mockup designs 3', 'Mockup designs 4'];
+  var selectedServicesList = [].obs;
   var selectedService = ''.obs;
   var groupValue = 3.obs;
 
