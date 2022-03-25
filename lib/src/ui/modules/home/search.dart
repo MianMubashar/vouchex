@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
@@ -17,10 +15,8 @@ class SearchScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            CustomAppBar(
+            const CustomAppBar(
               title: "Search",
-              showLeadingIcon: true,
-              leadingIconPressed: () {Get.back();} ,
             ),
             const SizedBox(height: 15,),
             Padding(

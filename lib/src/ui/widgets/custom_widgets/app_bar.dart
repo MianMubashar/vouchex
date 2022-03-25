@@ -21,6 +21,7 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 89,
       color: primaryColor,
       padding: const EdgeInsets.symmetric(
         vertical: 20,

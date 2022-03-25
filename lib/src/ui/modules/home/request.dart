@@ -13,10 +13,8 @@ class RequestScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            CustomAppBar(
+            const CustomAppBar(
               title: "Exchange Requests",
-              showLeadingIcon: true,
-              leadingIconPressed: () {Get.back();},
             ),
             const SizedBox(height: 10,),
             Expanded(

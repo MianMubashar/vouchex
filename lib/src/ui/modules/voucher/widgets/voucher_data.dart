@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
-import 'package:vouchex/src/ui/modules/home/tab_view/vouchers.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
 
@@ -39,9 +38,9 @@ class VoucherData extends StatelessWidget {
                           child: SmallButton(
                             onPress: (){
                               Get.toNamed('/BottomBar');
-                              ImageDialog(
+                              /*ImageDialog(
                                   title: 'Your Voucher has been Successfully exchange',
-                                  imageUrl: 'assets/images/congrats_img.png').show(context);
+                                  imageUrl: 'assets/images/congrats_img.png').show(context);*/
                             },
                             title: 'Claim',
                           ),
@@ -124,12 +123,14 @@ class VoucherData extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 15,),
-                Obx(() =>
-                _data.isVisible.value ?
                 RoundedRectangleButton(
-                  onPress: (){_data.showHide();},
+                  onPress: (){
+                    Get.toNamed('/BottomBar');
+                    ImageDialog(
+                        title: 'Your Voucher has been Successfully exchange',
+                        imageUrl: 'assets/images/congrats_img.png').show(context);
+                  },
                   title: "Exchange Request",
-                ) : Container()
                 )
               ],
             ),

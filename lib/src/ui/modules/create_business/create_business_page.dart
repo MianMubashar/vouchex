@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/data/constants.dart';
@@ -203,7 +204,149 @@ class CreateBusinessPage extends StatelessWidget {
                         maxLine: 3,
                       ),
                       const SizedBox(height: 10,),
-                      Align(
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: smallText('Select Services', size: 18),
+                      ),
+                      DropDownButton(
+                        list: _businessController.services,
+                        borderColor: const Color.fromRGBO(0, 0, 0, 0.1),
+                        name: 'services',
+                        onChanged: (value) {
+                          _businessController.selectedService.value = value!;
+                          if(_businessController.selectedServicesList.length <= 6) {
+                            _businessController.selectedServicesList.add(value);
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 15,),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: smallText('Voucher Type', size: 18),
+                      ),
+                      DropDownButton(
+                        list: _businessController.vType,
+                        borderColor: const Color.fromRGBO(0, 0, 0, 0.1),
+                        name: 'type',
+                        onChanged: (value) {
+                          _businessController.selectedType.value = value!;
+                        },
+                      ),
+                      Obx(() =>
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: smallText(_businessController.selectedServicesList.isNotEmpty ? "Note: you are able to Select 7 services " : " ", size: 12),
+                          )
+                      ),
+                      Obx(() =>
+                      _businessController.selectedServicesList.isNotEmpty ?
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: SizedBox(
+                          height: 30,
+                          width: MediaQuery.of(context).size.width,
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            separatorBuilder: (BuildContext context, int index) {
+                              return const SizedBox(width: 5,);
+                            },
+                            itemCount: _businessController.selectedServicesList.length,
+                            itemBuilder: (context, index) {
+                              return Chip(
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(7))
+                                ),
+                                padding: EdgeInsets.zero,
+                                backgroundColor: detailsButtonColor,
+                                label: smallText(_businessController.selectedServicesList[index], size: 12, clr: blackText),
+                                deleteIcon: const Icon(Icons.clear, color: blackText, size: 12,),
+                                onDeleted: (){
+                                  _businessController.selectedServicesList.removeWhere((element) => element == _businessController.selectedServicesList[index]);
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ) : Container()
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                                child: Obx(() =>
+                                    RadioListTile(
+                                      value: 0,
+                                      activeColor: Colors.black,
+                                      contentPadding: EdgeInsets.zero,
+                                      onChanged: (value) {
+                                        _businessController.groupValue.value = value as int;
+                                      },
+                                      groupValue: _businessController.groupValue.value,
+                                      title: smallText('Keep Static', size: 12, clr: blackText),
+                                    ),
+                                )
+                            ),
+                            Expanded(
+                                child: Obx(() =>
+                                    RadioListTile(
+                                      value: 1,
+                                      activeColor: Colors.black,
+                                      contentPadding: EdgeInsets.zero,
+                                      onChanged: (value) {
+                                        _businessController.groupValue.value = value as int;
+                                      },
+                                      groupValue: _businessController.groupValue.value,
+                                      title: smallText('Ends', size: 12, clr: blackText),
+                                    ),
+                                )
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 15,),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: smallText('Terms and Conditions', size: 18),
+                      ),
+                      SizedBox(
+                        height: 50,
+                        child: ListTile(
+                          onTap: (){_businessController.selectDate();},
+                          tileColor: Colors.white,
+                          title: smallText(DateFormat("dd/MM/yy").format(_businessController.selectedDate.value).toString()),
+                          trailing: const Icon(Icons.date_range_sharp, color: Colors.black),
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(12),
+                              ),
+                              side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.1), width: 0.5)
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 15,),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: smallText('Market Value (\$)', size: 18),
+                      ),
+                      VoucherFields(
+                        textEditingController: _businessController.marketValue,
+                        height: 50,
+                        keyboardType: TextInputType.number,
+                      ),
+                      const SizedBox(height: 15,),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: smallText('Terms and Conditions', size: 18),
+                      ),
+                      VoucherFields(
+                        textEditingController: _businessController.terms,
+                        keyboardType: TextInputType.multiline,
+                        textInputAction: TextInputAction.newline,
+                        maxLine: 3,
+                      ),
+                      /*Align(
                         alignment: Alignment.bottomRight,
                         child: DetailsButton(
                           width: 100,
@@ -213,7 +356,7 @@ class CreateBusinessPage extends StatelessWidget {
                           buttonColor: Colors.black,
                           titleColor: whiteText,
                         ),
-                      ),
+                      ),*/
                       const SizedBox(height: 25,),
                     ],
                   ),

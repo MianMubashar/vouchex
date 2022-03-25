@@ -70,6 +70,19 @@ class CreateNewVoucher extends StatelessWidget {
                           }
                         },
                       ),
+                      const SizedBox(height: 15,),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: smallText('Voucher Type', size: 18),
+                      ),
+                      DropDownButton(
+                        list: _createVoucherController.vType,
+                        borderColor: const Color.fromRGBO(0, 0, 0, 0.1),
+                        name: 'type',
+                        onChanged: (value) {
+                          _createVoucherController.selectedType.value = value!;
+                        },
+                      ),
                       Obx(() =>
                           Padding(
                             padding: const EdgeInsets.only(top: 5),

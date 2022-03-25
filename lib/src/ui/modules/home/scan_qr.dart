@@ -18,10 +18,8 @@ class ScanQRScreen extends StatelessWidget {
           color: qrBackgroundColor,
           child: Column(
             children: [
-              CustomAppBar(
+              const CustomAppBar(
                 title: "Scan QR code",
-                showLeadingIcon: true,
-                leadingIconPressed: () {Get.back();} ,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
