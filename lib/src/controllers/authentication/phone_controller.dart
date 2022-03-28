@@ -7,6 +7,7 @@ class PhoneController extends GetxController{
    var isLoading = false.obs;
    var phoneNumber = ''.obs;
    var verifyId = ''.obs;
+   var countryCode = ''.obs;
    final FirebaseAuth _auth = FirebaseAuth.instance;
 
    Future login() async{
@@ -25,6 +26,8 @@ class PhoneController extends GetxController{
                 isLoading.value = false;
                 var  loginData = {
                    "verifyId" : verificationId,
+                   "phoneNumber": phoneNumber.value.toString(),
+                   "countryCode": countryCode.value.toString(),
                 };
                 FirebaseMessaging.instance.subscribeToTopic('all');
                 Get.toNamed('/OtpScreen', arguments: loginData);

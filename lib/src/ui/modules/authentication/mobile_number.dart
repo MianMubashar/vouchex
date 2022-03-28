@@ -77,6 +77,7 @@ class MobileNumber extends StatelessWidget {
                             dropdownIconPosition: IconPosition.trailing,
                             onChanged: (phone) {
                               _controller.phoneNumber.value = phone.completeNumber.toString();
+                              _controller.countryCode.value = phone.countryCode.toString();
 
                             },
                           ),

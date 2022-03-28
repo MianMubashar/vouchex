@@ -19,3 +19,4 @@ export 'my_voucher/create_voucher_controller.dart';
 export 'search/search_controller.dart';
 
 export 'create_business/create_business_controller.dart';
+export 'businesses/get_businesses.dart';
