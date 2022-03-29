@@ -78,7 +78,8 @@ List<GetPage<dynamic>> routes = [
   ),
   GetPage(
     name: '/VxVouchers',
-    page: () => VouchexVouchers()
+    page: () => VouchexVouchers(),
+    binding: VouchexBinding()
   ),
   GetPage(
     name: '/CreateBusiness',

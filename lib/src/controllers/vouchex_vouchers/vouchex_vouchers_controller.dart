@@ -1,21 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:vouchex/src/data/constants.dart';
-import 'package:vouchex/src/data/services/services.dart';
-import '../../data/model/models.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:vouchex/src/data/constants.dart';
+import 'package:vouchex/src/data/model/models.dart';
+import 'package:vouchex/src/data/services/services.dart';
 
-class GetBusinessesController extends GetxController{
 
-
-  List<Datum> businessesList = [];
+class VouchexVouchersController extends GetxController {
+  List<VouchersData> vouchexList = [];
   int currentPage = 1;
   late int totalPages;
   final RefreshController refreshController = RefreshController(initialRefresh: true);
   var isLoading = false.obs;
   var loginDetails = GetStorage();
 
-  Future<bool> getBusinessesData({bool isRefresh = false}) async {
+  Future<bool> getVouchexData({bool isRefresh = false}) async {
     if (isRefresh) {
       currentPage = 1;
     } else {
@@ -25,24 +25,23 @@ class GetBusinessesController extends GetxController{
       }
     }
     var token = loginDetails.read("token");
-    print("//////////////token: $token");
+    debugPrint("//////////////token: $token");
     isLoading.value == true;
-    var response = await GetDataFromAPI.fetchData("$baseUrl/get-businesses", token);
+    var response = await GetDataFromAPI.fetchData("$baseUrl/get-vouchex-vouchers", token);
     if (response != null) {
-      final result = getBusinessesModelFromJson(response);
+      final result = vouchexModelFromJson(response);
       if (isRefresh) {
-        businessesList = result.businesses.data;
-        print(businessesList.length);
+        vouchexList = result.vouchexVouchers.data;
+        print(vouchexList.length);
       }else{
-        businessesList.addAll(result.businesses.data);
+        vouchexList.addAll(result.vouchexVouchers.data);
       }
       currentPage++;
-      totalPages = result.businesses.total;
+      totalPages = result.vouchexVouchers.total;
       isLoading.value = false;
       return true;
     } else {
       return false;
     }
   }
-
 }

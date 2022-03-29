@@ -6,6 +6,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:vouchex/src/data/constants.dart';
+import 'package:vouchex/src/data/services/helper_functions.dart';
+
+import '../../data/model/models.dart';
 
 class OtpController extends GetxController{
   var isLoading = false.obs;
@@ -24,6 +27,7 @@ class OtpController extends GetxController{
   TextEditingController fieldSix = TextEditingController();
 
   final loginDetails = GetStorage();
+  final HelperFunctions _helperFunctions = HelperFunctions();
 
   void signInWithPhoneAuthCredential(
       PhoneAuthCredential phoneAuthCredential) async {
@@ -59,7 +63,7 @@ class OtpController extends GetxController{
     super.onInit();
   }
 
-  Future<http.Response> loginRequest() async {
+ /* Future<http.Response> loginRequest() async {
     Map data = {
       'phone_no' : phoneNumber,
       'device_token' : deviceToken,
@@ -75,5 +79,42 @@ class OtpController extends GetxController{
     print("${response.statusCode}");
     print("${response.body}");
     return response;
+  }*/
+
+  Future<List?> loginRequest() async {
+    Map data = {
+      'phone_no' : phoneNumber,
+      'device_token' : deviceToken,
+      'country_code' : countryCode,
+    };
+    //encode Map to JSON
+    var body = json.encode(data);
+
+    var response = await http.post(Uri.parse('$baseUrl/login'),
+        headers: {"Content-Type": "application/json"},
+        body: body
+    );
+    if(response.statusCode == 200) {
+      var json = response.body;
+      print(json);
+      var loginResponse = loginModelFromJson(json);
+      if(loginResponse.status == true){
+        _helperFunctions.saveUserToken(loginResponse.token);
+        return [loginResponse.status, loginResponse.message, loginResponse.user, loginResponse.token, ""];
+      } else if(loginResponse.status == false){
+        print('hereeeee');
+        return ["", "Unknown Error"];
+      }
+    } else {
+      var json = response.body;
+      var errorResp = loginErrorResponseFromJson(json);
+      if (errorResp.status == false) {
+        Get.snackbar("Error", "");
+        return ["", "Unknown Error"];
+      } else {
+        return ["", errorResp.error];
+      }
+    }
   }
+
 }

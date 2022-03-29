@@ -46,10 +46,6 @@ List<BusinessModel> businessList = <BusinessModel>[
       subtitle: "KFC is an American fast food restaurant headquartered\nin Louisville, Kentucky that specializes in fried chicken.", itemImage: "assets/images/item_img_2.png"),
 ];
 
-// To parse this JSON data, do
-//
-//     final getBusinessesModel = getBusinessesModelFromJson(jsonString);
-
 
 GetBusinessesModel getBusinessesModelFromJson(String str) => GetBusinessesModel.fromJson(json.decode(str));
 

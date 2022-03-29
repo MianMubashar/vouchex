@@ -20,3 +20,5 @@ export 'search/search_controller.dart';
 
 export 'create_business/create_business_controller.dart';
 export 'businesses/get_businesses.dart';
+
+export 'vouchex_vouchers/vouchex_vouchers_controller.dart';

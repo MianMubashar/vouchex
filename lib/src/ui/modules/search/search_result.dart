@@ -71,7 +71,8 @@ class SearchResult extends StatelessWidget {
               child: ListView.builder(
                 itemCount: businessList.length,
                 itemBuilder: (context, index) {
-                  return BusinessCard(businessModel: businessList[index]);
+                 // return BusinessCard(businessModel: businessList[index]);
+                  return VoucherCard(model: voucherList[index], vx: false,);
                 },
               ),
             ) :

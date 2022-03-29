@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vouchex/src/data/constants.dart';
@@ -27,7 +28,11 @@ class BusinessDetails extends StatelessWidget {
                     height: 107,
                     width: MediaQuery.of(context).size.width,
                     color: const Color(0XFFF7F7F7),
-                    child: Image.asset("assets/images/kfc_bg.png")
+                    child: //Image.asset("assets/images/kfc_bg.png")
+                    CachedNetworkImage(
+                      imageUrl: Get.arguments['coverPhoto'],
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 5, top: 50),
@@ -36,7 +41,10 @@ class BusinessDetails extends StatelessWidget {
                         child: SizedBox(
                           width: 120,
                           height: 120,
-                          child: Image.asset(Get.arguments['circleImage']),
+                          child: CachedNetworkImage(
+                            imageUrl: Get.arguments['circleImage'],
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                          ),
                         )
                     ),
                   ),

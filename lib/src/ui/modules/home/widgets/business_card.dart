@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vouchex/src/data/model/business/business_model.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 
 class BusinessCard extends StatelessWidget {
   const BusinessCard({Key? key, required this.businessModel}) : super(key: key);
 
-  final BusinessModel businessModel;
+  final Datum businessModel;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -14,15 +16,16 @@ class BusinessCard extends StatelessWidget {
       child: InkWell(
         onTap: (){
           var  businessData = {
-            "title" : businessModel.title,
+            "title" : businessModel.name,
             "email": businessModel.email,
-            "businessType" : businessModel.businessType,
-            "number": businessModel.contactNumber,
+            "businessType" : businessModel.businessTypeId.toString(),
+            "number": businessModel.phoneNo,
             "description" : businessModel.description,
-            "circleImage": businessModel.circleImage
-
+            "circleImage": businessModel.profilePhotoPath,
+            "coverPhoto" : businessModel.coverPhotoPath
           };
           Get.toNamed('/BusinessDetails', arguments: businessData);
+          //Get.toNamed('/BusinessDetails',);
         },
         child: Stack(
           children: [
@@ -41,17 +44,28 @@ class BusinessCard extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               height: 190,
             ),
-            Image.asset(businessModel.backgroundImage),
+            //Image.asset(businessModel.coverPhotoPath),
+            CachedNetworkImage(
+              imageUrl: businessModel.coverPhotoPath,
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 35,left: 10),
-              child: Image.asset(businessModel.circleImage, width: 80, height: 80,),
+              child: CachedNetworkImage(
+                width: 80,
+                height: 80,
+                imageUrl: businessModel.profilePhotoPath,
+                placeholder: (context, url) => const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
             ),
             Positioned.fill(
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, top: 35),
                 child: Align(
                     alignment: Alignment.centerLeft,
-                    child: titleText(businessModel.title, size: 18)),
+                    child: titleText(businessModel.name, size: 18)),
               ),
             ),
             Positioned.fill(
@@ -59,25 +73,7 @@ class BusinessCard extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 16, top: 100),
                 child: Align(
                     alignment: Alignment.centerLeft,
-                    child: cardText(businessModel.subtitle,)),
-              ),
-            ),
-            Positioned.fill(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 10, right: 10),
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Image.asset("assets/images/dots_img.png", width: 80, height: 100,),
-                ),
-              ),
-            ),
-            Positioned.fill(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 20, right: 20),
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Image.asset(businessModel.itemImage, width: 67, height: 90,),
-                ),
+                    child: cardText(businessModel.description,)),
               ),
             ),
           ],
