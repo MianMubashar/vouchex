@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:vouchex/src/data/constants.dart';
@@ -25,14 +26,13 @@ class GetBusinessesController extends GetxController{
       }
     }
     var token = loginDetails.read("token");
-    print("//////////////token: $token");
+    debugPrint("This is token $token");
     isLoading.value == true;
     var response = await GetDataFromAPI.fetchData("$baseUrl/get-businesses", token);
     if (response != null) {
       final result = getBusinessesModelFromJson(response);
       if (isRefresh) {
         businessesList = result.businesses.data;
-        print(businessesList.length);
       }else{
         businessesList.addAll(result.businesses.data);
       }

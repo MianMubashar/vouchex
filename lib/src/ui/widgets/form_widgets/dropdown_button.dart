@@ -3,17 +3,17 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:vouchex/src/data/constants.dart';
 
 class DropDownButton extends StatelessWidget {
-  final List<String> list;
+  final List list;
   final String name;
   final String? hintText;
-  final ValueChanged<String?>? onChanged;
+  final ValueChanged onChanged;
   final Color? borderColor;
   const DropDownButton({
     Key? key,
     required this.list,
     required this.name,
     this.hintText = 'Select',
-    this.onChanged,
+    required this.onChanged,
     this.borderColor = secondaryColor
   }) : super(key: key);
 
