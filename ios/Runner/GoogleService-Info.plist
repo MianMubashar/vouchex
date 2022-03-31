@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>777556907362-m8vvjd61ljhel8vu25om42vru2odr1a2.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.777556907362-m8vvjd61ljhel8vu25om42vru2odr1a2</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>777556907362-i8nf0jh1q40k1ia00v8c2vqbin3hv0m5.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDzjBYTEEEi_HTXtegZEFmRTYBRvs_HUIE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>777556907362</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.app.vouchex.vouchex</string>
+	<key>PROJECT_ID</key>
+	<string>vouchex</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vouchex.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:777556907362:ios:349e53fce7b6fe2024c83b</string>
+</dict>
+</plist>
