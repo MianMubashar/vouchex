@@ -12,9 +12,13 @@ export 'vouchers/voucher_data_controller.dart';
 export 'qr/qr_controller.dart';
 
 export 'history/tab_view_controller.dart';
+export 'history/redeemed_voucher_controller.dart';
+export 'history/expired_voucher_controller.dart';
 
 export 'my_voucher/myVoucher_tabView_controller.dart';
 export 'my_voucher/create_voucher_controller.dart';
+export 'my_voucher/my_vouchers_controller.dart';
+export 'my_voucher/swapped_voucher_controller.dart';
 
 export 'search/search_controller.dart';
 
@@ -22,3 +26,6 @@ export 'create_business/create_business_controller.dart';
 export 'businesses/get_businesses.dart';
 
 export 'vouchex_vouchers/vouchex_vouchers_controller.dart';
+
+export 'help_support/terms_controller.dart';
+export 'help_support/contact_us_controller.dart';

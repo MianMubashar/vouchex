@@ -1,5 +1,3 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
@@ -113,18 +111,6 @@ class CreateNewVoucher extends StatelessWidget {
                             ),
                             const SizedBox(height: 15,),
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: smallText('Voucher Type', size: 18),
-                            ),
-                            DropDownButton(
-                              list: _createVoucherController.vType,
-                              borderColor: const Color.fromRGBO(0, 0, 0, 0.1),
-                              name: 'type',
-                              onChanged: (value) {
-                                _createVoucherController.selectedType.value = value!;
-                              },
-                            ),
-                            Padding(
                               padding: const EdgeInsets.only(top: 5),
                               child: smallText(_createVoucherController.selectedServicesList.isNotEmpty ? "Note: you are able to Select 7 services " : " ", size: 12),
                             ),
@@ -171,6 +157,7 @@ class CreateNewVoucher extends StatelessWidget {
                                         contentPadding: EdgeInsets.zero,
                                         onChanged: (value) {
                                           _createVoucherController.groupValue.value = value as int;
+                                          _createVoucherController.selectedGroupValue.value = true;
                                         },
                                         groupValue: _createVoucherController.groupValue.value,
                                         title: smallText('Keep Static', size: 12, clr: blackText),
@@ -183,6 +170,7 @@ class CreateNewVoucher extends StatelessWidget {
                                         contentPadding: EdgeInsets.zero,
                                         onChanged: (value) {
                                           _createVoucherController.groupValue.value = value as int;
+                                          _createVoucherController.selectedGroupValue.value = true;
                                         },
                                         groupValue: _createVoucherController.groupValue.value,
                                         title: smallText('Ends', size: 12, clr: blackText),
@@ -210,7 +198,40 @@ class CreateNewVoucher extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 15,),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: RadioListTile(
+                                      value: 0,
+                                      activeColor: Colors.black,
+                                      contentPadding: EdgeInsets.zero,
+                                      onChanged: (value) {
+                                        _createVoucherController.vType.value = value as int;
+                                        _createVoucherController.selectedVType.value = true;
+                                      },
+                                      groupValue: _createVoucherController.vType.value,
+                                      title: smallText('Free', size: 12, clr: blackText),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: RadioListTile(
+                                      value: 1,
+                                      activeColor: Colors.black,
+                                      contentPadding: EdgeInsets.zero,
+                                      onChanged: (value) {
+                                        _createVoucherController.vType.value = value as int;
+                                        _createVoucherController.selectedVType.value = false;
+                                      },
+                                      groupValue: _createVoucherController.vType.value,
+                                      title: smallText('Not Free', size: 12, clr: blackText),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: smallText('Market Value (\$)', size: 18),

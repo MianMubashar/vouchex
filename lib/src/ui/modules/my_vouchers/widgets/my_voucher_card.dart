@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
-class VoucherHistoryCard extends StatelessWidget {
-  const VoucherHistoryCard({
+class MyVoucherCard extends StatelessWidget {
+  const MyVoucherCard({
     Key? key,
     required this.model,
   }) : super(key: key);
 
-  final VoucherHistoryData model;
+  final MyVouchersData model;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,6 +54,38 @@ class VoucherHistoryCard extends StatelessWidget {
                       child: titleText(model.name, size: 18)),
                 ),
               ),
+                Positioned.fill(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20, top: 120),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        children: [
+                          InkWell(
+                            onTap: (){},
+                            child: Row(
+                              children: [
+                                Image.asset("assets/images/edit_icon.png", width: 17, height: 17,),
+                                const SizedBox(width: 5,),
+                                cardText("Edit Voucher"),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 7,),
+                          InkWell(
+                            onTap: (){},
+                            child: Row(
+                              children: [
+                                Image.asset("assets/images/delete_icon.png", width: 17, height: 17,),
+                                const SizedBox(width: 5,),
+                                cardText("Delete Voucher"),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),),
+                  ),
+                ),
               Positioned.fill(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 20, right: 20),

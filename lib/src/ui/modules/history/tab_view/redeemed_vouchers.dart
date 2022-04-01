@@ -1,27 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:vouchex/src/controllers/controllers.dart';
+import 'package:get/get.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/modules/history/modules.dart';
+import 'package:vouchex/src/ui/widgets/custom_widgets/modal_progress.dart';
 
 class RedeemedVouchers extends StatelessWidget {
-  const RedeemedVouchers({Key? key}) : super(key: key);
+   RedeemedVouchers({Key? key}) : super(key: key);
 
+   final MyRedeemedVoucherController _myRedeemedVoucherController = Get.put(MyRedeemedVoucherController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: voucherList.length,
-                itemBuilder: (context, index) {
-                  return VoucherHistoryCard(model: voucherList[index]);
+      body: Obx(() =>
+          ModalProgress(
+            call: _myRedeemedVoucherController.isLoading.value,
+            child: SafeArea(
+              child: SmartRefresher(
+                controller: _myRedeemedVoucherController.refreshController,
+                enablePullUp: true,
+                onRefresh: () async {
+                  final result = await _myRedeemedVoucherController.getMyRedeemedVouchers(isRefresh: true);
+                  if (result) {
+                    _myRedeemedVoucherController.refreshController.refreshCompleted();
+                  } else {
+                    _myRedeemedVoucherController.refreshController.refreshFailed();
+                  }
                 },
+                onLoading: () async {
+                  final result = await _myRedeemedVoucherController.getMyRedeemedVouchers();
+                  if (result) {
+                    _myRedeemedVoucherController.refreshController.loadComplete();
+                  } else {
+                    _myRedeemedVoucherController.refreshController.loadFailed();
+                  }
+                },
+                child: ListView.builder(
+                  itemCount: _myRedeemedVoucherController.redeemedVouchersList!.length,
+                  itemBuilder: (context, index) {
+                    return VoucherHistoryCard(model: _myRedeemedVoucherController.redeemedVouchersList![index]);
+                  },
+                ),
               ),
             ),
-          ],
-        ),
-      ),
+          ),
+      )
     );
   }
 }

@@ -93,13 +93,13 @@ class BusinessDetails extends StatelessWidget {
                 child: titleText("Voucher", size: 20),
               ),
               const SizedBox(height: 10,),
-              ListView.builder(
+              /*ListView.builder(
                 shrinkWrap: true,
                 itemCount: swappedVoucherList.length,
                 itemBuilder: (context, index) {
                   return VoucherHistoryCard(model: swappedVoucherList[index]);
                 },
-              ),
+              ),*/
             ],
           ),
         ),

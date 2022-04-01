@@ -23,11 +23,14 @@ class CreateVoucherController extends GetxController {
   List<Service> getServicesList = [];
   int selectedServiceId = 0;
   List<int> selectedServicesListId = [];
-  List<String> vType = ['Free', 'Not Free'];
+  //List<String> vType = ['Free', 'Not Free'];
   var selectedType = ''.obs;
   var selectedServicesList = [].obs;
   var selectedService = ''.obs;
   var groupValue = 3.obs;
+  var selectedGroupValue = false.obs;
+  var vType = 3.obs;
+  var selectedVType = false.obs;
 
   selectDate() async {
     DateTime? pickedDate = await showDatePicker(
@@ -77,7 +80,8 @@ class CreateVoucherController extends GetxController {
       'expiry' : format,
       'market_value' : double.tryParse(marketValue.text)?.toDouble(),
       'terms' : terms.text,
-      'is_static' : groupValue.value
+      'is_static' : selectedGroupValue.value,
+      'is_free' : selectedVType.value
     };
     var body = json.encode(data);
     var response = await http.post(Uri.parse('$baseUrl/create-voucher'),

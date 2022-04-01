@@ -17,3 +17,6 @@ export 'my_vouchers/create_voucher_binding.dart';
 export 'create_business/create_business_binding.dart';
 
 export 'voucher/vouchex_vouchers_binding.dart';
+
+export 'help_support/terms_condition_binding.dart';
+export 'help_support/contact_us_binding.dart';

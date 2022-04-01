@@ -1,12 +1,15 @@
+// To parse this JSON data, do
+//
+//     final login = loginFromJson(jsonString);
 
 import 'dart:convert';
 
-LoginModel loginModelFromJson(String str) => LoginModel.fromJson(json.decode(str));
+Login loginFromJson(String str) => Login.fromJson(json.decode(str));
 
-String loginModelToJson(LoginModel data) => json.encode(data.toJson());
+String loginToJson(Login data) => json.encode(data.toJson());
 
-class LoginModel {
-  LoginModel({
+class Login {
+  Login({
     required this.status,
     required this.token,
     required this.message,
@@ -18,7 +21,7 @@ class LoginModel {
   String message;
   User user;
 
-  factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
+  factory Login.fromJson(Map<String, dynamic> json) => Login(
     status: json["status"],
     token: json["token"],
     message: json["message"],
@@ -38,35 +41,27 @@ class User {
     required this.id,
     this.name,
     this.email,
-    this.phoneNo,
+    required this.phoneNo,
     required this.deviceToken,
-    this.emailVerifiedAt,
-    this.currentTeamId,
     this.profilePhotoPath,
     required this.createdAt,
-    required this.updatedAt,
     this.roleId,
     required this.countryCode,
-    this.businessTypeId,
     this.businessId,
-    this.profilePhotoUrl,
+    required this.profilePhotoUrl,
   });
 
   int id;
   String? name;
   String? email;
-  String? phoneNo;
+  String phoneNo;
   String deviceToken;
-  String? emailVerifiedAt;
-  String? currentTeamId;
   String? profilePhotoPath;
   DateTime createdAt;
-  DateTime updatedAt;
-  String? roleId;
+  int? roleId;
   String countryCode;
-  String? businessTypeId;
   int? businessId;
-  String? profilePhotoUrl;
+  String profilePhotoUrl;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json["id"],
@@ -74,14 +69,10 @@ class User {
     email: json["email"],
     phoneNo: json["phone_no"],
     deviceToken: json["device_token"],
-    emailVerifiedAt: json["email_verified_at"],
-    currentTeamId: json["current_team_id"],
     profilePhotoPath: json["profile_photo_path"],
     createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
     roleId: json["role_id"],
     countryCode: json["country_code"],
-    businessTypeId: json["business_type_id"],
     businessId: json["business_id"],
     profilePhotoUrl: json["profile_photo_url"],
   );
@@ -92,14 +83,10 @@ class User {
     "email": email,
     "phone_no": phoneNo,
     "device_token": deviceToken,
-    "email_verified_at": emailVerifiedAt,
-    "current_team_id": currentTeamId,
     "profile_photo_path": profilePhotoPath,
     "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
     "role_id": roleId,
     "country_code": countryCode,
-    "business_type_id": businessTypeId,
     "business_id": businessId,
     "profile_photo_url": profilePhotoUrl,
   };

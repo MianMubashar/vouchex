@@ -63,24 +63,6 @@ class OtpController extends GetxController{
     super.onInit();
   }
 
- /* Future<http.Response> loginRequest() async {
-    Map data = {
-      'phone_no' : phoneNumber,
-      'device_token' : deviceToken,
-      'country_code' : countryCode,
-    };
-    //encode Map to JSON
-    var body = json.encode(data);
-
-    var response = await http.post(Uri.parse('$baseUrl/login'),
-        headers: {"Content-Type": "application/json"},
-        body: body
-    );
-    print("${response.statusCode}");
-    print("${response.body}");
-    return response;
-  }*/
-
   Future<List?> loginRequest() async {
     Map data = {
       'phone_no' : phoneNumber,
@@ -97,10 +79,10 @@ class OtpController extends GetxController{
     if(response.statusCode == 200) {
       var json = response.body;
       print(json);
-      var loginResponse = loginModelFromJson(json);
+      var loginResponse = loginFromJson(json);
       if(loginResponse.status == true){
         _helperFunctions.saveUserToken(loginResponse.token);
-        return [loginResponse.status, loginResponse.message, loginResponse.user, loginResponse.token, ""];
+        return [loginResponse.status, loginResponse.token, loginResponse.message, loginResponse.user, ""];
       } else if(loginResponse.status == false){
         print('hereeeee');
         return ["", "Unknown Error"];

@@ -1,27 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/modules/history/modules.dart';
+import 'package:vouchex/src/ui/widgets/custom_widgets/modal_progress.dart';
 
 class SwappedVoucher extends StatelessWidget {
-  const SwappedVoucher({Key? key}) : super(key: key);
+   SwappedVoucher({Key? key}) : super(key: key);
 
+   final MySwappedVoucherController _mySwappedVoucherController = Get.put(MySwappedVoucherController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: swappedVoucherList.length,
-                itemBuilder: (context, index) {
-                  return VoucherHistoryCard(model: swappedVoucherList[index]);
+      body: Obx(() =>
+          ModalProgress(
+            call: _mySwappedVoucherController.isLoading.value,
+            child: SafeArea(
+              child: SmartRefresher(
+                controller: _mySwappedVoucherController.refreshController,
+                enablePullUp: true,
+                onRefresh: () async {
+                  final result = await _mySwappedVoucherController.getMySwappedVouchers(isRefresh: true);
+                  if (result) {
+                    _mySwappedVoucherController.refreshController.refreshCompleted();
+                  } else {
+                    _mySwappedVoucherController.refreshController.refreshFailed();
+                  }
                 },
+                onLoading: () async {
+                  final result = await _mySwappedVoucherController.getMySwappedVouchers();
+                  if (result) {
+                    _mySwappedVoucherController.refreshController.loadComplete();
+                  } else {
+                    _mySwappedVoucherController.refreshController.loadFailed();
+                  }
+                },
+                child: ListView.builder( 
+                  itemCount: _mySwappedVoucherController.swappedVoucherList!.length,
+                  itemBuilder: (context, index) {
+                    return
+                    VoucherHistoryCard(model: _mySwappedVoucherController.swappedVoucherList![index]);
+                  },
+                )
               ),
             ),
-          ],
-        ),
-      ),
+          ),
+      )
     );
   }
 }

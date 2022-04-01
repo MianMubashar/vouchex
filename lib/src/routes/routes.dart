@@ -66,11 +66,13 @@ List<GetPage<dynamic>> routes = [
   ),
   GetPage(
     name: '/Terms',
-    page: () => TermsAndCondition()
+    page: () => TermsAndCondition(),
+    binding: TermsConditionBinding()
   ),
   GetPage(
     name: '/ContactUs',
-    page: () => ContactUs()
+    page: () => ContactUs(),
+    binding: ContactUsBinding()
   ),
   GetPage(
     name: '/About',
