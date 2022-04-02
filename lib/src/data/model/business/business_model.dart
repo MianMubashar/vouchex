@@ -53,12 +53,12 @@ String getBusinessesModelToJson(GetBusinessesModel data) => json.encode(data.toJ
 
 class GetBusinessesModel {
   GetBusinessesModel({
-    required this.status,
-    required this.businesses,
+    this.status,
+    this.businesses,
   });
 
-  bool status;
-  Businesses businesses;
+  bool? status;
+  Businesses? businesses;
 
   factory GetBusinessesModel.fromJson(Map<String, dynamic> json) => GetBusinessesModel(
     status: json["status"],
@@ -67,7 +67,7 @@ class GetBusinessesModel {
 
   Map<String, dynamic> toJson() => {
     "status": status,
-    "businesses": businesses.toJson(),
+    "businesses": businesses!.toJson(),
   };
 }
 
@@ -89,7 +89,7 @@ class Businesses {
   });
 
   int currentPage;
-  List<Datum> data;
+  List<Datum>? data;
   String firstPageUrl;
   int from;
   int lastPage;
@@ -104,7 +104,7 @@ class Businesses {
 
   factory Businesses.fromJson(Map<String, dynamic> json) => Businesses(
     currentPage: json["current_page"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+    data: json["data"] != null ? List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))) : null,
     firstPageUrl: json["first_page_url"],
     from: json["from"],
     lastPage: json["last_page"],
@@ -120,7 +120,7 @@ class Businesses {
 
   Map<String, dynamic> toJson() => {
     "current_page": currentPage,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    "data": List<dynamic>.from(data!.map((x) => x.toJson())),
     "first_page_url": firstPageUrl,
     "from": from,
     "last_page": lastPage,

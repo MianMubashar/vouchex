@@ -21,6 +21,7 @@ export 'my_voucher/my_vouchers_controller.dart';
 export 'my_voucher/swapped_voucher_controller.dart';
 
 export 'search/search_controller.dart';
+export 'search/search_result_controller.dart';
 
 export 'create_business/create_business_controller.dart';
 export 'businesses/get_businesses.dart';

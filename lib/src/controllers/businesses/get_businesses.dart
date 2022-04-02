@@ -9,7 +9,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class GetBusinessesController extends GetxController{
 
 
-  List<Datum> businessesList = [];
+  List<Datum>? businessesList = [];
   int currentPage = 1;
   late int totalPages;
   final RefreshController refreshController = RefreshController(initialRefresh: true);
@@ -32,12 +32,12 @@ class GetBusinessesController extends GetxController{
     if (response != null) {
       final result = getBusinessesModelFromJson(response);
       if (isRefresh) {
-        businessesList = result.businesses.data;
+        businessesList = result.businesses!.data;
       }else{
-        businessesList.addAll(result.businesses.data);
+        businessesList!.addAll(result.businesses!.data!);
       }
       currentPage++;
-      totalPages = result.businesses.total;
+      totalPages = result.businesses!.total;
       isLoading.value = false;
       return true;
     } else {

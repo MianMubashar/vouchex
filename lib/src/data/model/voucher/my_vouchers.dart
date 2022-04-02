@@ -10,21 +10,23 @@ String myVouchersToJson(MyVouchers data) => json.encode(data.toJson());
 
 class MyVouchers {
   MyVouchers({
-    required this.status,
-    required this.vouchers,
+     this.status,
+     this.vouchers,
   });
 
-  bool status;
-  Vouchers vouchers;
+  bool? status;
+  Vouchers? vouchers;
 
   factory MyVouchers.fromJson(Map<String, dynamic> json) => MyVouchers(
     status: json["status"],
-    vouchers: Vouchers.fromJson(json["vouchers"]),
+    vouchers: json['vouchers'] != null
+        ? Vouchers.fromJson(json['vouchers'])
+        : null,
   );
 
   Map<String, dynamic> toJson() => {
     "status": status,
-    "vouchers": vouchers.toJson(),
+    "vouchers": vouchers!.toJson(),
   };
 }
 
@@ -33,7 +35,7 @@ class Vouchers {
     required this.currentPage,
     required this.data,
     required this.firstPageUrl,
-    required this.from,
+    this.from,
     required this.lastPage,
     required this.lastPageUrl,
     required this.links,
@@ -41,14 +43,14 @@ class Vouchers {
     required this.path,
     required this.perPage,
     this.prevPageUrl,
-    required this.to,
+    this.to,
     required this.total,
   });
 
   int currentPage;
-  List<MyVouchersData> data;
+  List<MyVouchersData>? data;
   String firstPageUrl;
-  int from;
+  int? from;
   int lastPage;
   String lastPageUrl;
   List<VoucherLinks> links;
@@ -56,12 +58,12 @@ class Vouchers {
   String path;
   int perPage;
   String? prevPageUrl;
-  int to;
+  int? to;
   int total;
 
   factory Vouchers.fromJson(Map<String, dynamic> json) => Vouchers(
     currentPage: json["current_page"],
-    data: List<MyVouchersData>.from(json["data"].map((x) => MyVouchersData.fromJson(x))),
+    data: json["data"] != null ? List<MyVouchersData>.from(json["data"].map((x) => MyVouchersData.fromJson(x))) : null,
     firstPageUrl: json["first_page_url"],
     from: json["from"],
     lastPage: json["last_page"],
@@ -77,7 +79,7 @@ class Vouchers {
 
   Map<String, dynamic> toJson() => {
     "current_page": currentPage,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    "data": List<dynamic>.from(data!.map((x) => x.toJson())),
     "first_page_url": firstPageUrl,
     "from": from,
     "last_page": lastPage,

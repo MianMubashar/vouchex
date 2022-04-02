@@ -1,16 +1,19 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
 class MyVoucherCard extends StatelessWidget {
-  const MyVoucherCard({
+   MyVoucherCard({
     Key? key,
     required this.model,
   }) : super(key: key);
 
   final MyVouchersData model;
+  final MyVoucherController _myVoucherController = Get.put(MyVoucherController());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -73,7 +76,20 @@ class MyVoucherCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 7,),
                           InkWell(
-                            onTap: (){},
+                            onTap: (){
+                              Get.defaultDialog(
+                                title: 'Alert!',
+                                content: smallText("Are you sure you want to delete?"),
+                                textCancel: 'No',
+                                textConfirm: 'Yes',
+                                onCancel: () {
+                                  Get.back();
+                                },
+                                onConfirm: () {
+                                  _myVoucherController.deleteVoucher(model.id);
+                                }
+                              );
+                            },
                             child: Row(
                               children: [
                                 Image.asset("assets/images/delete_icon.png", width: 17, height: 17,),

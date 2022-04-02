@@ -54,7 +54,8 @@ List<GetPage<dynamic>> routes = [
   ),
   GetPage(
     name: '/SearchResults',
-    page: () => SearchResult()
+    page: () => SearchResult(),
+    binding: SearchResultBinding()
   ),
   GetPage(
     name: '/HelpSupport',

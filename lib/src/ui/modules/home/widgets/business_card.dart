@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vouchex/src/data/model/business/business_model.dart';
+import 'package:vouchex/src/data/model/voucher/voucher_model.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 
 class BusinessCard extends StatelessWidget {
-  const BusinessCard({Key? key, required this.businessModel}) : super(key: key);
+  const BusinessCard({Key? key, required this.businessModel,}) : super(key: key);
 
   final Datum businessModel;
   @override

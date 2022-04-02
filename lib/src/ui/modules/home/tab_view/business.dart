@@ -53,9 +53,9 @@ class BusinessScreen extends StatelessWidget {
                         }
                       },
                       child: ListView.builder(
-                        itemCount: _businessesController.businessesList.length,
+                        itemCount: _businessesController.businessesList!.length,
                         itemBuilder: (context, index) {
-                          return BusinessCard(businessModel: _businessesController.businessesList[index]);
+                          return BusinessCard(businessModel: _businessesController.businessesList![index]);
                         },
                       ),
                     ),
