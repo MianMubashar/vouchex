@@ -23,7 +23,6 @@ class CreateVoucherController extends GetxController {
   List<Service> getServicesList = [];
   int selectedServiceId = 0;
   List<int> selectedServicesListId = [];
-  //List<String> vType = ['Free', 'Not Free'];
   var selectedType = ''.obs;
   var selectedServicesList = [].obs;
   var selectedService = ''.obs;

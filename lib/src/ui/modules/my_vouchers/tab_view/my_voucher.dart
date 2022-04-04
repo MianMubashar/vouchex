@@ -20,6 +20,7 @@ class MyVoucher extends StatelessWidget {
               child: SmartRefresher(
                 controller: _myVoucherController.refreshController,
                 enablePullUp: true,
+                enablePullDown: true,
                 onRefresh: () async {
                   final result = await _myVoucherController.getMyVouchers(isRefresh: true);
                   if (result) {
@@ -42,9 +43,9 @@ class MyVoucher extends StatelessWidget {
                     children: [
                       Expanded(
                         child: ListView.builder(
-                          itemCount: _myVoucherController.myVouchersList!.length,
+                          itemCount: _myVoucherController.myVouchersList.length,
                           itemBuilder: (context, index) {
-                            return MyVoucherCard(model: _myVoucherController.myVouchersList![index]);
+                            return MyVoucherCard(model: _myVoucherController.myVouchersList[index]);
                           },
                         ),
                       ),

@@ -94,20 +94,40 @@ class SearchResult extends StatelessWidget {
                         }
                       },
                       child: ListView.builder(
-                        itemCount: _searchResultController.businessesList!.length,
+                        itemCount: _searchResultController.businessesList.length,
                         itemBuilder: (context, index) {
                           // return BusinessCard(businessModel: businessList[index]);
-                          return BusinessCard(businessModel: _searchResultController.businessesList![index],);
+                          return BusinessCard(businessModel: _searchResultController.businessesList[index],);
                         },
                       ),
                     ),
                   ) :
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: voucherList.length,
-                      itemBuilder: (context, index) {
-                        return VoucherCard(model: voucherList[index], vx: false,);
+                    child: SmartRefresher
+                      (controller: _searchResultController.refreshController,
+                      enablePullUp: true,
+                      onRefresh: () async {
+                        final result = await _searchResultController.searchBusinessOrVoucher(isRefresh: true);
+                        if (result) {
+                          _searchResultController.refreshController.refreshCompleted();
+                        } else {
+                          _searchResultController.refreshController.refreshFailed();
+                        }
                       },
+                      onLoading: () async {
+                        final result = await _searchResultController.searchBusinessOrVoucher();
+                        if (result) {
+                          _searchResultController.refreshController.loadComplete();
+                        } else {
+                          _searchResultController.refreshController.loadFailed();
+                        }
+                      },
+                      child: ListView.builder(
+                        itemCount: _searchResultController.vouchersList.length,
+                        itemBuilder: (context, index) {
+                          return VoucherCard(model: _searchResultController.vouchersList[index],);
+                        },
+                      ),
                     ),
                   ),
                 ],

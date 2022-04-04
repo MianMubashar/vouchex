@@ -173,6 +173,8 @@ class CreateBusinessController extends GetxController{
     request.headers.addAll(headers);
    // http.StreamedResponse response = await request.send();
     var res = await request.send();
+    print(res.statusCode);
+    print(res);
     isLoading.value = false;
     return res.toString();
   }

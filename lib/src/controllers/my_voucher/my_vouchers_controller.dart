@@ -10,7 +10,7 @@ import 'package:vouchex/src/data/services/services.dart';
 
 class MyVoucherController extends GetxController{
 
-  List<MyVouchersData>? myVouchersList = [];
+  var myVouchersList = <MyVouchersData>[].obs;
   int currentPage = 1;
   late int totalPages;
   final RefreshController refreshController = RefreshController(initialRefresh: true);
@@ -34,10 +34,10 @@ class MyVoucherController extends GetxController{
       final result = myVouchersFromJson(response);
       if (isRefresh) {
         if(result.vouchers != null) {
-          myVouchersList = result.vouchers!.data;
+          myVouchersList.value = result.vouchers!.data!;
         }
       }else{
-        myVouchersList!.addAll(result.vouchers!.data!);
+        myVouchersList.addAll(result.vouchers!.data!);
       }
       currentPage++;
       totalPages = result.vouchers!.total;
@@ -49,7 +49,6 @@ class MyVoucherController extends GetxController{
   }
 
   Future deleteVoucher(int voucherId) async {
-    isLoading.value = false;
     Map data = {
       'voucher_id' : voucherId
     };
@@ -63,9 +62,8 @@ class MyVoucherController extends GetxController{
         },
         body: body
     );
-    isLoading.value = false;
     if(response.statusCode == 200) {
-      Get.back();
+      getMyVouchers(isRefresh: true);
       print(response.body);
       return response.body;
     } else {

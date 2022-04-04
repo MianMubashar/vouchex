@@ -87,6 +87,7 @@ class MyVoucherCard extends StatelessWidget {
                                 },
                                 onConfirm: () {
                                   _myVoucherController.deleteVoucher(model.id);
+                                  Get.back();
                                 }
                               );
                             },

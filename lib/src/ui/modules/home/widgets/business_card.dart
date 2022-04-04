@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/business/business_model.dart';
 import 'package:vouchex/src/data/model/voucher/voucher_model.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
@@ -47,8 +49,8 @@ class BusinessCard extends StatelessWidget {
             ),
             //Image.asset(businessModel.coverPhotoPath),
             CachedNetworkImage(
-              imageUrl: businessModel.coverPhotoPath,
-              placeholder: (context, url) => const CircularProgressIndicator(),
+              imageUrl: "https://vouchex.reverbsoft.com/public/${businessModel.coverPhotoPath}",
+              placeholder: (context, url) => const SpinKitPulse(color: primaryColor,),
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
             Padding(
@@ -56,8 +58,8 @@ class BusinessCard extends StatelessWidget {
               child: CachedNetworkImage(
                 width: 80,
                 height: 80,
-                imageUrl: businessModel.profilePhotoPath,
-                placeholder: (context, url) => const CircularProgressIndicator(),
+                imageUrl: "https://vouchex.reverbsoft.com/public/${businessModel.profilePhotoPath}",
+                placeholder: (context, url) => const SpinKitPulse(color: primaryColor,),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),

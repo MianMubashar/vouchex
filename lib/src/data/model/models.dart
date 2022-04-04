@@ -10,6 +10,8 @@ export 'voucher/voucher_details_model.dart';
 export 'voucher/services_model.dart';
 export 'voucher/my_vouchers.dart';
 export 'voucher/vocher_history_model.dart';
+export 'voucher/all_vouchers.dart';
+export 'voucher/pending_exchange_request.dart';
 
 export 'profile/profile_model.dart';
 

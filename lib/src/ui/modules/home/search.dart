@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/data/constants.dart';
+import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 
