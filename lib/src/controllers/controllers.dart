@@ -20,6 +20,9 @@ export 'my_voucher/create_voucher_controller.dart';
 export 'my_voucher/my_vouchers_controller.dart';
 export 'my_voucher/swapped_voucher_controller.dart';
 
+export 'vouchers/all_vouchers_controller.dart';
+export 'vouchers/pending_exchange_request_controller.dart';
+
 export 'search/search_controller.dart';
 export 'search/search_result_controller.dart';
 

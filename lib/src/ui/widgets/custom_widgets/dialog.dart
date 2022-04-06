@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vouchex/src/data/constants.dart';
@@ -11,7 +12,6 @@ class AppDialog {
   final String profileImage;
   final String bgImage;
   final String vTitle;
-  final String? subtitle;
   final String code;
   AppDialog({
     required this.title,
@@ -24,7 +24,6 @@ class AppDialog {
     required this.bgImage,
     required this.profileImage,
     required this.vTitle,
-    this.subtitle,
     required this.code
   });
 
@@ -97,26 +96,26 @@ class AppDialog {
                     Image.asset("assets/images/voucher_card.png", width: 170,),
                     Padding(
                       padding: const EdgeInsets.only(left: 10, right: 9),
-                      child: Image.asset(bgImage, width: 155,),
+                      child: CachedNetworkImage(
+                        width: 155,
+                        imageUrl: bgImage,
+                        errorWidget: (context, url, error) => const Icon(Icons.error, size: 10,),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 15,left: 10),
-                      child: Image.asset(profileImage, width: 35, height: 35,),
-                    ),
-                    Positioned.fill(
-                      child: Padding(
-                        padding: subtitle != null ? const EdgeInsets.only(left: 20, top: 10) : const EdgeInsets.only(left: 20, top: 30),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: titleText(vTitle, size: 8)),
+                      child: CircleAvatar(
+                        radius: 10,
+                        backgroundColor: Colors.blue,
+                        foregroundImage: NetworkImage(profileImage),
                       ),
                     ),
                     Positioned.fill(
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 20, top: 40),
+                        padding: const EdgeInsets.only(left: 10, top: 15),
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: cardText(subtitle ?? "", size: 8)),
+                            child: titleText(vTitle, size: 8)),
                       ),
                     ),
                     Positioned.fill(
@@ -144,20 +143,12 @@ class AppDialog {
                     ),
                     Positioned.fill(
                       child: Padding(
-                        padding: subtitle != null ? const EdgeInsets.only(left: 20, top: 15) : const EdgeInsets.only(left: 20, top: 30),
+                        padding: const EdgeInsets.only(left: 20, top: 15),
                         child: Align(
                             alignment: Alignment.centerLeft,
                             child: titleText("Up to 10% off on per\nProduct", size: 8)),
                       ),
                     ),
-                    /*Positioned.fill(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20, top: 40),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: cardText(subtitle ?? "", size: 8)),
-                      ),
-                    ),*/
                     Positioned.fill(
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 10, right: 20),

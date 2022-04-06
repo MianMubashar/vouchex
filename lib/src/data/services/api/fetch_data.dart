@@ -13,7 +13,7 @@ class GetDataFromAPI {
         "Authorization" : "Bearer $token"
       },
     );
-    if(response.statusCode == 200) {
+    if(response.statusCode == 200 && response.body.isNotEmpty) {
       print(response.statusCode);
       print(response.body);
       return response.body;

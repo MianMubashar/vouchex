@@ -13,78 +13,78 @@ class ScanQRScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: qrBackgroundColor,
-          child: Column(
-            children: [
-              const CustomAppBar(
-                title: "Scan QR code",
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
-                child: Container(
-                  color: const Color.fromRGBO(196, 196, 196, 0.08),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30, right: 30, top: 16),
-                        child: titleText("TO use voucher please scan QR code ", clr: Colors.white, textAlign: TextAlign.center),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height/2,
-                        child: QRView(
-                          key: _qrController.qrKey,
-                          onQRViewCreated: _qrController.onQRViewCreated,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Obx(() =>
+          ModalProgress(
+            call: _qrController.isLoading.value,
+            child: SafeArea(
+              child: Container(
+                color: qrBackgroundColor,
+                child: Column(
                   children: [
-                    Expanded(
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(7)),
-                        ),
-                        height: 40,
-                        child: Obx(() =>
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: smallText(_qrController.code.value),
-                            ),
-                        )
-                      )
+                    const CustomAppBar(
+                      title: "Scan QR code",
                     ),
-                    const SizedBox(width: 10,),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width/4,
-                      child: SmallButton(
-                        onPress: () {
-                          ImageDialog(
-                            imageUrl: 'assets/images/congrats_img.png',
-                            title: 'Congratulations\nYou Get 10% discount'
-                          ).show(context);
-                        },
-                        title: 'Redeem',
-                        fontSize: 20,
-                        height: 40,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
+                      child: Container(
+                        color: const Color.fromRGBO(196, 196, 196, 0.08),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 30, right: 30, top: 16),
+                              child: titleText("TO use voucher please scan QR code ", clr: Colors.white, textAlign: TextAlign.center),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height/2,
+                              child: QRView(
+                                key: _qrController.qrKey,
+                                onQRViewCreated: _qrController.onQRViewCreated,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16, right: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(7)),
+                                ),
+                                height: 40,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: smallText(_qrController.code.value),
+                                ),
+                              )
+                          ),
+                          const SizedBox(width: 10,),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width/4,
+                            child: SmallButton(
+                              onPress: () {
+                                _qrController.redeemVoucher();
+                              },
+                              title: 'Redeem',
+                              fontSize: 20,
+                              height: 40,
+                            ),
+                          )
+                        ],
                       ),
                     )
                   ],
                 ),
-              )
-            ],
+              ),
+            ),
           ),
-        ),
-      ),
+      )
     );
   }
 }

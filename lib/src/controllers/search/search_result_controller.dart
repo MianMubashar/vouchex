@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,8 @@ import 'package:vouchex/src/data/model/models.dart';
 
 class SearchResultController extends GetxController{
   var isLoading = false.obs;
-  List<Datum>? businessesList = [];
+  var businessesList = <Datum>[].obs;
+  var vouchersList = <AllVouchersData>[].obs;
   int currentPage = 1;
   int totalPages = 1;
   final RefreshController refreshController = RefreshController(initialRefresh: true);
@@ -41,20 +43,32 @@ class SearchResultController extends GetxController{
         },
         body: body
     );
-    if (response.statusCode == 200 && response.body.isNotEmpty) {
+    if (response.statusCode == 200 && response.body.isNotEmpty && Get.arguments['searchResult'] == 'Business') {
       final result = getBusinessesModelFromJson(response.body);
       if (isRefresh) {
-        businessesList = result.businesses!.data;
+        if(Get.arguments['searchResult'] == 'Business') {
+          businessesList.value = result.businesses!.data!;
+        }
       }else{
-        businessesList!.addAll(result.businesses!.data!);
+        businessesList.addAll(result.businesses!.data!);
       }
       currentPage++;
       totalPages = result.businesses!.total;
       isLoading.value = false;
       return true;
-    } else {
-      return false;
+    } else if(response.statusCode == 200 && response.body.isNotEmpty) {
+      final result = getAllVouchersFromJson(response.body);
+      if (isRefresh) {
+        vouchersList.value = result.vouchers!.data!;
+      }else{
+        vouchersList.addAll(result.vouchers!.data!);
+      }
+      currentPage++;
+      totalPages = result.vouchers!.total!;
+      isLoading.value = false;
+      return true;
     }
+    return false;
   }
 
   @override

@@ -13,7 +13,7 @@ class SearchController extends GetxController{
 
   final loginDetails = GetStorage();
   var selectedValue = ''.obs;
-   var getBusinessTypeList = <Business>[].obs;
+  var getBusinessTypeList = <Business>[].obs;
   var selectedBusinessType = [].obs;
   var getServicesList = <Service>[].obs;
   var selectedServicesList = [].obs;
@@ -31,31 +31,6 @@ class SearchController extends GetxController{
     return getBusinessTypeList;
   }
 
-  /*Future searchBusinessOrVouchers() async {
-    isLoading.value = true;
-    var token = loginDetails.read("token");
-    Map businessData = {
-      'business_type_ids' : selectedBusinessType,
-    };
-    Map serviceData = {
-      'service_ids' : selectedServicesList,
-    };
-    var body = selectedValue.value == 'Business' ? json.encode(businessData) : json.encode(serviceData);
-    var response = await http.post(selectedValue.value == 'Business' ? Uri.parse('$baseUrl/search-business') : Uri.parse('$baseUrl/search-voucher'),
-        headers: {
-          'Content-Type': 'application/json',
-          "Authorization" : "Bearer $token"
-        },
-        body: body
-    );
-    isLoading.value = false;
-    if(response.statusCode == 200) {
-      print(response.body);
-      return response.body;
-    } else {
-      return print(response.body);
-    }
-  }*/
 
   @override
   void onInit() {
