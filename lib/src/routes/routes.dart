@@ -78,6 +78,7 @@ List<GetPage<dynamic>> routes = [
   GetPage(
     name: '/About',
     page: () => About(),
+    binding: AboutusBinding()
   ),
   GetPage(
     name: '/VxVouchers',

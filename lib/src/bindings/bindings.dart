@@ -22,3 +22,5 @@ export 'help_support/terms_condition_binding.dart';
 export 'help_support/contact_us_binding.dart';
 
 export 'search/search_result_binding.dart';
+
+export 'about_us/aboutus_binding.dart';
