@@ -16,7 +16,20 @@ class VoucherCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){Get.toNamed('/VoucherDetails');},
+
+      onTap: (){
+        voucherDetailsList.add(VoucherDetailsModel(qrImage: "assets/images/qr_code.png", businessName: model.buisness?.name ?? '',
+            expiryDate: model.expiry?.timeZoneName ?? '', terms: model.termsConditions ?? '',
+            services: model.service ?? [], marketValue: model.marketValue ?? '', tokenCode: model.code ?? ''));
+        Get.toNamed('/VoucherDetails'
+      //     ,parameters: {
+      //   'name':model.buisness?.name ?? '',
+      //   'expiry': model.expiry?.timeZoneName ?? '',
+      //   'terms' : model.termsConditions ?? '',
+      //   'service' : jsonEncode(model.service),
+      // }
+      );
+      },
       child: Container(
         decoration:  BoxDecoration(
           boxShadow: [
@@ -34,17 +47,24 @@ class VoucherCard extends StatelessWidget {
               Stack(
                 children: [
                   Image.asset("assets/images/voucher_card.png",),
-                  CachedNetworkImage(
-                    imageUrl: "https://vouchex.reverbsoft.com/public/${model.coverPhotoPath}",
-                    placeholder: (context, url) => const SpinKitPulse(color: primaryColor,),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    child: CachedNetworkImage(
+                      imageUrl: model.coverPhotoPath == '0'
+                          ?'${networkImageBaseUrl}${model.buisness?.cover_photo_path}':
+                      '${networkImageBaseUrl}${model.coverPhotoPath}',
+                      placeholder: (context, url) => const SpinKitPulse(color: primaryColor,),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 40, left: 30),
                     child: CircleAvatar(
                       radius: 25,
                       backgroundColor: Colors.blue,
-                      foregroundImage: NetworkImage("https://vouchex.reverbsoft.com/public/${model.profilePhotoPath}"),
+                      foregroundImage: NetworkImage(model.profilePhotoPath == '0'
+                          ?'${networkImageBaseUrl}${model.buisness?.profile_photo_path}':
+                      '${networkImageBaseUrl}${model.profilePhotoPath}'),
                     ),
                   ),
                   Positioned.fill(
@@ -60,33 +80,33 @@ class VoucherCard extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 20, right: 20),
                       child: Align(
                         alignment: Alignment.bottomRight,
-                          child: titleText(model.code!, size: 18),
+                          child: titleText("#"+model.code!, size: 18),
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 10,),
-              DetailsButton(
-                title: "Details",
-                onPress: (){
-                  AppDialog(title: 'Adidas want to exchange voucher with design services. '
-                      'we need mockups design for our brand.Adidas want to exchange voucher with design services. we need mockups design for our brand.',
-                      profileImage: "https://vouchex.reverbsoft.com/public/${model.profilePhotoPath}",
-                      bgImage: "https://vouchex.reverbsoft.com/public/${model.coverPhotoPath}",
-                      vTitle: model.name!,
-                      code: model.code!,
-                      cancelPressed: (){
-                        Get.back();
-                        Get.snackbar("Decline", "You have decline exchange request", colorText: primaryColor, icon: const Icon(Icons.cancel, color: primaryColor,),backgroundColor: Colors.white);
-                    },
-                      oKPressed: (){
-                        Get.back();
-                        Get.snackbar("Accepted", "You accepted exchange request", colorText: blackText, icon: const Icon(Icons.verified_outlined, color: Colors.black,),backgroundColor: Colors.white);
-                  }
-                  ).show(context);
-                },
-              ),
+              //const SizedBox(height: 10,),
+              // DetailsButton(
+              //   title: "Details",
+              //   onPress: (){
+              //     AppDialog(title: 'Adidas want to exchange voucher with design services. '
+              //         'we need mockups design for our brand.Adidas want to exchange voucher with design services. we need mockups design for our brand.',
+              //         profileImage: "https://vouchex.reverbsoft.com/public/${model.profilePhotoPath}",
+              //         bgImage: "https://vouchex.reverbsoft.com/public/${model.coverPhotoPath}",
+              //         vTitle: model.name!,
+              //         code: model.code!,
+              //         cancelPressed: (){
+              //           Get.back();
+              //           Get.snackbar("Decline", "You have decline exchange request", colorText: primaryColor, icon: const Icon(Icons.cancel, color: primaryColor,),backgroundColor: Colors.white);
+              //       },
+              //         oKPressed: (){
+              //           Get.back();
+              //           Get.snackbar("Accepted", "You accepted exchange request", colorText: blackText, icon: const Icon(Icons.verified_outlined, color: Colors.black,),backgroundColor: Colors.white);
+              //     }
+              //     ).show(context);
+              //   },
+              // ),
               const SizedBox(height: 20,),
             ],
           ),
@@ -125,7 +145,7 @@ class PendingRequestCard extends StatelessWidget {
                 children: [
                   Image.asset("assets/images/voucher_card.png",),
                   CachedNetworkImage(
-                    imageUrl: "https://vouchex.reverbsoft.com/public/${model.requesterVoucher!.coverPhotoPath}",
+                    imageUrl: "${networkImageBaseUrl}${model.requesterVoucher!.coverPhotoPath}",
                     placeholder: (context, url) => const SpinKitPulse(color: primaryColor,),
                     errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
@@ -134,7 +154,7 @@ class PendingRequestCard extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 25,
                       backgroundColor: Colors.blue,
-                      foregroundImage: NetworkImage("https://vouchex.reverbsoft.com/public/${model.requesterVoucher!.profilePhotoPath}"),
+                      foregroundImage: NetworkImage("${networkImageBaseUrl}${model.requesterVoucher!.profilePhotoPath}"),
                     ),
                   ),
                   Positioned.fill(
@@ -150,7 +170,7 @@ class PendingRequestCard extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 20, right: 20),
                       child: Align(
                         alignment: Alignment.bottomRight,
-                        child: titleText(model.requesterVoucher!.code!, size: 18),
+                        child: titleText("#"+model.requesterVoucher!.code!, size: 18),
                       ),
                     ),
                   ),
@@ -160,12 +180,12 @@ class PendingRequestCard extends StatelessWidget {
               DetailsButton(
                 title: "Details",
                 onPress: (){
-                  AppDialog(title: 'Adidas want to exchange voucher with design services. '
-                      'we need mockups design for our brand.Adidas want to exchange voucher with design services. we need mockups design for our brand.',
-                      profileImage: "https://vouchex.reverbsoft.com/public/${model.requesterVoucher!.profilePhotoPath}",
-                      bgImage: "https://vouchex.reverbsoft.com/public/${model.requesterVoucher!.coverPhotoPath}",
+                  AppDialog(title:model.requesterVoucher?.termsConditions ?? '',
+                  //'we need mockups design for our brand.Adidas want to exchange voucher with design services. we need mockups design for our brand.',
+                      profileImage: "${networkImageBaseUrl}${model.requesterVoucher!.profilePhotoPath}",
+                      bgImage: "${networkImageBaseUrl}${model.requesterVoucher!.coverPhotoPath}",
                       vTitle: model.requesterVoucher!.name!,
-                      code: model.requesterVoucher!.code!,
+                      code: "#"+model.requesterVoucher!.code!,
                       cancelPressed: (){
                         Get.back();
                         Get.snackbar("Decline", "You have decline exchange request", colorText: primaryColor, icon: const Icon(Icons.cancel, color: primaryColor,),backgroundColor: Colors.white);

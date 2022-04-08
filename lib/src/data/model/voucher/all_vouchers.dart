@@ -112,6 +112,7 @@ class AllVouchersData {
     this.updatedAt,
     this.deletedAt,
     this.service,
+    this.buisness
   });
 
   int? id;
@@ -133,6 +134,7 @@ class AllVouchersData {
   DateTime? updatedAt;
   dynamic deletedAt;
   List<AllVoucherServices>? service;
+  AllVoucherBuisness? buisness;
 
   factory AllVouchersData.fromJson(Map<String, dynamic> json) => AllVouchersData(
     id: json["id"],
@@ -154,6 +156,8 @@ class AllVouchersData {
     updatedAt: DateTime.parse(json["updated_at"]),
     deletedAt: json["deleted_at"],
     service: json["service"] != null ? List<AllVoucherServices>.from(json["service"].map((x) => AllVoucherServices.fromJson(x))) : null,
+    buisness: AllVoucherBuisness.fromJson(json['business'])
+
   );
 
   Map<String, dynamic> toJson() => {
@@ -176,6 +180,7 @@ class AllVouchersData {
     "updated_at": updatedAt!.toIso8601String(),
     "deleted_at": deletedAt,
     "service": List<dynamic>.from(service!.map((x) => x.toJson())),
+    // "business":
   };
 }
 
@@ -221,4 +226,26 @@ class AllVoucherLinks {
     "label": label,
     "active": active,
   };
+}
+
+class AllVoucherBuisness{
+  int? id;
+  String? name;
+  String? description;
+  String? cover_photo_path;
+  String? profile_photo_path;
+  int? business_type_id;
+  String? created_at;
+  String? updated_at;
+  String? email;
+  String? phone_no;
+
+  AllVoucherBuisness({this.id,this.name,this.description,this.cover_photo_path,this.profile_photo_path,this.business_type_id,
+  this.created_at,this.updated_at,this.email,this.phone_no});
+
+  factory AllVoucherBuisness.fromJson(Map<String, dynamic> data){
+    return AllVoucherBuisness(id: data['id'],name: data['name'],description: data['description'],cover_photo_path: data['cover_photo_path'],
+    profile_photo_path: data['profile_photo_path'],business_type_id:data['business_type_id'],created_at: data['created_at'],
+    updated_at: data['updated_at'],email: data['email'],phone_no: data['phone_no']);
+  }
 }

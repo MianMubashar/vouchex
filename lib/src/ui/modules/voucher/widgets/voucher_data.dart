@@ -10,6 +10,7 @@ import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 class VoucherData extends StatelessWidget {
    VoucherData({Key? key}) : super(key: key);
 
+   // final GetAllVouchersController _getAllVouchers = Get.put(GetAllVouchersController());
    final VoucherDataController _data = Get.find();
   @override
   Widget build(BuildContext context) {
@@ -78,7 +79,7 @@ class VoucherData extends StatelessWidget {
                                 borderRadius: BorderRadius.all(Radius.circular(7))
                             ),
                             child: Center(
-                                child: smallText(voucherDetailsList[0].services[i], size: 14),
+                                child: smallText(voucherDetailsList[0].services[i].title ?? '', size: 14),
                             ),
                           ),
                         ),

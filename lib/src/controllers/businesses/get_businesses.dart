@@ -25,6 +25,7 @@ class GetBusinessesController extends GetxController{
         return false;
       }
     }
+
     var token = loginDetails.read("token");
     debugPrint("This is token $token");
     isLoading.value == true;

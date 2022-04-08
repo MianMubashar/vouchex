@@ -20,6 +20,7 @@ export 'voucher/vouchex_vouchers_binding.dart';
 
 export 'help_support/terms_condition_binding.dart';
 export 'help_support/contact_us_binding.dart';
+export 'help_support/faq_binding.dart';
 
 export 'search/search_result_binding.dart';
 

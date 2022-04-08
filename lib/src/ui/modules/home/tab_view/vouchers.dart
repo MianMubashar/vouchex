@@ -25,7 +25,7 @@ class VouchersScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left:15, right: 15),
                     child: RoundedInputField(
                       textEditingController: search,
-                      hintText: "Search Businesses",
+                      hintText: "Search Vouchers",
                       icon: Icons.search,
                       onSubmitted: (_) => FocusScope.of(context).unfocus(),
                     ),

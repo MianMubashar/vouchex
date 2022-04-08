@@ -17,3 +17,4 @@ String stripePublishKey = "pk_test_51KeI62B3gOhC8ewaKLgFR9ILzH9ipJIVeyY1D7uRBUaC
 
 String baseUrl = 'http://192.168.18.17/VouchEx/public/api';
 
+String networkImageBaseUrl='https://vouchex.reverbsoft.com/public/';
