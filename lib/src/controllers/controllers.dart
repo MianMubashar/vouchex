@@ -28,6 +28,8 @@ export 'search/search_result_controller.dart';
 
 export 'create_business/create_business_controller.dart';
 export 'businesses/get_businesses.dart';
+export 'create_business/my_business_details_controller.dart';
+export 'create_business/edit_business_controller.dart';
 
 export 'vouchex_vouchers/vouchex_vouchers_controller.dart';
 

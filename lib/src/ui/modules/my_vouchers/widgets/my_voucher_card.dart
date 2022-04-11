@@ -32,7 +32,7 @@ class MyVoucherCard extends StatelessWidget {
             children: [
               Image.asset("assets/images/voucher_card.png",),
               CachedNetworkImage(
-                imageUrl: model.coverPhotoPath,
+                imageUrl: "https://vouchex.reverbsoft.com/public/${model.coverPhotoPath}",
                 placeholder: (context, url) => const CircularProgressIndicator(),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
@@ -44,7 +44,7 @@ class MyVoucherCard extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 25,
                       backgroundColor: Colors.blue,
-                      foregroundImage: NetworkImage(model.profilePhotoPath),
+                      foregroundImage: NetworkImage("https://vouchex.reverbsoft.com/public/${model.profilePhotoPath}",),
                     ),
                   ),
                 ),
@@ -65,7 +65,20 @@ class MyVoucherCard extends StatelessWidget {
                       child: Row(
                         children: [
                           InkWell(
-                            onTap: (){},
+                            onTap: (){
+                              var voucherData  = {
+                                "name" : model.name,
+                                "code" : model.code,
+                                "selectedServiceTitle" : model.service.map((e) => e.title).toList(),
+                                "selectedServiceId" : model.service.map((e) => e.id).toList(),
+                                "expiry" : model.expiry,
+                                "market_value" : model.marketValue,
+                                "terms" : model.termsConditions,
+                                "is_static" : model.isStatic,
+                                "v_id" : model.id
+                              };
+                              Get.toNamed("/CreateNewVoucher", arguments: voucherData);
+                            },
                             child: Row(
                               children: [
                                 Image.asset("assets/images/edit_icon.png", width: 17, height: 17,),

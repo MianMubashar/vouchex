@@ -13,8 +13,8 @@ const Color profileBg = Color(0XFFF7F7F7);
 
 String stripePublishKey = "pk_test_51KeI62B3gOhC8ewaKLgFR9ILzH9ipJIVeyY1D7uRBUaCBVwXGoH0XSi7JvSlLE3xV3lPETI3nUNuFF9kixnrdFEL00XT4Egk0E";
 
-//String baseUrl = 'https://vouchex.reverbsoft.com/api';
+String baseUrl = 'https://vouchex.reverbsoft.com/api';
 
-String baseUrl = 'http://192.168.18.17/VouchEx/public/api';
+//String baseUrl = 'http://192.168.18.17/VouchEx/public/api';
 
 String networkImageBaseUrl='https://vouchex.reverbsoft.com/public/';

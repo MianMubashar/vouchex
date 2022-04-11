@@ -24,62 +24,71 @@ class BusinessCard extends StatelessWidget {
             "businessType" : businessModel.businessTypeId.toString(),
             "number": businessModel.phoneNo,
             "description" : businessModel.description,
-            "circleImage": businessModel.profilePhotoPath,
-            "coverPhoto" : businessModel.coverPhotoPath
+            "circleImage": "https://vouchex.reverbsoft.com/public/${businessModel.profilePhotoPath}",
+            "coverPhoto" : "https://vouchex.reverbsoft.com/public/${businessModel.coverPhotoPath}",
+            "vouchersList" : businessModel.vouchers,
           };
           Get.toNamed('/BusinessDetails', arguments: businessData);
           //Get.toNamed('/BusinessDetails',);
         },
-        child: Stack(
-          children: [
-            Container(
-              decoration:  BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(Radius.circular(11)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade400,
-                    blurRadius: 10,
-                    offset: const Offset(0, 1), // Shadow position
-                  ),
-                ],
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Stack(
+            children: [
+              Container(
+                decoration:  BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.all(Radius.circular(11)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade400,
+                      blurRadius: 10,
+                      offset: const Offset(0, 1), // Shadow position
+                    ),
+                  ],
+                ),
+                width: MediaQuery.of(context).size.width,
+                height: 190,
               ),
-              width: MediaQuery.of(context).size.width,
-              height: 190,
-            ),
-            //Image.asset(businessModel.coverPhotoPath),
-            CachedNetworkImage(
-              imageUrl: "https://vouchex.reverbsoft.com/public/${businessModel.coverPhotoPath}",
-              placeholder: (context, url) => const SpinKitPulse(color: primaryColor,),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 35,left: 10),
-              child: CachedNetworkImage(
-                width: 80,
-                height: 80,
-                imageUrl: "https://vouchex.reverbsoft.com/public/${businessModel.profilePhotoPath}",
-                placeholder: (context, url) => const SpinKitPulse(color: primaryColor,),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(11),
+                  topRight: Radius.circular(11),
+                ),
+                child: CachedNetworkImage(
+                  width: MediaQuery.of(context).size.width,
+                  height: 72,
+                  fit: BoxFit.cover,
+                  imageUrl: "https://vouchex.reverbsoft.com/public/${businessModel.coverPhotoPath}",
+                  placeholder: (context, url) => const SpinKitPulse(color: primaryColor,),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
               ),
-            ),
-            Positioned.fill(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16, top: 35),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: titleText(businessModel.name, size: 18)),
+              Padding(
+                padding: const EdgeInsets.only(top: 45,left: 10),
+                child: CircleAvatar(
+                  radius: 25,
+                  backgroundImage: NetworkImage("https://vouchex.reverbsoft.com/public/${businessModel.profilePhotoPath}"),
+                ),
               ),
-            ),
-            Positioned.fill(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16, top: 100),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: cardText(businessModel.description,)),
+              Positioned.fill(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16, top: 35),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: titleText(businessModel.name!, size: 18)),
+                ),
               ),
-            ),
-          ],
+              Positioned.fill(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16, top: 100),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: cardText(businessModel.description!,)),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

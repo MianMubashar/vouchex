@@ -20,7 +20,10 @@ class AboutUs{
    this.created_at,  this.updated_at});
 
   factory AboutUs.fromJson(Map<String, dynamic> data){
-    return AboutUs(id: data['id'], description: data['description'], app_version: data['app_version'],created_at: data['created_at'],
-    updated_at: data['updated_at']);
+    return AboutUs(id: data['id'],
+        description: data['description'],
+        app_version: data['app_version'],
+        created_at: data['created_at'],
+        updated_at: data['updated_at']);
   }
 }

@@ -22,8 +22,6 @@ class CreateBusinessController extends GetxController{
 
   List<Business> getBusinessTypeList = [];
   int selectedBusinessID = 0;
-  List<int> getBusinessTypeIds = [];
-  List<String> businessType = ['Design Studio', 'Restaurant'];
   var selectedBusiness = ''.obs;
   var phoneNumber = ''.obs;
 
@@ -33,6 +31,9 @@ class CreateBusinessController extends GetxController{
   TextEditingController vDescription = TextEditingController();
   TextEditingController marketValue = TextEditingController();
   TextEditingController terms = TextEditingController();
+
+  TextEditingController businessName = TextEditingController();
+  TextEditingController businessEmail = TextEditingController();
 
   List<Service> getServicesList = [];
   int selectedServiceId = 0;
@@ -90,79 +91,31 @@ class CreateBusinessController extends GetxController{
   }
 
 
-  Future registerAsBusiness() async {
+  void registerAsBusiness() async {
     isLoading.value = true;
-    var token = loginDetails.read("token");
     String dateAsString = selectedDate.value.toString();
     String formatDate = dateAsString.split('/').reversed.join('-');
     DateFormat inputFormat = DateFormat('yyyy-MM-dd');
     DateTime date = inputFormat.parse(formatDate);
     var format = "${date.year}-${date.month}-${date.day}";
-
-    List<int> profileImageBytes = File(selectedProfileImagePath.value).readAsBytesSync();
-    List<int> coverImageBytes = File(selectedCoverImagePath.value).readAsBytesSync();
-    String  base64ImageProfile = base64Encode(profileImageBytes);
-    String  base64ImageCover = base64Encode(coverImageBytes);
-    Map data = {
-      'name' : 'North 9',
-      'email' : 'north9designs@gmail.com',
-      'phone_no' : phoneNumber,
-      'profile_photo' : base64ImageProfile,
-      'cover_photo': base64ImageCover,
-      'description' : description.text,
-      'business_type_id' : selectedBusinessID,
-      'voucher_name' : vName.text,
-      'code' : vCode.text,
-      'voucher_expiry' : format,
-      'voucher_market_value' : double.tryParse(marketValue.text)?.toDouble(),
-      'voucher_terms' : terms.text,
-      'voucher_is_static' : groupValue.value,
-      'voucher_service_ids' : selectedServicesListId,
-    };
-    var body = json.encode(data);
-    var response = await http.post(Uri.parse('$baseUrl/register-as-business'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'multipart/form-data',
-          "Authorization" : "Bearer $token"
-        },
-        body: body
-    );
-    isLoading.value = false;
-    if(response.statusCode == 200) {
-      Get.back();
-      return response.body;
-    } else {
-      return print(response.body);
-    }
-  }
-
-  Future uploadImage() async {
-    isLoading.value = true;
     var token = loginDetails.read("token");
-    String dateAsString = selectedDate.value.toString();
-    String formatDate = dateAsString.split('/').reversed.join('-');
-    DateFormat inputFormat = DateFormat('yyyy-MM-dd');
-    DateTime date = inputFormat.parse(formatDate);
-    var format = "${date.year}-${date.month}-${date.day}";
-
-    var request = http.MultipartRequest('POST', Uri.parse('$baseUrl/register-as-business'));
-    request.fields['name'] = 'North 9';
-    request.fields['email'] = 'north9designs@gmail';
+    var request = http.MultipartRequest("POST", Uri.parse('$baseUrl/register-as-business'));
+    request.fields['name'] = businessName.text;
+    request.fields['email'] = businessEmail.text;
     request.fields['phone_no'] = phoneNumber.value;
     request.files.add(await http.MultipartFile.fromPath('profile_photo', selectedProfileImagePath.value));
     request.files.add(await http.MultipartFile.fromPath('cover_photo', selectedCoverImagePath.value));
     request.fields['description'] = description.text;
-    request.fields['business_type_id'] = selectedBusinessID.toString();
+    request.fields['business_type_id'] = '$selectedBusinessID';
     request.fields['voucher_name'] = vName.text;
     request.fields['code'] = vCode.text;
-    request.fields['voucher_expiry'] = format;
+    request.fields['voucher_expiry'] = format ;
     request.fields['voucher_market_value'] = marketValue.text;
     request.fields['voucher_terms'] = terms.text;
-    request.fields['voucher_is_static'] = groupValue.value.toString();
-    request.fields['voucher_is_static'] = groupValue.value.toString();
-    request.fields['voucher_service_ids'] = "1";
-
+    request.fields['voucher_is_static'] = '${groupValue.value}';
+    for(int i = 1; i < selectedServicesListId.length; i++){
+      request.fields['voucher_service_ids[$i]'] = '${selectedServicesListId[i]}';
+    }
 
     Map<String, String> headers = {
       "content-type": "multipart/form-data",
@@ -170,15 +123,13 @@ class CreateBusinessController extends GetxController{
       "Authorization" : "Bearer $token"
     };
 
-    request.headers.addAll(headers);
-   // http.StreamedResponse response = await request.send();
-    var res = await request.send();
-    print(res.statusCode);
-    print(res);
     isLoading.value = false;
-    return res.toString();
+    request.headers.addAll(headers);
+    var response = await request.send();
+    var responseData = await response.stream.toBytes();
+    var responseString = String.fromCharCodes(responseData);
+    print(responseString);
   }
-
 
   @override
   void onInit() {

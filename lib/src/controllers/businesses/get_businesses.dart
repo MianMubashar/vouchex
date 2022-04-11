@@ -38,7 +38,7 @@ class GetBusinessesController extends GetxController{
         businessesList.addAll(result.businesses!.data!);
       }
       currentPage++;
-      totalPages = result.businesses!.total;
+      totalPages = result.businesses!.total!;
       isLoading.value = false;
       return true;
     } else {

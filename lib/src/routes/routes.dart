@@ -27,7 +27,6 @@ List<GetPage<dynamic>> routes = [
   GetPage(
     name: '/VoucherDetails',
     page: () => VoucherDetails(),
-    binding: VoucherDataBinding()
   ),
   GetPage(
     name: '/Profile',
@@ -93,5 +92,15 @@ List<GetPage<dynamic>> routes = [
   GetPage(
     name: '/BusinessDetails',
     page: () => BusinessDetails()
+  ),
+  GetPage(
+    name : '/MyBusinessDetails',
+    page: () => MyBusinessDetails(),
+    binding: MyBusinessDetailsBinding()
+  ),
+  GetPage(
+    name: '/EditBusiness',
+    page: () => EditBusiness(),
+    binding: EditBusinessBinding()
   )
 ];

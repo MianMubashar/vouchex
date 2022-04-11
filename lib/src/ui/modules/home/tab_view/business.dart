@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 
 class BusinessScreen extends StatelessWidget {
-  BusinessScreen({Key? key}) : super(key: key);
+  BusinessScreen({Key? key,}) : super(key: key);
 
   final TextEditingController search = TextEditingController();
   final GetBusinessesController _businessesController = Get.put(GetBusinessesController());

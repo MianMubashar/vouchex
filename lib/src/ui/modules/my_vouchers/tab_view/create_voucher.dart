@@ -18,7 +18,12 @@ class CreateVoucher extends StatelessWidget {
               child: Align(
                 alignment: Alignment.center,
                   child: InkWell(
-                    onTap: (){Get.toNamed('/CreateNewVoucher');},
+                    onTap: (){
+                      var data = {
+                      "v_id" : 1
+                    };
+                      Get.toNamed('/CreateNewVoucher', arguments: data);
+                      },
                       child: titleText("Tap to Create a Voucher", size: 20, clr: primaryColor),
                   ),
               ),

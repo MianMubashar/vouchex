@@ -15,6 +15,8 @@ export 'my_vouchers/myVouchers_tabView_binding.dart';
 export 'my_vouchers/create_voucher_binding.dart';
 
 export 'create_business/create_business_binding.dart';
+export 'create_business/my_busines_details_binding.dart';
+export 'create_business/edit_business_binding.dart';
 
 export 'voucher/vouchex_vouchers_binding.dart';
 

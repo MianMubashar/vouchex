@@ -53,7 +53,7 @@ class SearchResultController extends GetxController{
         businessesList.addAll(result.businesses!.data!);
       }
       currentPage++;
-      totalPages = result.businesses!.total;
+      totalPages = result.businesses!.total!;
       isLoading.value = false;
       return true;
     } else if(response.statusCode == 200 && response.body.isNotEmpty) {

@@ -11,6 +11,7 @@ import 'package:vouchex/src/data/services/services.dart';
 class MyVoucherController extends GetxController{
 
   var myVouchersList = <MyVouchersData>[].obs;
+  var selectedServices = <SelectedServices>[].obs;
   int currentPage = 1;
   late int totalPages;
   final RefreshController refreshController = RefreshController(initialRefresh: true);

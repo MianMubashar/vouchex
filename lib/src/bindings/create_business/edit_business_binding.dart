@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
 
-class VoucherDataBinding extends Bindings{
+class EditBusinessBinding extends Bindings {
   @override
   void dependencies() {
-    //Get.put(VoucherDataController());
+    Get.put(EditBusinessController());
   }
 
 }

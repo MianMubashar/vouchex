@@ -35,3 +35,5 @@ export 'vouchex_vouchers/vouchex_vouchers.dart';
 
 export 'create_business/create_business_page.dart';
 export 'create_business/business_details.dart';
+export 'create_business/my_business_details.dart';
+export 'create_business/edit_business.dart';

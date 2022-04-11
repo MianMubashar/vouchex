@@ -24,4 +24,5 @@ export 'voucher/vouchex_model.dart';
 
 export 'authentication/login_error.dart';
 export 'authentication/login_model.dart';
+export 'authentication/validate_token_model.dart';
 

@@ -8,6 +8,7 @@ class VoucherDetailsModel{
   final List<AllVoucherServices> services;
   final String marketValue;
   final String tokenCode;
+  final int isFree;
 
   VoucherDetailsModel({
    required this.qrImage,
@@ -16,18 +17,9 @@ class VoucherDetailsModel{
    required this.terms,
    required this.services,
    required this.marketValue,
-   required this.tokenCode
+   required this.tokenCode,
+    required this.isFree,
 });
 }
 
-List<VoucherDetailsModel> voucherDetailsList = <VoucherDetailsModel>[
-  // VoucherDetailsModel(
-  //     qrImage: "assets/images/qr_code.png",
-  //     businessName: "Adidas",
-  //     expiryDate: "Thu, 25 jun,2020",
-  //     terms: "Adidas want to exchange voucher with design services. we need mockups design for our brand.Adidas want to exchange voucher with design services. we need mockups design for our brand.",
-  //     services: ["Mockups Design ", "App Design "],
-  //     marketValue: "Adidas want to exchange voucher with design services. "
-  //         "we need mockups design for our brand.Adidas want to exchange voucher with design services. we need mockups design for our brand.",
-  //     tokenCode: "#333333"),
-];
+List<VoucherDetailsModel> voucherDetailsList = <VoucherDetailsModel>[];

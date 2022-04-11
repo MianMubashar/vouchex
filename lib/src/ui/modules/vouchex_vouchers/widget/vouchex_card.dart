@@ -36,7 +36,7 @@ class VouchexCard extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 10, right: 9),
                   child:
                   CachedNetworkImage(
-                    imageUrl: model.coverPhotoPath,
+                    imageUrl: "https://vouchex.reverbsoft.com/public/${model.coverPhotoPath}",
                     placeholder: (context, url) => const CircularProgressIndicator(),
                     errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
@@ -51,7 +51,7 @@ class VouchexCard extends StatelessWidget {
                   child: CachedNetworkImage(
                     width: 80,
                     height: 80,
-                    imageUrl: model.profilePhotoPath,
+                    imageUrl: "https://vouchex.reverbsoft.com/public/${model.profilePhotoPath}",
                     placeholder: (context, url) => const CircularProgressIndicator(),
                     errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),

@@ -11,7 +11,7 @@ class ProfileModel {
 }
 
 List<ProfileModel> profileItems = <ProfileModel>[
-  ProfileModel(title: "Register as Business", imageUrl: "assets/images/business_icon.png", route: "/CreateBusiness"),
+  ProfileModel(title: "Business Details", imageUrl: "assets/images/business_icon.png", route: "/MyBusinessDetails"),
   ProfileModel(title: "My Vouchers", imageUrl: "assets/images/voucher_icon.png", route: "/MyVouchers"),
   ProfileModel(title: "VouchEx Vouchers", imageUrl: "assets/images/business_icon.png", route: "/VxVouchers"),
   ProfileModel(title: "Notification", imageUrl: "assets/images/notification_icon.png", route: "/Notification"),

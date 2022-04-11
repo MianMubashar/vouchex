@@ -7,7 +7,7 @@ class CustomAppBar extends StatelessWidget {
   final void Function()? leadingIconPressed, trailingIconPressed;
   final String? profileImage;
   final TextAlign? textAlign;
-  const CustomAppBar({
+   const CustomAppBar({
     Key? key,
     required this.title,
     this.leadingIconPressed,
@@ -15,7 +15,7 @@ class CustomAppBar extends StatelessWidget {
     this.showLeadingIcon = false,
     this.showTrailingIcon = false,
     this.profileImage,
-    this.textAlign = TextAlign.center
+    this.textAlign = TextAlign.center,
   }) : super(key: key);
 
   @override
@@ -50,10 +50,18 @@ class CustomAppBar extends StatelessWidget {
             ),
           ),
           if (showTrailingIcon)
-            IconButton(
-              icon: Image.asset('$profileImage'),
+            /*IconButton(
+              icon: Image.network('$profileImage'),
               onPressed: trailingIconPressed,
+            ),*/
+          InkWell(
+            onTap: trailingIconPressed,
+            child: CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.white,
+              backgroundImage: NetworkImage('$profileImage'),
             ),
+          )
         ],
       ),
     );

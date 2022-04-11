@@ -35,8 +35,10 @@ class GetAllVouchersController extends GetxController {
       }else{
         vouchersList.addAll(result.vouchers!.data!);
       }
-      currentPage++;
-      totalPages = result.vouchers!.total!;
+      if(result.vouchers!.nextPageUrl != null) {
+        currentPage++;
+      }
+      totalPages = currentPage;
       isLoading.value = false;
       return true;
     } else {

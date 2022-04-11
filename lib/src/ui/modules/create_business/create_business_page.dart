@@ -88,9 +88,43 @@ class CreateBusinessPage extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 15),
                       child: Row(
                         children: [
-                          smallText("North 9", size: 20, clr: Colors.black),
+                          smallText(_businessController.businessName.text.isNotEmpty ? _businessController.businessName.text : "Enter Name", size: 20, clr: Colors.black),
                           IconButton(
-                            onPressed: (){},
+                            onPressed: (){
+                              Get.defaultDialog(
+                                title: '',
+                                content: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 8),
+                                      child: smallText('Name', size: 18),
+                                    ),
+                                    VoucherFields(
+                                      hintText: "Enter name",
+                                      textEditingController: _businessController.businessName,
+                                      keyboardType: TextInputType.text,
+                                    ),
+                                    const SizedBox(height: 5,),
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 8),
+                                      child: smallText('Email', size: 18),
+                                    ),
+                                    VoucherFields(
+                                      hintText: "Enter Email",
+                                      textEditingController: _businessController.businessEmail,
+                                      keyboardType: TextInputType.text,
+                                    ),
+                                  ],
+                                ),
+                                textConfirm: 'Add',
+                                onConfirm: () {
+                                  Get.back();
+                                },
+                                buttonColor: primaryColor,
+                                confirmTextColor: Colors.white
+                              );
+                            },
                             icon: const Icon(Icons.edit_outlined, color: primaryColor,),
                           ),
                         ],
@@ -98,7 +132,7 @@ class CreateBusinessPage extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
-                      child: smallText("North 9 Designs@gmail.com"),
+                      child: smallText(_businessController.businessEmail.text.isNotEmpty ? _businessController.businessEmail.text : "Enter Email"),
                     ),
                     const SizedBox(height: 15,),
                     Padding(
@@ -426,8 +460,8 @@ class CreateBusinessPage extends StatelessWidget {
                       ),
                     ),
                     RoundedRectangleButton(
-                      onPress: ()async{
-                        await _businessController.uploadImage();
+                      onPress: (){
+                         _businessController.registerAsBusiness();
                       },
                       title: 'Create Page',
                     ),

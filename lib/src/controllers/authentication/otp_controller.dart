@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import '../../data/model/models.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -7,8 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/services/helper_functions.dart';
-
-import '../../data/model/models.dart';
 
 class OtpController extends GetxController{
   var isLoading = false.obs;
@@ -18,6 +16,8 @@ class OtpController extends GetxController{
   var countryCode = '';
   final FirebaseAuth _auth = FirebaseAuth.instance;
   var otp = '';
+
+  Map storageList = {};
 
   TextEditingController fieldOne = TextEditingController();
   TextEditingController fieldTwo = TextEditingController();
@@ -31,14 +31,14 @@ class OtpController extends GetxController{
 
   void signInWithPhoneAuthCredential(
       PhoneAuthCredential phoneAuthCredential) async {
-    isLoading.value = false;
+    isLoading.value = true;
     try {
       final authCredential =
       await _auth.signInWithCredential(phoneAuthCredential);
       await loginRequest();
       isLoading.value = false;
       if(authCredential.user != null){
-        Get.offAllNamed('/BottomBar');
+        Get.offAllNamed('/BottomBar',);
       }
 
     } on FirebaseAuthException catch (e) {
@@ -69,7 +69,7 @@ class OtpController extends GetxController{
       'device_token' : deviceToken,
       'country_code' : countryCode,
     };
-    //encode Map to JSON
+
     var body = json.encode(data);
 
     var response = await http.post(Uri.parse('$baseUrl/login'),
@@ -82,6 +82,20 @@ class OtpController extends GetxController{
       var loginResponse = loginFromJson(json);
       if(loginResponse.status == true){
         _helperFunctions.saveUserToken(loginResponse.token);
+        _helperFunctions.saveUserId(loginResponse.user!.id!);
+
+        storageList['name'] = loginResponse.user!.business!.name!;
+        storageList['email'] = loginResponse.user!.business!.email;
+        storageList['phone_no'] = loginResponse.user!.business!.phoneNo;
+        storageList['description'] = loginResponse.user!.business!.description;
+        storageList['business_type_id'] = loginResponse.user!.business!.businessTypeId;
+        storageList['business_type_name'] = loginResponse.user!.business!.businessType!.name;
+        storageList['business_id'] = loginResponse.user!.businessId;
+        storageList['profile_photo'] = loginResponse.user!.business!.profilePhotoPath;
+        storageList['cover_photo'] = loginResponse.user!.business!.coverPhotoPath;
+
+        loginDetails.write('businessData', storageList);
+
         return [loginResponse.status, loginResponse.token, loginResponse.message, loginResponse.user, ""];
       } else if(loginResponse.status == false){
         print('hereeeee');
@@ -97,6 +111,6 @@ class OtpController extends GetxController{
         return ["", errorResp.error];
       }
     }
+    return null;
   }
-
 }

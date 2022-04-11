@@ -25,7 +25,7 @@ class CreateNewVoucher extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomAppBar(
-                      title: "Create your voucher",
+                      title: _createVoucherController.voucherId.value == 0 ? 'Create your voucher' : 'Update Voucher',
                       showLeadingIcon: true,
                       leadingIconPressed: () {Get.back();} ,
                     ),
@@ -57,6 +57,7 @@ class CreateNewVoucher extends StatelessWidget {
                               child: smallText('Voucher Code', size: 18),
                             ),
                             VoucherFields(
+                              readOnly: _createVoucherController.voucherId.value == 0 ? false : true,
                               textEditingController: _createVoucherController.vCode,
                               height: 50,
                               keyboardType: TextInputType.text,
@@ -170,7 +171,7 @@ class CreateNewVoucher extends StatelessWidget {
                                         contentPadding: EdgeInsets.zero,
                                         onChanged: (value) {
                                           _createVoucherController.groupValue.value = value as int;
-                                          _createVoucherController.selectedGroupValue.value = true;
+                                          _createVoucherController.selectedGroupValue.value = false;
                                         },
                                         groupValue: _createVoucherController.groupValue.value,
                                         title: smallText('Ends', size: 12, clr: blackText),
@@ -260,10 +261,12 @@ class CreateNewVoucher extends StatelessWidget {
                     DetailsButton(
                       onPress: () async {
                         if(_formKey.currentState!.validate()) {
-                          await _createVoucherController.createVoucher();
+                          _createVoucherController.voucherId.value == 0 ?
+                           await _createVoucherController.createVoucher() :
+                              await _createVoucherController.updateVoucher();
                         }
                         },
-                      title: 'Create Voucher',
+                      title: _createVoucherController.voucherId.value == 0 ? 'Create Voucher' : 'Update Voucher',
                       titleColor: whiteText,
                       buttonColor: blackText,
                       showIcon: false,

@@ -1,39 +1,31 @@
 import 'dart:convert';
 
-Login loginFromJson(String str) => Login.fromJson(json.decode(str));
+ValidateTokenModel validateTokenModelFromJson(String str) => ValidateTokenModel.fromJson(json.decode(str));
 
-String loginToJson(Login data) => json.encode(data.toJson());
+String validateTokenModelToJson(ValidateTokenModel data) => json.encode(data.toJson());
 
-class Login {
-  Login({
+class ValidateTokenModel {
+  ValidateTokenModel({
     required this.status,
-    required this.token,
-    required this.message,
-    this.user,
+    required this.user,
   });
 
   bool status;
-  String token;
-  String message;
-  User? user;
+  ValidateUser user;
 
-  factory Login.fromJson(Map<String, dynamic> json) => Login(
+  factory ValidateTokenModel.fromJson(Map<String, dynamic> json) => ValidateTokenModel(
     status: json["status"],
-    token: json["token"],
-    message: json["message"],
-    user: json['user'] != null ? User.fromJson(json['user']) : null,
+    user: ValidateUser.fromJson(json["user"]),
   );
 
   Map<String, dynamic> toJson() => {
     "status": status,
-    "token": token,
-    "message": message,
-    "user": user!.toJson(),
+    "user": user.toJson(),
   };
 }
 
-class User {
-  User({
+class ValidateUser {
+  ValidateUser({
     this.id,
     this.name,
     this.email,
@@ -55,13 +47,13 @@ class User {
   String? deviceToken;
   String? profilePhotoPath;
   DateTime? createdAt;
-  String? roleId;
+  int? roleId;
   String? countryCode;
   int? businessId;
   String? profilePhotoUrl;
-  BusinessData? business;
+  ValidateBusiness? business;
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory ValidateUser.fromJson(Map<String, dynamic> json) => ValidateUser(
     id: json["id"],
     name: json["name"],
     email: json["email"],
@@ -73,7 +65,7 @@ class User {
     countryCode: json["country_code"],
     businessId: json["business_id"],
     profilePhotoUrl: json["profile_photo_url"],
-    business: json['business'] != null ? BusinessData.fromJson(json['business']) : null,
+    business: ValidateBusiness.fromJson(json["business"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -92,8 +84,8 @@ class User {
   };
 }
 
-class BusinessData {
-  BusinessData({
+class ValidateBusiness {
+  ValidateBusiness({
     this.id,
     this.name,
     this.description,
@@ -117,9 +109,9 @@ class BusinessData {
   DateTime? updatedAt;
   String? email;
   String? phoneNo;
-  BusinessTypes? businessType;
+  ValidateBusinessType? businessType;
 
-  factory BusinessData.fromJson(Map<String, dynamic> json) => BusinessData(
+  factory ValidateBusiness.fromJson(Map<String, dynamic> json) => ValidateBusiness(
     id: json["id"],
     name: json["name"],
     description: json["description"],
@@ -130,7 +122,7 @@ class BusinessData {
     updatedAt: DateTime.parse(json["updated_at"]),
     email: json["email"],
     phoneNo: json["phone_no"],
-    businessType: json['business_type'] != null ? BusinessTypes.fromJson(json['business_type']) : null,
+    businessType: ValidateBusinessType.fromJson(json["business_type"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -148,8 +140,8 @@ class BusinessData {
   };
 }
 
-class BusinessTypes {
-  BusinessTypes({
+class ValidateBusinessType {
+  ValidateBusinessType({
     this.id,
     this.name,
     this.createdAt,
@@ -161,7 +153,7 @@ class BusinessTypes {
   dynamic createdAt;
   dynamic updatedAt;
 
-  factory BusinessTypes.fromJson(Map<String, dynamic> json) => BusinessTypes(
+  factory ValidateBusinessType.fromJson(Map<String, dynamic> json) => ValidateBusinessType(
     id: json["id"],
     name: json["name"],
     createdAt: json["created_at"],

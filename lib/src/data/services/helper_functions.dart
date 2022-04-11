@@ -7,4 +7,7 @@ class HelperFunctions{
     return loginDetails.write("token", token);
   }
 
+  saveUserId(int uid) {
+    return loginDetails.write("userId", uid);
+  }
 }

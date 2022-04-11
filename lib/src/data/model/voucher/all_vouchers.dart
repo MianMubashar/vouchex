@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 GetAllVouchers getAllVouchersFromJson(String str) => GetAllVouchers.fromJson(json.decode(str));
@@ -16,7 +15,7 @@ class GetAllVouchers {
 
   factory GetAllVouchers.fromJson(Map<String, dynamic> json) => GetAllVouchers(
     status: json["status"],
-    vouchers: json['vouchers'] != null
+    vouchers:json['vouchers'] != null
         ? AllVouchers.fromJson(json['vouchers'])
         : null,
   );
@@ -51,7 +50,7 @@ class AllVouchers {
   int? lastPage;
   String? lastPageUrl;
   List<AllVoucherLinks>? links;
-  dynamic nextPageUrl;
+  String? nextPageUrl;
   String? path;
   int? perPage;
   dynamic prevPageUrl;
@@ -91,8 +90,8 @@ class AllVouchers {
   };
 }
 
-class AllVouchersData {
-  AllVouchersData({
+class AllVouchersData  {
+  AllVouchersData ({
     this.id,
     this.uuId,
     this.name,
@@ -112,7 +111,7 @@ class AllVouchersData {
     this.updatedAt,
     this.deletedAt,
     this.service,
-    this.buisness
+    this.business,
   });
 
   int? id;
@@ -134,9 +133,9 @@ class AllVouchersData {
   DateTime? updatedAt;
   dynamic deletedAt;
   List<AllVoucherServices>? service;
-  AllVoucherBuisness? buisness;
+  VoucherBusiness? business;
 
-  factory AllVouchersData.fromJson(Map<String, dynamic> json) => AllVouchersData(
+  factory AllVouchersData .fromJson(Map<String, dynamic> json) => AllVouchersData (
     id: json["id"],
     uuId: json["uu_id"],
     name: json["name"],
@@ -156,8 +155,7 @@ class AllVouchersData {
     updatedAt: DateTime.parse(json["updated_at"]),
     deletedAt: json["deleted_at"],
     service: json["service"] != null ? List<AllVoucherServices>.from(json["service"].map((x) => AllVoucherServices.fromJson(x))) : null,
-    buisness: AllVoucherBuisness.fromJson(json['business'])
-
+    business: json["business"] == null ? null : VoucherBusiness.fromJson(json["business"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -180,12 +178,64 @@ class AllVouchersData {
     "updated_at": updatedAt!.toIso8601String(),
     "deleted_at": deletedAt,
     "service": List<dynamic>.from(service!.map((x) => x.toJson())),
-    // "business":
+    "business": business,
   };
 }
 
-class AllVoucherServices {
-  AllVoucherServices({
+class VoucherBusiness {
+  VoucherBusiness({
+    this.id,
+    this.name,
+    this.description,
+    this.coverPhotoPath,
+    this.profilePhotoPath,
+    this.businessTypeId,
+    this.createdAt,
+    this.updatedAt,
+    this.email,
+    this.phoneNo,
+  });
+
+  int? id;
+  String? name;
+  String? description;
+  String? coverPhotoPath;
+  String? profilePhotoPath;
+  int? businessTypeId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? email;
+  String? phoneNo;
+
+  factory VoucherBusiness.fromJson(Map<String, dynamic> json) => VoucherBusiness(
+    id: json["id"],
+    name: json["name"],
+    description: json["description"],
+    coverPhotoPath: json["cover_photo_path"],
+    profilePhotoPath: json["profile_photo_path"],
+    businessTypeId: json["business_type_id"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    email: json["email"],
+    phoneNo: json["phone_no"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "description": description,
+    "cover_photo_path": coverPhotoPath,
+    "profile_photo_path": profilePhotoPath,
+    "business_type_id": businessTypeId,
+    "created_at": createdAt!.toIso8601String(),
+    "updated_at": updatedAt!.toIso8601String(),
+    "email": email,
+    "phone_no": phoneNo,
+  };
+}
+
+class AllVoucherServices  {
+  AllVoucherServices ({
     this.id,
     this.title,
   });
@@ -193,7 +243,7 @@ class AllVoucherServices {
   int? id;
   String? title;
 
-  factory AllVoucherServices.fromJson(Map<String, dynamic> json) => AllVoucherServices(
+  factory AllVoucherServices .fromJson(Map<String, dynamic> json) => AllVoucherServices (
     id: json["id"],
     title: json["title"],
   );
@@ -226,26 +276,4 @@ class AllVoucherLinks {
     "label": label,
     "active": active,
   };
-}
-
-class AllVoucherBuisness{
-  int? id;
-  String? name;
-  String? description;
-  String? cover_photo_path;
-  String? profile_photo_path;
-  int? business_type_id;
-  String? created_at;
-  String? updated_at;
-  String? email;
-  String? phone_no;
-
-  AllVoucherBuisness({this.id,this.name,this.description,this.cover_photo_path,this.profile_photo_path,this.business_type_id,
-  this.created_at,this.updated_at,this.email,this.phone_no});
-
-  factory AllVoucherBuisness.fromJson(Map<String, dynamic> data){
-    return AllVoucherBuisness(id: data['id'],name: data['name'],description: data['description'],cover_photo_path: data['cover_photo_path'],
-    profile_photo_path: data['profile_photo_path'],business_type_id:data['business_type_id'],created_at: data['created_at'],
-    updated_at: data['updated_at'],email: data['email'],phone_no: data['phone_no']);
-  }
 }
