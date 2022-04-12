@@ -217,7 +217,8 @@ class CreateBusinessPage extends StatelessWidget {
                               cursorColor: primaryColor,
                               dropdownIconPosition: IconPosition.trailing,
                               onChanged: (phone) {
-                                _businessController.phoneNumber.value = phone.completeNumber.toString();
+                                _businessController.phoneNumber.value = phone.number.toString();
+                                _businessController.countryCode.value = phone.countryISOCode;
                               },
                             ),
                             const SizedBox(height: 10,),
@@ -461,7 +462,7 @@ class CreateBusinessPage extends StatelessWidget {
                     ),
                     RoundedRectangleButton(
                       onPress: (){
-                         _businessController.registerAsBusiness();
+                        _businessController.registerAsBusiness();
                       },
                       title: 'Create Page',
                     ),

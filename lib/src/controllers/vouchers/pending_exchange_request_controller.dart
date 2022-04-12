@@ -30,13 +30,18 @@ class PendingExchangeRequestController extends GetxController {
     var response = await GetDataFromAPI.fetchData("$baseUrl/get-pending-exchange-requests", token);
     if (response != null) {
       final result = pendingExchangeRequestModelFromJson(response);
+      if(result.pendingExchangeRequests!.data!.isEmpty) {
+        noData.value = 'No request';
+      }
       if (isRefresh) {
         requesterVoucher.value = result.pendingExchangeRequests!.data!;
       }else{
         requesterVoucher.addAll(result.pendingExchangeRequests!.data!);
       }
-      currentPage++;
-      totalPages = result.pendingExchangeRequests!.total!;
+      if(result.pendingExchangeRequests!.nextPageUrl != null) {
+        currentPage++;
+      }
+      totalPages = currentPage;
       isLoading.value = false;
       return true;
     } else {

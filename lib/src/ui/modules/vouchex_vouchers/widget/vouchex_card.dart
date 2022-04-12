@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vouchex/src/controllers/stripe/stripe_controller.dart';
+import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:get/get.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
@@ -36,24 +38,17 @@ class VouchexCard extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 10, right: 9),
                   child:
                   CachedNetworkImage(
-                    imageUrl: "https://vouchex.reverbsoft.com/public/${model.coverPhotoPath}",
-                    placeholder: (context, url) => const CircularProgressIndicator(),
+                    imageUrl: "$networkImageBaseUrl${model.coverPhotoPath}",
+                    placeholder: (context, url) => const SpinKitPulse(color: primaryColor, size: 25,),
                     errorWidget: (context, url, error) => const Icon(Icons.error),
                   ),
                 ),
-                /*CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Colors.white,
-                  foregroundImage: AssetImage(model.circleImage),
-                )*/
                 Padding(
                   padding: const EdgeInsets.only(top: 35,left: 20),
-                  child: CachedNetworkImage(
-                    width: 80,
-                    height: 80,
-                    imageUrl: "https://vouchex.reverbsoft.com/public/${model.profilePhotoPath}",
-                    placeholder: (context, url) => const CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.white,
+                    foregroundImage: NetworkImage("$networkImageBaseUrl${model.profilePhotoPath}"),
                   ),
                 ),
                 Positioned.fill(

@@ -12,7 +12,7 @@ class SmallButton extends StatelessWidget {
     Key? key,
     this.title,
     this.titleColor = whiteText,
-    this.fontSize = 14.0,
+    this.fontSize = 13.0,
     this.height = 32,
     required this.onPress
   }): super(key:key);

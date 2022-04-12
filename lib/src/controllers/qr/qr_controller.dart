@@ -10,7 +10,6 @@ import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 class QrController extends GetxController{
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
-  var code = ''.obs;
   QRViewController? controller;
   var isLoading = false.obs;
   final loginDetails = GetStorage();
@@ -21,7 +20,7 @@ class QrController extends GetxController{
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       result = scanData;
-      code.value = result!.code.toString();
+      qrResult.text = result!.code.toString();
     });
   }
 
@@ -34,7 +33,7 @@ class QrController extends GetxController{
   Future redeemVoucher() async {
     isLoading.value = true;
     Map data = {
-      'uu_id' : code.value,
+      'uu_id' : qrResult.text,
     };
     var token = loginDetails.read("token");
     var body = json.encode(data);

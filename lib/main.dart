@@ -44,6 +44,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     FirebaseMessaging.instance.getToken().then((token) {
       loginDetails.write("device_token", token);
+      print(token);
     });
     FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       badge: true,

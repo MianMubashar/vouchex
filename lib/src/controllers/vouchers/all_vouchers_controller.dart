@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vouchex/src/data/constants.dart';
@@ -11,8 +12,9 @@ class GetAllVouchersController extends GetxController {
   var vouchersList = <AllVouchersData>[].obs;
   int currentPage = 1;
   late int totalPages;
-  final RefreshController refreshController = RefreshController(initialRefresh: true);
+  final RefreshController vouchersRefreshController = RefreshController(initialRefresh: true);
   var isLoading = false.obs;
+  var noData = ''.obs;
   var loginDetails = GetStorage();
 
   Future<bool> getAllVouchersDataData({bool isRefresh = false}) async {
@@ -20,7 +22,7 @@ class GetAllVouchersController extends GetxController {
       currentPage = 1;
     } else {
       if (currentPage >= totalPages) {
-        refreshController.loadNoData();
+        vouchersRefreshController.loadNoData();
         return false;
       }
     }
@@ -30,6 +32,9 @@ class GetAllVouchersController extends GetxController {
     var response = await GetDataFromAPI.fetchData("$baseUrl/get-all-vouchers", token);
     if (response != null) {
       final result = getAllVouchersFromJson(response);
+      if(result.vouchers!.data!.isEmpty) {
+        noData.value = "No data exists";
+      }
       if (isRefresh) {
         vouchersList.value = result.vouchers!.data!;
       }else{

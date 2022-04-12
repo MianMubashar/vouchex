@@ -147,14 +147,14 @@ class CreateVoucherController extends GetxController {
 
   @override
   void onReady() {
-    vName.text = Get.arguments["name"];
-    vCode.text = Get.arguments["code"];
-    selectedServicesListId = Get.arguments["selectedServiceId"];
-    marketValue.text = Get.arguments["market_value"];
-    terms.text = Get.arguments["terms"];
+    vName.text = Get.arguments["name"] ?? "";
+    vCode.text = Get.arguments["code"] ?? "";
+    selectedServicesListId = Get.arguments["selectedServiceId"] ?? [];
+    marketValue.text = Get.arguments["market_value"] ?? "";
+    terms.text = Get.arguments["terms"] ?? "";
     groupValue.value = int.parse(Get.arguments["is_static"]);
     selectedDate.value = Get.arguments["expiry"];
-    selectedServicesList.value = Get.arguments["selectedServiceTitle"];
+    selectedServicesList.value = Get.arguments["selectedServiceTitle"] ?? [];
     super.onReady();
   }
 }

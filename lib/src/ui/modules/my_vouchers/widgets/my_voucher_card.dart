@@ -1,8 +1,10 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
+import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
@@ -33,7 +35,7 @@ class MyVoucherCard extends StatelessWidget {
               Image.asset("assets/images/voucher_card.png",),
               CachedNetworkImage(
                 imageUrl: "https://vouchex.reverbsoft.com/public/${model.coverPhotoPath}",
-                placeholder: (context, url) => const CircularProgressIndicator(),
+                placeholder: (context, url) => const SpinKitPulse(color: primaryColor, size: 25,),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
               Positioned.fill(
@@ -54,7 +56,7 @@ class MyVoucherCard extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 20, top: 50),
                   child: Align(
                       alignment: Alignment.centerLeft,
-                      child: titleText(model.name, size: 18)),
+                      child: titleText(model.name!, size: 18)),
                 ),
               ),
                 Positioned.fill(
@@ -69,13 +71,13 @@ class MyVoucherCard extends StatelessWidget {
                               var voucherData  = {
                                 "name" : model.name,
                                 "code" : model.code,
-                                "selectedServiceTitle" : model.service.map((e) => e.title).toList(),
-                                "selectedServiceId" : model.service.map((e) => e.id).toList(),
+                                "selectedServiceTitle" : model.service!.map((e) => e.title).toList(),
+                                "selectedServiceId" : model.service!.map((e) => e.id).toList(),
                                 "expiry" : model.expiry,
                                 "market_value" : model.marketValue,
                                 "terms" : model.termsConditions,
                                 "is_static" : model.isStatic,
-                                "v_id" : model.id
+                                "v_id" : model.id,
                               };
                               Get.toNamed("/CreateNewVoucher", arguments: voucherData);
                             },
@@ -99,7 +101,7 @@ class MyVoucherCard extends StatelessWidget {
                                   Get.back();
                                 },
                                 onConfirm: () {
-                                  _myVoucherController.deleteVoucher(model.id);
+                                  _myVoucherController.deleteVoucher(model.id!);
                                   Get.back();
                                 }
                               );
@@ -121,7 +123,7 @@ class MyVoucherCard extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 20, right: 20),
                   child: Align(
                     alignment: Alignment.bottomRight,
-                    child: titleText(model.code, size: 18),
+                    child: titleText(model.code!, size: 18),
                   ),
                 ),
               ),

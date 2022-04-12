@@ -7,26 +7,31 @@ import 'package:vouchex/src/data/model/help_and_support/faq_model.dart';
 import 'package:vouchex/src/data/services/api/fetch_data.dart';
 
 class FaqController extends GetxController{
-  var  isLoading=false.obs;
+  var  isLoading = false.obs;
   final loginDetails = GetStorage();
-  var faqList=<FAQModel>[].obs;
+  var faqList = <FAQModel>[].obs;
+  var noData = ''.obs;
   
   
-  Future FAQ() async{
+  Future faq() async{
   isLoading.value == true;
-  var token=loginDetails.read('token');
-  var response=await GetDataFromAPI.fetchData('${baseUrl}/fetch-faqs', token);
+  var token = loginDetails.read('token');
+  var response = await GetDataFromAPI.fetchData('$baseUrl/fetch-faqs', token);
   if(response != null){
-    final result=await FAQs.fromJson(json.decode(response));
-    faqList.value=result.faqs!;
+    final result = FAQs.fromJson(json.decode(response));
+    isLoading.value == false;
+    if(result.faqs!.isNotEmpty) {
+      faqList.value = result.faqs!;
+    }
+    else {
+      noData.value = 'No data exists';
+    }
   }
-  isLoading.value == false;
   }
 
   @override
   void onInit() {
-    // TODO: implement onInit
-    FAQ();
     super.onInit();
+    faq();
   }
 }

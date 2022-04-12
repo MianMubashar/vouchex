@@ -1,10 +1,13 @@
 class AboutusModel{
 bool status;
-AboutUs aboutUs;
-AboutusModel({required this.status,required this.aboutUs});
+AboutUs? aboutUs;
+AboutusModel({required this.status, this.aboutUs});
 
 factory AboutusModel.fromJson(Map<String,dynamic> data){
-  return AboutusModel(status: data['status'], aboutUs: AboutUs.fromJson(data['about_us']));
+  return AboutusModel(
+      status: data['status'],
+      aboutUs: data['about_us'] != null ?AboutUs.fromJson(data['about_us']) : null
+  );
 }
 
 }

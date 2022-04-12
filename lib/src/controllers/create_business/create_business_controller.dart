@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/data/services/services.dart';
@@ -19,6 +20,8 @@ class CreateBusinessController extends GetxController{
   var selectedCoverImagePath = ''.obs;
   var selectedProfileImagePath = ''.obs;
 
+
+  final HomeTabs _homeTabs = Get.put(HomeTabs());
 
   List<Business> getBusinessTypeList = [];
   int selectedBusinessID = 0;
@@ -44,6 +47,7 @@ class CreateBusinessController extends GetxController{
   var selectedServicesList = [].obs;
   var selectedService = ''.obs;
   var groupValue = 3.obs;
+  var countryCode = ''.obs;
 
   selectDate() async {
     DateTime? pickedDate = await showDatePicker(
@@ -92,43 +96,52 @@ class CreateBusinessController extends GetxController{
 
 
   void registerAsBusiness() async {
-    isLoading.value = true;
-    String dateAsString = selectedDate.value.toString();
-    String formatDate = dateAsString.split('/').reversed.join('-');
-    DateFormat inputFormat = DateFormat('yyyy-MM-dd');
-    DateTime date = inputFormat.parse(formatDate);
-    var format = "${date.year}-${date.month}-${date.day}";
-    var token = loginDetails.read("token");
-    var request = http.MultipartRequest("POST", Uri.parse('$baseUrl/register-as-business'));
-    request.fields['name'] = businessName.text;
-    request.fields['email'] = businessEmail.text;
-    request.fields['phone_no'] = phoneNumber.value;
-    request.files.add(await http.MultipartFile.fromPath('profile_photo', selectedProfileImagePath.value));
-    request.files.add(await http.MultipartFile.fromPath('cover_photo', selectedCoverImagePath.value));
-    request.fields['description'] = description.text;
-    request.fields['business_type_id'] = '$selectedBusinessID';
-    request.fields['voucher_name'] = vName.text;
-    request.fields['code'] = vCode.text;
-    request.fields['voucher_expiry'] = format ;
-    request.fields['voucher_market_value'] = marketValue.text;
-    request.fields['voucher_terms'] = terms.text;
-    request.fields['voucher_is_static'] = '${groupValue.value}';
-    for(int i = 1; i < selectedServicesListId.length; i++){
-      request.fields['voucher_service_ids[$i]'] = '${selectedServicesListId[i]}';
+    try{
+      isLoading.value = true;
+      String dateAsString = selectedDate.value.toString();
+      String formatDate = dateAsString.split('/').reversed.join('-');
+      DateFormat inputFormat = DateFormat('yyyy-MM-dd');
+      DateTime date = inputFormat.parse(formatDate);
+      var format = "${date.year}-${date.month}-${date.day}";
+      var token = loginDetails.read("token");
+      var request = http.MultipartRequest("POST", Uri.parse('$baseUrl/register-as-business'));
+      request.fields['name'] = businessName.text;
+      request.fields['email'] = businessEmail.text;
+      request.fields['phone_no'] = phoneNumber.value;
+      request.files.add(await http.MultipartFile.fromPath('profile_photo', selectedProfileImagePath.value));
+      request.files.add(await http.MultipartFile.fromPath('cover_photo', selectedCoverImagePath.value));
+      request.fields['description'] = description.text;
+      request.fields['business_type_id'] = '$selectedBusinessID';
+      request.fields['voucher_name'] = vName.text;
+      request.fields['code'] = vCode.text;
+      request.fields['voucher_expiry'] = format ;
+      request.fields['voucher_market_value'] = marketValue.text;
+      request.fields['voucher_terms'] = terms.text;
+      request.fields['voucher_is_static'] = '${groupValue.value}';
+      for(int i = 1; i < selectedServicesListId.length; i++){
+        request.fields['voucher_service_ids[$i]'] = '${selectedServicesListId[i]}';
+      }
+      request.fields['country_code'] = countryCode.value;
+
+      Map<String, String> headers = {
+        "content-type": "multipart/form-data",
+        'Accept': 'application/json',
+        "Authorization" : "Bearer $token"
+      };
+
+      isLoading.value = false;
+      request.headers.addAll(headers);
+      var response = await request.send();
+      var responseData = await response.stream.toBytes();
+      var responseString = String.fromCharCodes(responseData);
+      print(responseString);
+      Get.snackbar("Business registered successfully", "");
+      await _homeTabs.validateToken();
+      Get.back();
+    }catch (e) {
+      isLoading.value = false;
+      debugPrint(e.toString());
     }
-
-    Map<String, String> headers = {
-      "content-type": "multipart/form-data",
-      'Accept': 'application/json',
-      "Authorization" : "Bearer $token"
-    };
-
-    isLoading.value = false;
-    request.headers.addAll(headers);
-    var response = await request.send();
-    var responseData = await response.stream.toBytes();
-    var responseString = String.fromCharCodes(responseData);
-    print(responseString);
   }
 
   @override

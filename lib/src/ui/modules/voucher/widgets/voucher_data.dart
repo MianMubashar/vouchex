@@ -157,6 +157,7 @@ class VoucherData extends StatelessWidget {
                         onPressed: () {
                           Clipboard.setData(
                               ClipboardData(text: Get.arguments['tokenCode']));
+                          Get.snackbar("Text copied to clipboard", "",);
                         },
                         icon: const Icon(
                           Icons.copy,

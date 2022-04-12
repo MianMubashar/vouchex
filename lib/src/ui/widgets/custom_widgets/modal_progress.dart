@@ -16,6 +16,7 @@ class ModalProgress extends StatelessWidget {
         inAsyncCall: call,
         progressIndicator: const SpinKitThreeBounce(
           color: primaryColor,
+          size: 30,
         ),
         child: child,
       ),

@@ -20,7 +20,7 @@ class CreateVoucher extends StatelessWidget {
                   child: InkWell(
                     onTap: (){
                       var data = {
-                      "v_id" : 1
+                      "v_id" : 0
                     };
                       Get.toNamed('/CreateNewVoucher', arguments: data);
                       },

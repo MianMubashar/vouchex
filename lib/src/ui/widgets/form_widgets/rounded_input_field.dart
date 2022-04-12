@@ -40,50 +40,47 @@ class RoundedInputField extends StatelessWidget {
   }) : super(key:key);
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      child: FormBuilderTextField(
-        controller: textEditingController,
-        name: name ?? '',
-        onChanged: onChanged,
-        onSubmitted: onSubmitted,
-        validator: validator,
-        readOnly: readOnly,
-        obscureText: obscureText,
-        keyboardType: keyboardType,
-        textInputAction: textInputAction,
-        maxLines: maxLine,
-        decoration: InputDecoration(
-          prefixIcon: icon!= null
-              ? Icon(
-            icon,
-            color: primaryColor,
-            size: 30,
-          ): null,
-          suffixIcon: suffixIcon!= null ?
-              IconButton(
-                onPressed: suffixIconPressed,
-                icon: Icon(suffixIcon, color: Colors.black, size: 15,),
-              ) : null,
-          hintText: hintText,
-          labelText: labelText,
-          filled: true,
-          fillColor: fillColor,
-            border:  OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(26)),
-                borderSide: BorderSide(color: borderColor!, width: 1)
-            ),
-            enabledBorder:  OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(26)),
-                borderSide: BorderSide(color: borderColor!, width: 1)
-            ),
-            focusedBorder:  OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(26)),
-                borderSide: BorderSide(color: borderColor!, width: 1)
-            ),
-          labelStyle: const TextStyle(fontSize: 16, color: greyText, fontFamily: 'Nunito'),
-          hintStyle: const TextStyle(fontSize: 16, color: greyText, fontFamily: 'Nunito')
-        ),
+    return FormBuilderTextField(
+      controller: textEditingController,
+      name: name ?? '',
+      onChanged: onChanged,
+      onSubmitted: onSubmitted,
+      validator: validator,
+      readOnly: readOnly,
+      obscureText: obscureText,
+      keyboardType: keyboardType,
+      textInputAction: textInputAction,
+      maxLines: maxLine,
+      decoration: InputDecoration(
+        prefixIcon: icon!= null
+            ? Icon(
+          icon,
+          color: primaryColor,
+          size: 30,
+        ): null,
+        suffixIcon: suffixIcon!= null ?
+            IconButton(
+              onPressed: suffixIconPressed,
+              icon: Icon(suffixIcon, color: Colors.black, size: 15,),
+            ) : null,
+        hintText: hintText,
+        labelText: labelText,
+        filled: true,
+        fillColor: fillColor,
+          border:  OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(26)),
+              borderSide: BorderSide(color: borderColor!, width: 1)
+          ),
+          enabledBorder:  OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(26)),
+              borderSide: BorderSide(color: borderColor!, width: 1)
+          ),
+          focusedBorder:  OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(26)),
+              borderSide: BorderSide(color: borderColor!, width: 1)
+          ),
+        labelStyle: const TextStyle(fontSize: 16, color: greyText, fontFamily: 'Nunito'),
+        hintStyle: const TextStyle(fontSize: 16, color: greyText, fontFamily: 'Nunito')
       ),
     );
   }

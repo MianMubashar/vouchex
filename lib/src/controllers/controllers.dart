@@ -35,3 +35,4 @@ export 'vouchex_vouchers/vouchex_vouchers_controller.dart';
 
 export 'help_support/terms_controller.dart';
 export 'help_support/contact_us_controller.dart';
+export 'help_support/faq_controller.dart';

@@ -16,7 +16,11 @@ class EditBusinessController extends GetxController {
   var phoneNumber = ''.obs;
   var businessId = 0.obs;
   var loginDetails = GetStorage();
+  var countryCode = ''.obs;
 
+
+  var profileFromServer = ''.obs;
+  var coverFromServer = ''.obs;
   List<Business> getBusinessTypeList = [];
 
   TextEditingController description = TextEditingController();
@@ -38,12 +42,11 @@ class EditBusinessController extends GetxController {
   void onReady() {
     name.text = Get.arguments['name'];
     email.text = Get.arguments['email'];
-    phoneNumber.value = Get.arguments['phone'];
     description.text = Get.arguments['description'];
     selectedBusiness.value = Get.arguments['businessTypeName'];
     selectedBusinessID = Get.arguments['business_type_id'];
-    selectedProfileImagePath.value = Get.arguments['profilePhoto'];
-    selectedCoverImagePath.value = Get.arguments['coverPhoto'];
+    profileFromServer.value = Get.arguments['profilePhoto'];
+    coverFromServer.value = Get.arguments['coverPhoto'];
     getBusinessTypeList = Get.arguments['businessTypeList'];
     businessId.value = Get.arguments['business_id'];
     super.onReady();
@@ -59,10 +62,10 @@ class EditBusinessController extends GetxController {
       request.fields['phone_no'] = phoneNumber.value;
       request.fields['description'] = description.text;
       request.fields['business_type_id'] = '$selectedBusinessID';
-      request.fields['business_id'] = '$selectedBusinessID';
+      request.fields['business_id'] = '${businessId.value}';
       request.files.add(await http.MultipartFile.fromPath('profile_photo', selectedProfileImagePath.value));
       request.files.add(await http.MultipartFile.fromPath('cover_photo', selectedCoverImagePath.value));
-
+      request.fields['country_code'] = countryCode.value;
       Map<String, String> headers = {
         "content-type": "multipart/form-data",
         'Accept': 'application/json',
@@ -74,9 +77,17 @@ class EditBusinessController extends GetxController {
       var response = await request.send();
       var responseData = await response.stream.toBytes();
       var responseString = String.fromCharCodes(responseData);
+      Get.offAndToNamed('/Profile');
       print(responseString);
     } catch(e) {
       debugPrint(e.toString());
     }
+  }
+
+  @override
+  void onInit() {
+    phoneNumber.value = Get.arguments['phone'];
+    countryCode.value = Get.arguments['countryCode'];
+    super.onInit();
   }
 }

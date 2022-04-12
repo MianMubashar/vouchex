@@ -52,7 +52,7 @@ class ScanQRScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                              child: Container(
+                              child: /*Container(
                                 decoration: const BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.all(Radius.circular(7)),
@@ -62,19 +62,43 @@ class ScanQRScreen extends StatelessWidget {
                                   padding: const EdgeInsets.all(8.0),
                                   child: smallText(_qrController.code.value),
                                 ),
-                              )
+                              )*/
+                            TextField(
+                              controller: _qrController.qrResult,
+                              readOnly: true,
+                              keyboardType: TextInputType.text,
+                              decoration: const InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 4),
+                                  hintText: "Token",
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border:  OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(7)),
+                                      borderSide: BorderSide(color: secondaryColor, width: 1)
+                                  ),
+                                  enabledBorder:  OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(7)),
+                                      borderSide: BorderSide(color: secondaryColor, width: 1)
+                                  ),
+                                  focusedBorder:  OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(7)),
+                                      borderSide: BorderSide(color: secondaryColor, width: 1)
+                                  ),
+                                  labelStyle:TextStyle(fontSize: 16, color: greyText, fontFamily: 'Nunito'),
+                                  hintStyle: TextStyle(fontSize: 16, color: greyText, fontFamily: 'Nunito')
+                              ),
+                            )
                           ),
                           const SizedBox(width: 10,),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width/4,
-                            child: SmallButton(
-                              onPress: () {
+                          SmallButton(
+                            onPress: () {
+                              if(_qrController.qrResult.text.isNotEmpty) {
                                 _qrController.redeemVoucher();
-                              },
-                              title: 'Redeem',
-                              fontSize: 20,
-                              height: 40,
-                            ),
+                              }
+                            },
+                            title: 'Redeem',
+                            fontSize: 20,
+                            height: 40,
                           )
                         ],
                       ),

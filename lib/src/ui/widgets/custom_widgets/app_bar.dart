@@ -54,13 +54,10 @@ class CustomAppBar extends StatelessWidget {
               icon: Image.network('$profileImage'),
               onPressed: trailingIconPressed,
             ),*/
-          InkWell(
-            onTap: trailingIconPressed,
-            child: CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.white,
-              backgroundImage: NetworkImage('$profileImage'),
-            ),
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: Colors.white,
+            backgroundImage: NetworkImage('$profileImage'),
           )
         ],
       ),

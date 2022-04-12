@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:vouchex/src/ui/modules/help_support/faq.dart';
+
 
 class FAQs{
   bool status;
@@ -9,7 +9,7 @@ class FAQs{
   factory FAQs.fromJson(Map<String, dynamic> data){
     return FAQs(
         status: data['status'],
-        faqs: data['faqs'] != null ? List<FAQModel>.from(data['faqs'].map((x)=>FAQModel.fromJson(x))):null
+        faqs: data['faqs'] != null ? List<FAQModel>.from(data['faqs'].map((x)=>FAQModel.fromJson(x))): null
     );
   }
 }
@@ -46,9 +46,3 @@ class FAQModel {
     );
   }
 }
-
-// List<FAQModel> faqList = <FAQModel>[
-//   FAQModel(question: "What Is VExchange?", answer: "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content."),
-//   FAQModel(question: "Want to exchange voucher?", answer: "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content."),
-//   FAQModel(question: "Need Help in creating business page?", answer: "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content."),
-// ];

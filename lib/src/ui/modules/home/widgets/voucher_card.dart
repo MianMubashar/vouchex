@@ -25,7 +25,7 @@ class VoucherCard extends StatelessWidget {
           "terms" : model.termsConditions,
           "services" : model.service,
           "marketValue" : model.marketValue ?? '',
-          "tokenCode" : model.code ?? '',
+          "tokenCode" : model.uuId ?? '',
           "isFree" : model.isFree
         };
         Get.toNamed('/VoucherDetails', arguments: voucherData);

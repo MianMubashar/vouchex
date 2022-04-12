@@ -66,6 +66,7 @@ class MyBusinessDetails extends StatelessWidget {
                                   "name" : _businessDetailsController.name,
                                   "email" : _businessDetailsController.email,
                                   "phone" : _businessDetailsController.phone,
+                                  "countryCode" : _businessDetailsController.countryCode,
                                   "description" : _businessDetailsController.description,
                                   "business_type_id" : _businessDetailsController.businessTypeId,
                                   "businessTypeName" : _businessDetailsController.businessTypeName,
@@ -121,7 +122,7 @@ class MyBusinessDetails extends StatelessWidget {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
-                      SpinKitThreeBounce(color: primaryColor,),
+                      SpinKitThreeBounce(color: primaryColor, size: 30,),
                     ],
                   );
                 }

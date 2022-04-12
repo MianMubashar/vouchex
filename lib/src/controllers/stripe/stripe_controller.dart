@@ -13,18 +13,17 @@ class StripeController extends GetxController{
     try {
 
       paymentIntentData =
-      await createPaymentIntent(amount, 'USD'); //json.decode(response.body);
-      // print('Response body==>${response.body.toString()}');
+      await createPaymentIntent(amount, 'USD');
       await Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
               paymentIntentClientSecret: paymentIntentData!['client_secret'],
-              applePay: true,
-              googlePay: true,
+              applePay: false,
+              googlePay: false,
               testEnv: true,
               merchantCountryCode: 'US',
               merchantDisplayName: 'Vouchex')).then((value){
       });
-      ///now finally display payment sheeet
+      ///now finally display payment sheet
       displayPaymentSheet();
     } catch (e, s) {
       if (kDebugMode) {

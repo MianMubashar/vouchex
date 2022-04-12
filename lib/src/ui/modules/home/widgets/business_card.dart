@@ -24,8 +24,8 @@ class BusinessCard extends StatelessWidget {
             "businessType" : businessModel.businessTypeId.toString(),
             "number": businessModel.phoneNo,
             "description" : businessModel.description,
-            "circleImage": "https://vouchex.reverbsoft.com/public/${businessModel.profilePhotoPath}",
-            "coverPhoto" : "https://vouchex.reverbsoft.com/public/${businessModel.coverPhotoPath}",
+            "circleImage": "$networkImageBaseUrl${businessModel.profilePhotoPath}",
+            "coverPhoto" : "$networkImageBaseUrl${businessModel.coverPhotoPath}",
             "vouchersList" : businessModel.vouchers,
           };
           Get.toNamed('/BusinessDetails', arguments: businessData);
@@ -59,7 +59,7 @@ class BusinessCard extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   height: 72,
                   fit: BoxFit.cover,
-                  imageUrl: "https://vouchex.reverbsoft.com/public/${businessModel.coverPhotoPath}",
+                  imageUrl: "$networkImageBaseUrl${businessModel.coverPhotoPath}",
                   placeholder: (context, url) => const SpinKitPulse(color: primaryColor,),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
@@ -68,7 +68,7 @@ class BusinessCard extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 45,left: 10),
                 child: CircleAvatar(
                   radius: 25,
-                  backgroundImage: NetworkImage("https://vouchex.reverbsoft.com/public/${businessModel.profilePhotoPath}"),
+                  backgroundImage: NetworkImage("$networkImageBaseUrl${businessModel.profilePhotoPath}"),
                 ),
               ),
               Positioned.fill(

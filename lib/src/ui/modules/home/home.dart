@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/data/constants.dart';
@@ -18,15 +19,31 @@ class HomeScreen extends StatelessWidget {
           SafeArea(
             child: Column(
               children: [
-                ModalProgress(
-                  call: _homeTabs.isLoading.value,
-                  child: CustomAppBar(
-                    title: _homeTabs.userName.value != "" ? "Welcome ${_homeTabs.userName.value}" : "Register as Business for\nmore features",
-                    textAlign: TextAlign.start,
-                    showTrailingIcon: true,
-                    profileImage: "$networkImageBaseUrl${_homeTabs.profilePhotoPath.value}",
-                    trailingIconPressed: () {Get.toNamed('/Profile');},
-                  ),
+                FutureBuilder(
+                  future: _homeTabs.validateToken(),
+                  builder: (context, snapshot) {
+                    if(snapshot.connectionState == ConnectionState.done) {
+                      return InkWell(
+                        onTap: () {
+                          if(_homeTabs.userName.value == "") {
+                            Get.toNamed('/CreateBusiness');
+                          } else {
+                            Get.toNamed('/Profile');
+                          }
+                        },
+                        child: CustomAppBar(
+                          title: _homeTabs.userName.value != "" ? "Welcome ${_homeTabs.userName.value}" : "Register as Business for\nmore features",
+                          textAlign: TextAlign.start,
+                          showTrailingIcon: true,
+                          profileImage: _homeTabs.userName.value != "" ? "$networkImageBaseUrl${_homeTabs.profilePhotoPath.value}" : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                        ),
+                      );
+                    } else {
+                      return const Center(
+                        child: SpinKitThreeBounce(color: primaryColor, size: 25,),
+                      );
+                    }
+                  },
                 ),
                 const SizedBox(height: 5,),
                 Container(

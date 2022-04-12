@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/data/services/authentication.dart';
@@ -10,6 +11,7 @@ class UserProfileScreen extends StatelessWidget {
    UserProfileScreen({Key? key}) : super(key: key);
 
   final AuthService authService = AuthService();
+   final HomeTabs _homeTabs = Get.put(HomeTabs());
   @override
   Widget build(BuildContext context) {
     return Scaffold(

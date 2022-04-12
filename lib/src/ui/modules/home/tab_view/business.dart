@@ -22,16 +22,6 @@ class BusinessScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 15,),
-                  Padding(
-                    padding: const EdgeInsets.only(left:15, right: 15),
-                    child: RoundedInputField(
-                      textEditingController: search,
-                      hintText: "Search Businesses",
-                      icon: Icons.search,
-                      onSubmitted: (_) => FocusScope.of(context).unfocus(),
-                    ),
-                  ),
-                  const SizedBox(height: 15,),
                   Expanded(
                     child: SmartRefresher(
                       controller: _businessesController.refreshController,
@@ -40,24 +30,22 @@ class BusinessScreen extends StatelessWidget {
                         final result = await _businessesController.getBusinessesData(isRefresh: true);
                         if (result) {
                           _businessesController.refreshController.refreshCompleted();
-                        } else {
-                          _businessesController.refreshController.refreshFailed();
                         }
                       },
                       onLoading: () async {
                         final result = await _businessesController.getBusinessesData();
                         if (result) {
                           _businessesController.refreshController.loadComplete();
-                        } else {
-                          _businessesController.refreshController.loadFailed();
                         }
                       },
-                      child: ListView.builder(
+                      child:  _businessesController.businessesList.isNotEmpty ? ListView.builder(
                         itemCount: _businessesController.businessesList.length,
                         itemBuilder: (context, index) {
                           return BusinessCard(businessModel: _businessesController.businessesList[index]);
                         },
-                      ),
+                      ) : Center(
+                        child: smallText(_businessesController.noData.value),
+                      )
                     ),
                   ),
                 ],

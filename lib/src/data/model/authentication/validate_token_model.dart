@@ -65,7 +65,7 @@ class ValidateUser {
     countryCode: json["country_code"],
     businessId: json["business_id"],
     profilePhotoUrl: json["profile_photo_url"],
-    business: ValidateBusiness.fromJson(json["business"]),
+    business: json['business'] != null ? ValidateBusiness.fromJson(json['business']) : null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -96,6 +96,7 @@ class ValidateBusiness {
     this.updatedAt,
     this.email,
     this.phoneNo,
+    this.countryCode,
     this.businessType,
   });
 
@@ -109,6 +110,7 @@ class ValidateBusiness {
   DateTime? updatedAt;
   String? email;
   String? phoneNo;
+  String? countryCode;
   ValidateBusinessType? businessType;
 
   factory ValidateBusiness.fromJson(Map<String, dynamic> json) => ValidateBusiness(
@@ -122,6 +124,7 @@ class ValidateBusiness {
     updatedAt: DateTime.parse(json["updated_at"]),
     email: json["email"],
     phoneNo: json["phone_no"],
+    countryCode : json["country_code"],
     businessType: ValidateBusinessType.fromJson(json["business_type"]),
   );
 
@@ -136,6 +139,7 @@ class ValidateBusiness {
     "updated_at": updatedAt!.toIso8601String(),
     "email": email,
     "phone_no": phoneNo,
+    "country_code" : countryCode,
     "business_type": businessType!.toJson(),
   };
 }

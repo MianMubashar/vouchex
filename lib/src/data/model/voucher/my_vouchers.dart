@@ -96,42 +96,42 @@ class Vouchers {
 
 class MyVouchersData {
   MyVouchersData({
-    required this.id,
-    required this.uuId,
-    required this.name,
-    required this.code,
-    required this.isFree,
-    required this.marketValue,
-    required this.termsConditions,
-    required this.isStatic,
-    required this.expiry,
-    required this.userId,
-    required this.isRedeemed,
-    required this.isSwapped,
-    required this.isVouchex,
-    required this.profilePhotoPath,
-    required this.coverPhotoPath,
-    required this.createdAt,
-    required this.service,
+     this.id,
+     this.uuId,
+     this.name,
+     this.code,
+     this.isFree,
+     this.marketValue,
+     this.termsConditions,
+     this.isStatic,
+     this.expiry,
+     this.userId,
+     this.isRedeemed,
+     this.isSwapped,
+     this.isVouchex,
+     this.profilePhotoPath,
+     this.coverPhotoPath,
+     this.createdAt,
+     this.service,
   });
 
-  int id;
-  String uuId;
-  String name;
-  String code;
-  int isFree;
-  String marketValue;
-  String termsConditions;
-  String isStatic;
-  DateTime expiry;
-  int userId;
-  String isRedeemed;
-  String isSwapped;
-  String isVouchex;
-  String profilePhotoPath;
-  String coverPhotoPath;
-  DateTime createdAt;
-  List<SelectedServices> service;
+  int? id;
+  String? uuId;
+  String? name;
+  String? code;
+  int? isFree;
+  String? marketValue;
+  String? termsConditions;
+  String? isStatic;
+  DateTime? expiry;
+  int? userId;
+  String? isRedeemed;
+  String? isSwapped;
+  String? isVouchex;
+  String? profilePhotoPath;
+  String? coverPhotoPath;
+  DateTime? createdAt;
+  List<SelectedServices>? service;
 
   factory MyVouchersData.fromJson(Map<String, dynamic> json) => MyVouchersData(
     id: json["id"],
@@ -150,7 +150,7 @@ class MyVouchersData {
     profilePhotoPath: json["profile_photo_path"],
     coverPhotoPath: json["cover_photo_path"],
     createdAt: DateTime.parse(json["created_at"]),
-    service: List<SelectedServices>.from(json["service"].map((x) => SelectedServices.fromJson(x))),
+    service: json["service"] != null ? List<SelectedServices>.from(json["service"].map((x) => SelectedServices.fromJson(x))) : null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -162,15 +162,15 @@ class MyVouchersData {
     "market_value": marketValue,
     "terms_conditions": termsConditions,
     "is_static": isStatic,
-    "expiry": "${expiry.year.toString().padLeft(4, '0')}-${expiry.month.toString().padLeft(2, '0')}-${expiry.day.toString().padLeft(2, '0')}",
+    "expiry": "${expiry!.year.toString().padLeft(4, '0')}-${expiry!.month.toString().padLeft(2, '0')}-${expiry!.day.toString().padLeft(2, '0')}",
     "user_id": userId,
     "is_redeemed": isRedeemed,
     "is_swapped": isSwapped,
     "is_vouchex": isVouchex,
     "profile_photo_path": profilePhotoPath,
     "cover_photo_path": coverPhotoPath,
-    "created_at": createdAt.toIso8601String(),
-    "service": List<dynamic>.from(service.map((x) => x.toJson())),
+    "created_at": createdAt!.toIso8601String(),
+    "service": List<dynamic>.from(service!.map((x) => x.toJson())),
   };
 }
 

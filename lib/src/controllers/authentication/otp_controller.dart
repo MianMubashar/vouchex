@@ -84,7 +84,7 @@ class OtpController extends GetxController{
         _helperFunctions.saveUserToken(loginResponse.token);
         _helperFunctions.saveUserId(loginResponse.user!.id!);
 
-        storageList['name'] = loginResponse.user!.business!.name!;
+        /*storageList['name'] = loginResponse.user!.business!.name!;
         storageList['email'] = loginResponse.user!.business!.email;
         storageList['phone_no'] = loginResponse.user!.business!.phoneNo;
         storageList['description'] = loginResponse.user!.business!.description;
@@ -94,7 +94,7 @@ class OtpController extends GetxController{
         storageList['profile_photo'] = loginResponse.user!.business!.profilePhotoPath;
         storageList['cover_photo'] = loginResponse.user!.business!.coverPhotoPath;
 
-        loginDetails.write('businessData', storageList);
+        loginDetails.write('businessData', storageList);*/
 
         return [loginResponse.status, loginResponse.token, loginResponse.message, loginResponse.user, ""];
       } else if(loginResponse.status == false){

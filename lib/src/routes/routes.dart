@@ -62,7 +62,8 @@ List<GetPage<dynamic>> routes = [
   ),
   GetPage(
       name: '/FAQ',
-      page: () => FAQ()
+      page: () => FAQ(),
+    binding: FAQBinding()
   ),
   GetPage(
     name: '/Terms',

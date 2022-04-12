@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
@@ -39,14 +41,11 @@ class EditBusiness extends StatelessWidget {
                             child: InkWell(
                               onTap: (){_businessController.getCoverImage(ImageSource.gallery);},
                               child: _businessController.selectedCoverImagePath.value == '' ?
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.add_circle_outline, color: Colors.black,),
-                                  const SizedBox(width: 5,),
-                                  titleText('Update your cover', size: 15)
-                                ],
-                              ) :
+                              CachedNetworkImage(
+                                imageUrl: _businessController.coverFromServer.value,
+                                placeholder: (context, url) => const SpinKitPulse(color: primaryColor, size: 25,),
+                                fit: BoxFit.cover,
+                              ):
                               Image.file(File(_businessController.selectedCoverImagePath.value), fit: BoxFit.fill,),
                             ),
                           ),
@@ -71,7 +70,11 @@ class EditBusiness extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      child: const Icon(Icons.camera_alt_outlined, color: Colors.black, size: 30,),
+                                      child: CircleAvatar(
+                                          radius: 35,
+                                          backgroundColor: Colors.blue,
+                                          backgroundImage: NetworkImage(_businessController.profileFromServer.value)
+                                      )
                                     ) :
                                     CircleAvatar(
                                         radius: 35,
@@ -104,14 +107,16 @@ class EditBusiness extends StatelessWidget {
                                 textEditingController: _businessController.name,
                                 keyboardType: TextInputType.text,
                               ),
+                              const SizedBox(height: 10,),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 8),
                                 child: smallText('Email', size: 18),
                               ),
                               VoucherFields(
-                                textEditingController: _businessController.description,
+                                textEditingController: _businessController.email,
                                 keyboardType: TextInputType.emailAddress,
                               ),
+                              const SizedBox(height: 10,),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 8),
                                 child: smallText('Select Business Type', size: 18),
@@ -158,6 +163,8 @@ class EditBusiness extends StatelessWidget {
                                 child: smallText('Enter Your Phone Number', size: 18),
                               ),
                               IntlPhoneField(
+                                initialCountryCode: 'US',
+                                initialValue: _businessController.phoneNumber.value,
                                 decoration: const InputDecoration(
                                   filled: true,
                                   fillColor: whiteText,
@@ -176,13 +183,14 @@ class EditBusiness extends StatelessWidget {
                                       borderSide: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.1), width: 1)
                                   ),
                                 ),
-                                initialCountryCode: 'PK',
                                 flagsButtonPadding: const EdgeInsets.only(left: 10),
                                 dropdownIcon: const Icon(Icons.arrow_drop_down, color: primaryColor,),
                                 cursorColor: primaryColor,
                                 dropdownIconPosition: IconPosition.trailing,
                                 onChanged: (phone) {
-                                  _businessController.phoneNumber.value = phone.completeNumber.toString();
+                                  _businessController.phoneNumber.value = phone.number;
+                                  _businessController.countryCode.value = phone.countryISOCode;
+                                  print(_businessController.countryCode.value);
                                 },
                               ),
                               const SizedBox(height: 10,),
