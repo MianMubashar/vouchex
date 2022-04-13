@@ -12,9 +12,11 @@ class MyVoucherCard extends StatelessWidget {
    MyVoucherCard({
     Key? key,
     required this.model,
+     required this.fromScreen
   }) : super(key: key);
 
   final MyVouchersData model;
+  final String fromScreen;
   final MyVoucherController _myVoucherController = Get.put(MyVoucherController());
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,7 @@ class MyVoucherCard extends StatelessWidget {
                       child: titleText(model.name!, size: 18)),
                 ),
               ),
-                Positioned.fill(
+              fromScreen == 'voucherList'? Container() : Positioned.fill(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20, top: 120),
                     child: Align(

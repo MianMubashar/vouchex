@@ -116,7 +116,7 @@ class PEData {
   DateTime? updatedAt;
   String? isRedeemed;
   Requester? requester;
-  dynamic requesteeVoucher;
+  RequesteeVoucher? requesteeVoucher;
   RequesterVoucher? requesterVoucher;
 
   factory PEData.fromJson(Map<String, dynamic> json) => PEData(
@@ -130,7 +130,7 @@ class PEData {
     updatedAt: DateTime.parse(json["updated_at"]),
     isRedeemed: json["is_redeemed"],
     requester: json["requester"] != null ? Requester.fromJson(json["requester"]) : null,
-    requesteeVoucher: json["requestee_voucher"],
+    requesteeVoucher: RequesteeVoucher.fromJson(json['requestee_voucher']),
     requesterVoucher: RequesterVoucher.fromJson(json["requester_voucher"]),
   );
 
@@ -248,6 +248,89 @@ class RequesterVoucher {
   DateTime? deletedAt;
 
   factory RequesterVoucher.fromJson(Map<String, dynamic> json) => RequesterVoucher(
+    id: json["id"],
+    uuId: json["uu_id"],
+    name: json["name"],
+    code: json["code"],
+    isFree: json["is_free"],
+    marketValue: json["market_value"],
+    termsConditions: json["terms_conditions"],
+    isStatic: json["is_static"],
+    expiry: DateTime.parse(json["expiry"]),
+    userId: json["user_id"],
+    isRedeemed: json["is_redeemed"],
+    isSwapped: json["is_swapped"],
+    isVouchex: json["is_vouchex"],
+    profilePhotoPath: json["profile_photo_path"],
+    coverPhotoPath: json["cover_photo_path"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    deletedAt: json["deleted_at"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "uu_id": uuId,
+    "name": name,
+    "code": code,
+    "is_free": isFree,
+    "market_value": marketValue,
+    "terms_conditions": termsConditions,
+    "is_static": isStatic,
+    "expiry": "${expiry!.year.toString().padLeft(4, '0')}-${expiry!.month.toString().padLeft(2, '0')}-${expiry!.day.toString().padLeft(2, '0')}",
+    "user_id": userId,
+    "is_redeemed": isRedeemed,
+    "is_swapped": isSwapped,
+    "is_vouchex": isVouchex,
+    "profile_photo_path": profilePhotoPath,
+    "cover_photo_path": coverPhotoPath,
+    "created_at": createdAt!.toIso8601String(),
+    "updated_at": updatedAt!.toIso8601String(),
+    "deleted_at": deletedAt,
+  };
+}
+class RequesteeVoucher {
+  RequesteeVoucher({
+    this.id,
+    this.uuId,
+    this.name,
+    this.code,
+    this.isFree,
+    this.marketValue,
+    this.termsConditions,
+    this.isStatic,
+    this.expiry,
+    this.userId,
+    this.isRedeemed,
+    this.isSwapped,
+    this.isVouchex,
+    this.profilePhotoPath,
+    this.coverPhotoPath,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+  });
+
+  int? id;
+  String? uuId;
+  String? name;
+  String? code;
+  int? isFree;
+  String? marketValue;
+  String? termsConditions;
+  String? isStatic;
+  DateTime? expiry;
+  int? userId;
+  String? isRedeemed;
+  String? isSwapped;
+  String? isVouchex;
+  String? profilePhotoPath;
+  String? coverPhotoPath;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  DateTime? deletedAt;
+
+  factory RequesteeVoucher.fromJson(Map<String, dynamic> json) => RequesteeVoucher(
     id: json["id"],
     uuId: json["uu_id"],
     name: json["name"],

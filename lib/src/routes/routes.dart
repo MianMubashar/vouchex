@@ -1,6 +1,9 @@
 import 'package:get/get.dart';
 import 'package:vouchex/src/bindings/bindings.dart';
 import 'package:vouchex/src/ui/modules/modules.dart';
+import 'package:vouchex/src/ui/modules/my_vouchers/modules.dart';
+
+import '../ui/modules/voucher/vouchers_list.dart';
 
 
 List<GetPage<dynamic>> routes = [
@@ -45,6 +48,10 @@ List<GetPage<dynamic>> routes = [
     name: '/MyVouchers',
     page: () => MyVouchersScreen(),
     binding: MyVouchersTabViewBinding()
+  ),
+  GetPage(
+      name: '/myVoucherList',
+      page:()=> VoucherList()
   ),
   GetPage(
     name: '/CreateNewVoucher',

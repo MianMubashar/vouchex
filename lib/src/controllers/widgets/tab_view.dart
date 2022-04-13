@@ -5,6 +5,8 @@ import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/data/services/services.dart';
 
+import '../../data/model/authentication/validate_token_model.dart';
+
 class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
 
   late TabController controller;

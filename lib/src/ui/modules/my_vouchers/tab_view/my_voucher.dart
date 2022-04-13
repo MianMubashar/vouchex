@@ -44,7 +44,7 @@ class MyVoucher extends StatelessWidget {
                         child: ListView.builder(
                           itemCount: _myVoucherController.myVouchersList.length,
                           itemBuilder: (context, index) {
-                            return MyVoucherCard(model: _myVoucherController.myVouchersList[index]);
+                            return MyVoucherCard(model: _myVoucherController.myVouchersList[index],fromScreen: 'myVouchers',);
                           },
                         ),
                       ),

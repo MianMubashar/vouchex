@@ -12,9 +12,13 @@ class VoucherData extends StatelessWidget {
   //final VoucherDataController _data = Get.put(VoucherDataController());
 
   var list = <AllVoucherServices>[];
+  int? userId;
+  int? voucherId;
   @override
   Widget build(BuildContext context) {
     list = Get.arguments['services'];
+    userId=Get.arguments['userId'];
+    voucherId=Get.arguments['voucherId'];
     return Column(
       children: [
         Padding(
@@ -176,11 +180,17 @@ class VoucherData extends StatelessWidget {
                   ? RoundedRectangleButton(
                       onPress: () {
                         Get.back();
-                        ImageDialog(
-                                title:
-                                    'Your Voucher has been Successfully exchange',
-                                imageUrl: 'assets/images/congrats_img.png')
-                            .show(context);
+
+                        var voucherData = {
+                          'userId':userId,
+                          'voucherId':voucherId,
+                        };
+                        Get.toNamed('/myVoucherList',arguments: voucherData);
+                        // ImageDialog(
+                        //         title:
+                        //             'Your Voucher has been Successfully exchange',
+                        //         imageUrl: 'assets/images/congrats_img.png')
+                        //     .show(context);
                       },
                       title: "Exchange Request",
                     )

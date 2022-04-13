@@ -26,7 +26,9 @@ class VoucherCard extends StatelessWidget {
           "services" : model.service,
           "marketValue" : model.marketValue ?? '',
           "tokenCode" : model.uuId ?? '',
-          "isFree" : model.isFree
+          "isFree" : model.isFree,
+          'userId':model.userId,
+          'voucherId': model.id
         };
         Get.toNamed('/VoucherDetails', arguments: voucherData);
       },
@@ -171,12 +173,12 @@ class PendingRequestCard extends StatelessWidget {
                           child: titleText(model.requesterVoucher!.name!, size: 18)),
                     ),
                   ),
-                  Positioned.fill(
+                  model.requesterVoucher!.code == null ? Container(): Positioned.fill(
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 20, right: 20),
                       child: Align(
                         alignment: Alignment.bottomRight,
-                        child: titleText("#"+model.requesterVoucher!.code!, size: 18),
+                        child: titleText("#"+model.requesterVoucher!.code! , size: 18),
                       ),
                     ),
                   ),
@@ -190,8 +192,8 @@ class PendingRequestCard extends StatelessWidget {
                   //'we need mockups design for our brand.Adidas want to exchange voucher with design services. we need mockups design for our brand.',
                       profileImage: "$networkImageBaseUrl${model.requesterVoucher!.profilePhotoPath}",
                       bgImage: "$networkImageBaseUrl${model.requesterVoucher!.coverPhotoPath}",
-                      vTitle: model.requesterVoucher!.name!,
-                      code: "#"+model.requesterVoucher!.code!,
+                      vTitle: model.requesterVoucher!.name==null ? '':model.requesterVoucher!.name!,
+                      code: model.requesterVoucher!.code==null ? '':"#"+model.requesterVoucher!.code! ,
                       cancelPressed: (){
                         Get.back();
                         Get.snackbar("Decline", "You have decline exchange request", colorText: primaryColor, icon: const Icon(Icons.cancel, color: primaryColor,),backgroundColor: Colors.white);

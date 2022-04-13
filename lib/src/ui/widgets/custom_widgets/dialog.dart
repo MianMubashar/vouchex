@@ -79,7 +79,7 @@ class AppDialog {
             ),
             const SizedBox(height: 30,),
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
+              padding: const EdgeInsets.only(left: 5, right: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -89,78 +89,77 @@ class AppDialog {
               ),
             ),
             const SizedBox(height: 5,),
-            Row(
-              children: [
-                Stack(
-                  children: [
-                    Image.asset("assets/images/voucher_card.png", width: 170,),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 9),
-                      child: CachedNetworkImage(
-                        width: 155,
-                        imageUrl: bgImage,
-                        errorWidget: (context, url, error) => const Icon(Icons.error, size: 10,),
+            Container(
+              margin: EdgeInsets.only(left: 10,right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Stack(
+
+                    children: [
+                      Image.asset("assets/images/voucher_card.png", width: 140),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15, right: 0),
+                        child: CachedNetworkImage(
+                          width: 155,
+                          imageUrl: bgImage,
+                          errorWidget: (context, url, error) => const Icon(Icons.error, size: 10,),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15,left: 10),
-                      child: CircleAvatar(
-                        radius: 10,
-                        backgroundColor: Colors.blue,
-                        foregroundImage: NetworkImage(profileImage),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15,left: 10),
+                        child: CircleAvatar(
+                          radius: 10,
+                          backgroundColor: Colors.blue,
+                          foregroundImage: NetworkImage(profileImage),
+                        ),
                       ),
-                    ),
-                    Positioned.fill(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 15),
+                      Positioned(
+                        top: MediaQuery.of(context).size.height * 0.05,
                         child: Align(
                             alignment: Alignment.centerLeft,
                             child: titleText(vTitle, size: 8)),
                       ),
-                    ),
-                    Positioned.fill(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10, right: 20),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.25,
+                        top: MediaQuery.of(context).size.height * 0.07,
                         child: Align(
                           alignment: Alignment.bottomRight,
                           child: titleText(code, size: 8),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const Icon(Icons.compare_arrows, color: Colors.black, size: 15,),
-                Stack(
-                  children: [
-                    Image.asset("assets/images/voucher_card.png", width: 170,),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 9),
-                      child: Image.asset("assets/images/north9.png", width: 155,),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20,left: 20),
-                      child: Image.asset("assets/images/profile_img_1.png", width: 20, height: 20,),
-                    ),
-                    Positioned.fill(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20, top: 15),
+                    ],
+                  ),
+                   Icon(Icons.compare_arrows, color: Colors.black, size: 15,),
+                  Stack(
+                    children: [
+                      Image.asset("assets/images/voucher_card.png", width: 120,),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(left: 10, right: 9),
+                      //   child: Image.asset("assets/images/north9.png", width: 140,),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20,left: 20),
+                        child: Image.asset("assets/images/profile_img_1.png", width: 10, height: 20,),
+                      ),
+                      Positioned(
+                        top: MediaQuery.of(context).size.height * 0.05,
                         child: Align(
                             alignment: Alignment.centerLeft,
                             child: titleText("Up to 10% off on per\nProduct", size: 8)),
                       ),
-                    ),
-                    Positioned.fill(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10, right: 20),
+                      Positioned(
+                        left: MediaQuery.of(context).size.width * 0.25,
+                        top: MediaQuery.of(context).size.height * 0.07,
                         child: Align(
                           alignment: Alignment.bottomRight,
                           child: titleText(code, size: 8),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 5,),
             Row(
