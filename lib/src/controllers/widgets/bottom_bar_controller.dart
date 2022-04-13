@@ -29,5 +29,6 @@ class BottomBarController extends GetxController {
   void dispose() {
     super.dispose();
     selectedPage.close();
+    tabController.dispose();
   }
 }

@@ -36,7 +36,7 @@ class MyVoucherCard extends StatelessWidget {
             children: [
               Image.asset("assets/images/voucher_card.png",),
               CachedNetworkImage(
-                imageUrl: "https://vouchex.reverbsoft.com/public/${model.coverPhotoPath}",
+                imageUrl: "$networkImageBaseUrl${model.coverPhotoPath}",
                 placeholder: (context, url) => const SpinKitPulse(color: primaryColor, size: 25,),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
@@ -48,7 +48,7 @@ class MyVoucherCard extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 25,
                       backgroundColor: Colors.blue,
-                      foregroundImage: NetworkImage("https://vouchex.reverbsoft.com/public/${model.profilePhotoPath}",),
+                      foregroundImage: NetworkImage("$networkImageBaseUrl${model.profilePhotoPath}",),
                     ),
                   ),
                 ),

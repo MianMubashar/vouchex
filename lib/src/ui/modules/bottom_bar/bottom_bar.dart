@@ -57,51 +57,53 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PersistentTabView(
-        context,
-        screens: _buildScreens(),
-        items: _navBarsItems(),
-        onItemSelected: (index) {
-          _bottomBarController.selectedPage(index);
-        },
-        controller: _bottomBarController.tabController,
-        confineInSafeArea: true,
-        backgroundColor: Colors.white,
-        handleAndroidBackButtonPress: true,
-        resizeToAvoidBottomInset: true,
-        stateManagement: true,
-        navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0 ? 0.0 : kBottomNavigationBarHeight,
-        hideNavigationBarWhenKeyboardShows: true,
-        margin: const EdgeInsets.all(0.0),
-        popActionScreens: PopActionScreensType.all,
-        bottomScreenMargin: 0.0,
-        hideNavigationBar: false,
-        decoration: const NavBarDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 10,
-              offset: Offset(3, 3), // Shadow position
+    return SafeArea(
+      child: Scaffold(
+        bottomNavigationBar: PersistentTabView(
+          context,
+          screens: _buildScreens(),
+          items: _navBarsItems(),
+          onItemSelected: (index) {
+            _bottomBarController.selectedPage(index);
+          },
+          controller: _bottomBarController.tabController,
+          confineInSafeArea: true,
+          backgroundColor: Colors.white,
+          handleAndroidBackButtonPress: true,
+          resizeToAvoidBottomInset: true,
+          stateManagement: true,
+          navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0 ? 0.0 : kBottomNavigationBarHeight,
+          hideNavigationBarWhenKeyboardShows: true,
+          margin: const EdgeInsets.all(0.0),
+          popActionScreens: PopActionScreensType.all,
+          bottomScreenMargin: 0.0,
+          hideNavigationBar: false,
+          decoration: const NavBarDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 10,
+                offset: Offset(3, 3), // Shadow position
+              ),
+            ],
+            colorBehindNavBar: Colors.white,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(16),
+              topLeft: Radius.circular(16)
             ),
-          ],
-          colorBehindNavBar: Colors.white,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(16),
-            topLeft: Radius.circular(16)
           ),
+          popAllScreensOnTapOfSelectedTab: true,
+          itemAnimationProperties: const ItemAnimationProperties(
+            duration: Duration(milliseconds: 400),
+            curve: Curves.ease,
+          ),
+          screenTransitionAnimation: const ScreenTransitionAnimation(
+            animateTabTransition: true,
+            curve: Curves.ease,
+            duration: Duration(milliseconds: 200),
+          ),
+          navBarStyle: NavBarStyle.style6,
         ),
-        popAllScreensOnTapOfSelectedTab: true,
-        itemAnimationProperties: const ItemAnimationProperties(
-          duration: Duration(milliseconds: 400),
-          curve: Curves.ease,
-        ),
-        screenTransitionAnimation: const ScreenTransitionAnimation(
-          animateTabTransition: true,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
-        ),
-        navBarStyle: NavBarStyle.style6,
       ),
     );
   }

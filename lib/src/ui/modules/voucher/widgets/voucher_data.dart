@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
-import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
@@ -11,14 +10,14 @@ class VoucherData extends StatelessWidget {
 
   //final VoucherDataController _data = Get.put(VoucherDataController());
 
-  var list = <AllVoucherServices>[];
+ // var list = <AllVoucherServices>[];
   int? userId;
   int? voucherId;
   @override
   Widget build(BuildContext context) {
-    list = Get.arguments['services'];
-    userId=Get.arguments['userId'];
-    voucherId=Get.arguments['voucherId'];
+    //list = Get.arguments['services'];
+    userId = Get.arguments['userId'];
+    voucherId = Get.arguments['voucherId'];
     return Column(
       children: [
         Padding(
@@ -91,7 +90,7 @@ class VoucherData extends StatelessWidget {
               const SizedBox(
                 height: 4,
               ),
-              ListView.builder(
+              /*ListView.builder(
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
                   scrollDirection: Axis.vertical,
@@ -115,7 +114,7 @@ class VoucherData extends StatelessWidget {
                         ),
                       ],
                     );
-                  }),
+                  }),*/
               const SizedBox(
                 height: 15,
               ),
@@ -127,11 +126,12 @@ class VoucherData extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              titleText("Token Code", size: 20),
+              Get.arguments['fromWhere'] == "vouchers" ?
+              titleText("Token Code", size: 20) : const SizedBox(),
               const SizedBox(
                 height: 4,
               ),
-              Row(
+              Get.arguments['fromWhere'] == "vouchers" ? Row(
                 children: [
                   Stack(
                     children: [
@@ -142,7 +142,7 @@ class VoucherData extends StatelessWidget {
                       Positioned.fill(
                         child: Align(
                             alignment: Alignment.center,
-                            child: smallText(Get.arguments['tokenCode'], size: 14)),
+                            child: smallText(Get.arguments['tokenCode'], size: 14, overflow: TextOverflow.ellipsis)),
                       ),
                     ],
                   ),
@@ -172,25 +172,19 @@ class VoucherData extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
+              ) : const SizedBox(),
               const SizedBox(
                 height: 15,
               ),
-              Get.arguments['isFree'] == 0
+              Get.arguments['isFree'] == 0 && Get.arguments['fromWhere'] == "vouchers"
                   ? RoundedRectangleButton(
                       onPress: () {
                         Get.back();
-
                         var voucherData = {
-                          'userId':userId,
-                          'voucherId':voucherId,
+                          'userId': userId,
+                          'voucherId': voucherId,
                         };
                         Get.toNamed('/myVoucherList',arguments: voucherData);
-                        // ImageDialog(
-                        //         title:
-                        //             'Your Voucher has been Successfully exchange',
-                        //         imageUrl: 'assets/images/congrats_img.png')
-                        //     .show(context);
                       },
                       title: "Exchange Request",
                     )

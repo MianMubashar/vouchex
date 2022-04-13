@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -36,35 +35,40 @@ class RequestVoucherExchangeController extends GetxController{
    var body=jsonEncode(bodyData);
    var response=await http.post(url,headers: header,body: body);
    if(response.statusCode == 200 && response.body.isNotEmpty){
-     Map<String, dynamic> apiResponse=jsonDecode(response.body);
-     bool status=apiResponse['status'];
+     Map<String, dynamic> apiResponse = jsonDecode(response.body);
+     bool status = apiResponse['status'];
      if(status){
        isLoading.value=false;
        //Get.snackbar("", "${apiResponse['message']}", colorText: blackText, icon: const Icon(Icons.verified_outlined, color: Colors.black,),backgroundColor: Colors.white);
        Get.back();
        ImageDialog(
-               title:
-                   '${apiResponse['message']}',
+               title: '${apiResponse['message']}',
                imageUrl: 'assets/images/congrats_img.png')
            .show(context);
-       print('message is ${apiResponse['message']}');
+       if (kDebugMode) {
+         print('message is ${apiResponse['message']}');
+       }
        //Get.back();
      }else{
        isLoading.value=false;
-       Get.snackbar("", "${apiResponse['message']}", colorText: blackText, icon: const Icon(Icons.verified_outlined, color: Colors.black,),backgroundColor: Colors.white);
-       print('message is ${apiResponse['message']}');
+       Get.snackbar("${apiResponse['message']}", "", colorText: blackText, icon: const Icon(Icons.verified_outlined, color: Colors.black,),backgroundColor: Colors.white);
+       if (kDebugMode) {
+         print('message is ${apiResponse['message']}');
+       }
      }
    }else{
      isLoading.value=false;
-     print('error from request voucher exchange');
+     if (kDebugMode) {
+       print('error from request voucher exchange');
+     }
 
    }
     }catch(e){
       isLoading.value=false;
-      print('try catch error from request voucher exchange controller ${e}');
+      if (kDebugMode) {
+        print('try catch error from request voucher exchange controller $e');
+      }
 
     }
-
-
   }
 }

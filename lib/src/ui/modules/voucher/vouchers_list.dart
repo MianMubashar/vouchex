@@ -12,9 +12,9 @@ class VoucherList extends StatelessWidget {
   VoucherList({Key? key}) : super(key: key);
 
   final MyVoucherController _myVoucherController = Get.put(MyVoucherController());
-  final RequestVoucherExchangeController _requestVoucherExchangeController=Get.put(RequestVoucherExchangeController());
-  int? userId=Get.arguments['userId'];
-  int? voucherId=Get.arguments['voucherId'];
+  final RequestVoucherExchangeController _requestVoucherExchangeController = Get.put(RequestVoucherExchangeController());
+  int? userId = Get.arguments['userId'];
+  int? voucherId = Get.arguments['voucherId'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +69,7 @@ class VoucherList extends StatelessWidget {
                                               voucherId);
                                         // Get.back(closeOverlays: true);
                                         },
-                                          child: MyVoucherCard(model: _myVoucherController.myVouchersList[index],fromScreen: 'voucherList',));
+                                          child: MyVoucherCard(model: _myVoucherController.myVouchersList[index], fromScreen: 'voucherList',));
                                     },
                                   ),
                                 ),

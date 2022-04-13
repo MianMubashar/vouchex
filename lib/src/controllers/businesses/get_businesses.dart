@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/services/services.dart';
 import '../../data/model/models.dart';
@@ -52,10 +53,45 @@ class GetBusinessesController extends GetxController{
     }
   }
 
+
+  /*static const _pageSize = 15;
+
+  final PagingController<int, Datum> pagingController = PagingController(firstPageKey: 0);
+
+  Future<void> fetchPage(int pageKey) async {
+    try {
+      var token = loginDetails.read("token");
+      debugPrint("This is token $token");
+      isLoading.value == true;
+      var response = await GetDataFromAPI.fetchData(
+          "$baseUrl/get-businesses", token);
+      if (response != null) {
+        final result = getBusinessesModelFromJson(response);
+        if (result.businesses!.data!.isEmpty) {
+          noData.value = 'No request';
+        }
+        businessesList.value = result.businesses!.data!;
+        final isLastPage = businessesList.length <= _pageSize;
+
+        if (isLastPage) {
+          pagingController.appendLastPage(businessesList);
+        } else {
+          final nextPageKey = pageKey + businessesList.length;
+          pagingController.appendPage(businessesList, nextPageKey);
+        }
+      }
+    } catch (e) {
+      pagingController.error = e;
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
   @override
   void onInit() {
-
+    pagingController.addPageRequestListener((pageKey) {
+      fetchPage(pageKey);
+    });
     super.onInit();
-  }
-
+  }*/
 }

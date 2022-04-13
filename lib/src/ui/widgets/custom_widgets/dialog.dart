@@ -5,26 +5,36 @@ import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/ui/widgets/custom_widgets/text_widgets.dart';
 
 class AppDialog {
-  final String title;
   final String? oKText, cancelText;
   final void Function()? oKPressed, cancelPressed;
   final bool? showCancelButton, showOkButton;
-  final String profileImage;
-  final String bgImage;
-  final String vTitle;
-  final String code;
+  final int exchangeRequestId;
+  final String requesteeVoucherName;
+  final String requesteeVoucherCode;
+  final String requesteeProfileImage;
+  final String requesteeCoverImage;
+  final String requesterVoucherName;
+  final String requesterVoucherCode;
+  final String requesterProfileImage;
+  final String requesterCoverImage;
+  final String requesterTerms;
   AppDialog({
-    required this.title,
     this.oKText = 'OK',
     this.cancelText = 'Cancel',
     this.oKPressed,
     this.cancelPressed,
     this.showCancelButton = true,
     this.showOkButton = true,
-    required this.bgImage,
-    required this.profileImage,
-    required this.vTitle,
-    required this.code
+    required this.exchangeRequestId,
+    required this.requesteeVoucherName,
+    required this.requesteeVoucherCode,
+    required this.requesteeProfileImage,
+    required this.requesteeCoverImage,
+    required this.requesterVoucherName,
+    required this.requesterVoucherCode,
+    required this.requesterProfileImage,
+    required this.requesterCoverImage,
+    required this.requesterTerms,
   });
 
   show(context) {
@@ -72,9 +82,10 @@ class AppDialog {
             ),
             Container(
               color: const Color(0XFFF0F0F0),
+                width: MediaQuery.of(context).size.width,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 26, right: 26, top: 18, bottom: 18),
-                  child: smallText(title),
+                  child: smallText(requesterTerms),
                 ),
             ),
             const SizedBox(height: 30,),
@@ -90,19 +101,18 @@ class AppDialog {
             ),
             const SizedBox(height: 5,),
             Container(
-              margin: EdgeInsets.only(left: 10,right: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 15 , vertical: 5),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Stack(
-
                     children: [
                       Image.asset("assets/images/voucher_card.png", width: 140),
                       Padding(
                         padding: const EdgeInsets.only(left: 15, right: 0),
                         child: CachedNetworkImage(
-                          width: 155,
-                          imageUrl: bgImage,
+                          width: 140,
+                          imageUrl: requesterCoverImage,
                           errorWidget: (context, url, error) => const Icon(Icons.error, size: 10,),
                         ),
                       ),
@@ -111,49 +121,57 @@ class AppDialog {
                         child: CircleAvatar(
                           radius: 10,
                           backgroundColor: Colors.blue,
-                          foregroundImage: NetworkImage(profileImage),
+                          foregroundImage: NetworkImage(requesterProfileImage),
                         ),
                       ),
                       Positioned(
                         top: MediaQuery.of(context).size.height * 0.05,
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: titleText(vTitle, size: 8)),
+                            child: titleText(requesterVoucherName, size: 8)),
                       ),
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.25,
                         top: MediaQuery.of(context).size.height * 0.07,
                         child: Align(
                           alignment: Alignment.bottomRight,
-                          child: titleText(code, size: 8),
+                          child: titleText(requesterVoucherCode, size: 7),
                         ),
                       ),
                     ],
                   ),
-                   Icon(Icons.compare_arrows, color: Colors.black, size: 15,),
+                  const Icon(Icons.compare_arrows, color: Colors.black, size: 15,),
                   Stack(
                     children: [
-                      Image.asset("assets/images/voucher_card.png", width: 120,),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(left: 10, right: 9),
-                      //   child: Image.asset("assets/images/north9.png", width: 140,),
-                      // ),
+                      Image.asset("assets/images/voucher_card.png", width: 140),
                       Padding(
-                        padding: const EdgeInsets.only(top: 20,left: 20),
-                        child: Image.asset("assets/images/profile_img_1.png", width: 10, height: 20,),
+                        padding: const EdgeInsets.only(left: 15, right: 0),
+                        child: CachedNetworkImage(
+                          width: 140,
+                          imageUrl: requesteeCoverImage,
+                          errorWidget: (context, url, error) => const Icon(Icons.error, size: 10,),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15,left: 10),
+                        child: CircleAvatar(
+                          radius: 10,
+                          backgroundColor: Colors.blue,
+                          foregroundImage: NetworkImage(requesteeProfileImage),
+                        ),
                       ),
                       Positioned(
                         top: MediaQuery.of(context).size.height * 0.05,
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: titleText("Up to 10% off on per\nProduct", size: 8)),
+                            child: titleText(requesteeVoucherName, size: 8)),
                       ),
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.25,
                         top: MediaQuery.of(context).size.height * 0.07,
                         child: Align(
                           alignment: Alignment.bottomRight,
-                          child: titleText(code, size: 8),
+                          child: titleText(requesteeVoucherCode, size: 7),
                         ),
                       ),
                     ],

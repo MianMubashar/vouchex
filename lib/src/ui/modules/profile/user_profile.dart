@@ -61,8 +61,9 @@ class UserProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 20),
               child: RoundedButtonSolidColor(
                 onPress: (){
-                  authService.signOut();
-                  Get.offAllNamed('/');
+                  /*authService.signOut();
+                  Get.offAllNamed('/');*/
+                  Get.offAndToNamed('/BottomBar'); 
                   },
                 title: 'Log Out',
               ),

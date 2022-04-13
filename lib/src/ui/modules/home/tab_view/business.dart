@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vouchex/src/controllers/businesses/get_businesses.dart';
+import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 import '../widgets/business_card.dart';
 import 'package:get/get.dart';
@@ -55,4 +57,13 @@ class BusinessScreen extends StatelessWidget {
       )
     );
   }
+
+ /* @override
+  Widget build(BuildContext context) =>
+      PagedListView<int, Datum>(
+        pagingController: _businessesController.pagingController,
+        builderDelegate: PagedChildBuilderDelegate<Datum>(
+            itemBuilder: (context, item, index) => BusinessCard(businessModel: _businessesController.businessesList[index])
+        ),
+      );*/
 }

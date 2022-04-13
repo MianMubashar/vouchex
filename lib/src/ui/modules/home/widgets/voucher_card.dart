@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
@@ -23,12 +24,13 @@ class VoucherCard extends StatelessWidget {
           "businessName" : model.business!.name ?? '',
           "expiryDate" : DateFormat("dd/MM/yyyy").format(model.expiry!),
           "terms" : model.termsConditions,
-          "services" : model.service,
+          "services" : model.service ?? [],
           "marketValue" : model.marketValue ?? '',
           "tokenCode" : model.uuId ?? '',
           "isFree" : model.isFree,
           'userId':model.userId,
-          'voucherId': model.id
+          'voucherId': model.id,
+          'fromWhere' : 'vouchers'
         };
         Get.toNamed('/VoucherDetails', arguments: voucherData);
       },
@@ -95,27 +97,6 @@ class VoucherCard extends StatelessWidget {
                 ),
               ],
             ),
-            //const SizedBox(height: 10,),
-            // DetailsButton(
-            //   title: "Details",
-            //   onPress: (){
-            //     AppDialog(title: 'Adidas want to exchange voucher with design services. '
-            //         'we need mockups design for our brand.Adidas want to exchange voucher with design services. we need mockups design for our brand.',
-            //         profileImage: "https://vouchex.reverbsoft.com/public/${model.profilePhotoPath}",
-            //         bgImage: "https://vouchex.reverbsoft.com/public/${model.coverPhotoPath}",
-            //         vTitle: model.name!,
-            //         code: model.code!,
-            //         cancelPressed: (){
-            //           Get.back();
-            //           Get.snackbar("Decline", "You have decline exchange request", colorText: primaryColor, icon: const Icon(Icons.cancel, color: primaryColor,),backgroundColor: Colors.white);
-            //       },
-            //         oKPressed: (){
-            //           Get.back();
-            //           Get.snackbar("Accepted", "You accepted exchange request", colorText: blackText, icon: const Icon(Icons.verified_outlined, color: Colors.black,),backgroundColor: Colors.white);
-            //     }
-            //     ).show(context);
-            //   },
-            // ),
             const SizedBox(height: 20,),
           ],
         ),
@@ -125,16 +106,32 @@ class VoucherCard extends StatelessWidget {
 }
 
 class PendingRequestCard extends StatelessWidget {
-  const PendingRequestCard({
+   PendingRequestCard({
     Key? key,
     required this.model,
   }) : super(key: key);
 
   final PEData model;
+  final PendingExchangeRequestController _exchangeRequestController = Get.put(PendingExchangeRequestController());
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){Get.toNamed('/VoucherDetails');},
+      onTap: (){
+        var voucherData = {
+          "qrImage" : "assets/images/qr_code.png",
+          "businessName" : 'Adidas',
+          "expiryDate" : DateFormat("dd/MM/yyyy").format(model.requesterVoucher!.expiry!),
+          "terms" : model.requesterVoucher!.termsConditions,
+          "services" : [],
+          "marketValue" : model.requesterVoucher!.marketValue,
+          "tokenCode" : '',
+          "isFree" : 0,
+          'userId': 0,
+          'voucherId': model.id,
+          'fromWhere' : 'pendingRequest'
+        };
+        Get.toNamed('/VoucherDetails', arguments: voucherData);
+      },
       child: Container(
         decoration:  BoxDecoration(
           boxShadow: [
@@ -188,19 +185,28 @@ class PendingRequestCard extends StatelessWidget {
               DetailsButton(
                 title: "Details",
                 onPress: (){
-                  AppDialog(title:model.requesterVoucher?.termsConditions ?? '',
-                  //'we need mockups design for our brand.Adidas want to exchange voucher with design services. we need mockups design for our brand.',
-                      profileImage: "$networkImageBaseUrl${model.requesterVoucher!.profilePhotoPath}",
-                      bgImage: "$networkImageBaseUrl${model.requesterVoucher!.coverPhotoPath}",
-                      vTitle: model.requesterVoucher!.name==null ? '':model.requesterVoucher!.name!,
-                      code: model.requesterVoucher!.code==null ? '':"#"+model.requesterVoucher!.code! ,
+                  AppDialog(
+                    exchangeRequestId: model.id!,
+                    requesteeVoucherName: model.requesteeVoucher!.name!,
+                    requesteeVoucherCode: model.requesteeVoucher!.code!,
+                    requesteeProfileImage:"$networkImageBaseUrl${model.requesteeVoucher!.profilePhotoPath}",
+                    requesteeCoverImage: "$networkImageBaseUrl${model.requesteeVoucher!.coverPhotoPath}",
+                    requesterVoucherName: model.requesterVoucher!.name!,
+                    requesterVoucherCode: model.requesterVoucher!.code!,
+                    requesterProfileImage:"$networkImageBaseUrl${model.requesterVoucher!.profilePhotoPath}",
+                    requesterCoverImage: "$networkImageBaseUrl${model.requesterVoucher!.coverPhotoPath}",
+                    requesterTerms: model.requesterVoucher!.termsConditions!,
                       cancelPressed: (){
-                        Get.back();
-                        Get.snackbar("Decline", "You have decline exchange request", colorText: primaryColor, icon: const Icon(Icons.cancel, color: primaryColor,),backgroundColor: Colors.white);
+                        _exchangeRequestController.updateRequestStatus(
+                          model.id!,
+                          "decline"
+                        );
                       },
                       oKPressed: (){
-                        Get.back();
-                        Get.snackbar("Accepted", "You accepted exchange request", colorText: blackText, icon: const Icon(Icons.verified_outlined, color: Colors.black,),backgroundColor: Colors.white);
+                        _exchangeRequestController.updateRequestStatus(
+                            model.id!,
+                            "accept"
+                        );
                       }
                   ).show(context);
                 },

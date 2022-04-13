@@ -58,7 +58,6 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
 
   @override
   void onClose() {
-    validateToken();
     controller.dispose();
     super.onClose();
   }
