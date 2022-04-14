@@ -21,7 +21,7 @@ class VoucherCard extends StatelessWidget {
       onTap: (){
         var voucherData = {
           "qrImage" : "assets/images/qr_code.png",
-          "businessName" : model.business!.name ?? '',
+          "businessName" : model.business == null ? '': model.business!.name ,
           "expiryDate" : DateFormat("dd/MM/yyyy").format(model.expiry!),
           "terms" : model.termsConditions,
           "services" : model.service ?? [],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
@@ -13,11 +14,13 @@ class VoucherData extends StatelessWidget {
  // var list = <AllVoucherServices>[];
   int? userId;
   int? voucherId;
+  String? uu_id;
   @override
   Widget build(BuildContext context) {
     //list = Get.arguments['services'];
     userId = Get.arguments['userId'];
     voucherId = Get.arguments['voucherId'];
+    uu_id = Get.arguments['tokenCode'];
     return Column(
       children: [
         Padding(
@@ -28,11 +31,13 @@ class VoucherData extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                  child: Image.asset(
-                    Get.arguments['qrImage'],
-                width: 178,
-                height: 180,
-              )),
+                  child: QrImage(
+                    data: "$uu_id",
+                    version: QrVersions.auto,
+                    size: 150.0,
+                    semanticsLabel: '$uu_id',
+                  ),
+              ),
               const SizedBox(
                 height: 5,
               ),
@@ -52,7 +57,8 @@ class VoucherData extends StatelessWidget {
                               width: MediaQuery.of(context).size.width / 5),
                           child: SmallButton(
                             onPress: () {
-                              Get.toNamed('/BottomBar');
+                              // Get.toNamed('/BottomBar');
+                              Get.back();
                               /*ImageDialog(
                                   title: 'Your Voucher has been Successfully exchange',
                                   imageUrl: 'assets/images/congrats_img.png').show(context);*/

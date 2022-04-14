@@ -144,14 +144,14 @@ class AppDialog {
                   Stack(
                     children: [
                       Image.asset("assets/images/voucher_card.png", width: 140),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 0),
-                        child: CachedNetworkImage(
-                          width: 140,
-                          imageUrl: requesteeCoverImage,
-                          errorWidget: (context, url, error) => const Icon(Icons.error, size: 10,),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(left: 15, right: 0),
+                      //   child: CachedNetworkImage(
+                      //     width: 140,
+                      //     imageUrl: requesteeCoverImage,
+                      //     errorWidget: (context, url, error) => const Icon(Icons.error, size: 10,),
+                      //   ),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.only(top: 15,left: 10),
                         child: CircleAvatar(

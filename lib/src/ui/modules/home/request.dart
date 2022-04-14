@@ -31,11 +31,12 @@ class RequestScreen extends StatelessWidget {
                       final result = await _exchangeRequestController.getPendingExchangeRequest(isRefresh: true);
                       if (result) {
                         _exchangeRequestController.peRefreshController.refreshCompleted();
+
                       }
                     } catch (e) {
                       _exchangeRequestController.peRefreshController.refreshFailed();
                       print(e);
-                    }
+                     }
                   },
                   onLoading: () async {
                     final result = await _exchangeRequestController.getPendingExchangeRequest();
@@ -43,11 +44,16 @@ class RequestScreen extends StatelessWidget {
                       _exchangeRequestController.peRefreshController.loadComplete();
                     }
                   },
-                  child: _exchangeRequestController.requesterVoucher.isNotEmpty ? ListView.builder(
-                    itemCount: _exchangeRequestController.requesterVoucher.length,
-                    itemBuilder: (context, index) {
-                      return PendingRequestCard(model: _exchangeRequestController.requesterVoucher[index]);
-                    },
+                  child: _exchangeRequestController.requesterVoucher.isNotEmpty ? ModalProgress(
+                    call: _exchangeRequestController.isLoading.value,
+                    child: Obx(()=>
+                       ListView.builder(
+                        itemCount: _exchangeRequestController.requesterVoucher.length,
+                        itemBuilder: (context, index) {
+                          return PendingRequestCard(model: _exchangeRequestController.requesterVoucher[index]);
+                        },
+                      ),
+                    ),
                   ) :
                   Center(
                     child: smallText(_exchangeRequestController.noData.value),
