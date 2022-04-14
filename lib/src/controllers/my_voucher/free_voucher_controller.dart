@@ -1,23 +1,21 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
-import 'package:vouchex/src/data/services/services.dart';
+import 'package:vouchex/src/data/services/api/fetch_data.dart';
 
-class MySwappedVoucherController extends GetxController{
-
-  var swappedVoucherList = <SwappedVouchersList>[].obs;
+class FreeVoucherController extends GetxController{
+  var freeVoucherList = <VoucherHistoryData>[].obs;
   int currentPage = 1;
   late int totalPages;
   final RefreshController refreshController = RefreshController(initialRefresh: true);
   var isLoading = false.obs;
   var loginDetails = GetStorage();
+  var noData = ''.obs;
 
-  Future<bool> getMySwappedVouchers({bool isRefresh = false}) async {
+  Future<bool> getFreeVouchers({bool isRefresh = false}) async {
     if (isRefresh) {
       currentPage = 1;
     } else {
@@ -29,18 +27,28 @@ class MySwappedVoucherController extends GetxController{
     var token = loginDetails.read("token");
     debugPrint("This is token $token");
     isLoading.value == true;
-    var response = await GetDataFromAPI.fetchData("$baseUrl/my-swapped-vouchers", token);
+    var response = await GetDataFromAPI.fetchData("$baseUrl/rewarded-vouchers", token);
     if (response != null) {
-      final result = mySwappedVouchersModelFromJson(response);
+      final result = voucherHistoryModelFromJson(response);
+
       if (isRefresh) {
-        if(result.swappedVouchers != null) {
-          swappedVoucherList.value = result.swappedVouchers!.data!;
+        if(result.vouchers != null) {
+          freeVoucherList.value = result.vouchers!.data!;
+          if(freeVoucherList.isEmpty) {
+            noData.value = "No data exists";
+          }
         }
+
       }else{
-        swappedVoucherList.addAll(result.swappedVouchers!.data!);
+        if(result.vouchers != null) {
+          freeVoucherList.addAll(result.vouchers!.data!);
+          if(result.vouchers!.nextPageUrl != null) {
+            currentPage++;
+          }
+        }
       }
-      currentPage++;
-      totalPages = result.swappedVouchers!.total;
+
+      totalPages = currentPage;
       isLoading.value = false;
       return true;
     } else {

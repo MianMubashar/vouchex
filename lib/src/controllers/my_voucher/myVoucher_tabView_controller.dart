@@ -14,13 +14,16 @@ class MyVouchersTabs extends GetxController with GetSingleTickerProviderStateMix
       text: 'Swapped Vouchers',
     ),
     const Tab(
+      text: 'Free Vouchers',
+    ),
+    const Tab(
       text: 'Create a Voucher',
     )
   ];
 
   @override
   void onInit() {
-    myVouchersTabController = TabController(length: 3, vsync: this);
+    myVouchersTabController = TabController(length: 4, vsync: this);
     myVouchersTabController.addListener(() {
       if(myVouchersTabController.indexIsChanging) {
         currentIndex.value = myVouchersTabController.index;

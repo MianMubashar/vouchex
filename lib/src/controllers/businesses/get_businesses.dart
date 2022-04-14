@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/services/services.dart';
 import '../../data/model/models.dart';

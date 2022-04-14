@@ -35,7 +35,7 @@ class MyVouchersHistory {
     required this.currentPage,
     this.data,
     required this.firstPageUrl,
-    required this.from,
+    this.from,
     required this.lastPage,
     required this.lastPageUrl,
     required this.links,
@@ -43,14 +43,14 @@ class MyVouchersHistory {
     required this.path,
     required this.perPage,
     this.prevPageUrl,
-    required this.to,
+    this.to,
     required this.total,
   });
 
   int currentPage;
   List<VoucherHistoryData>? data;
   String firstPageUrl;
-  int from;
+  int? from;
   int lastPage;
   String lastPageUrl;
   List<VoucherHistoryLinks> links;
@@ -58,7 +58,7 @@ class MyVouchersHistory {
   String path;
   int perPage;
   String? prevPageUrl;
-  int to;
+  int? to;
   int total;
 
   factory MyVouchersHistory.fromJson(Map<String, dynamic> json) => MyVouchersHistory(

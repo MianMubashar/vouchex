@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
-import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/modules/history/modules.dart';
-import 'package:vouchex/src/ui/widgets/custom_widgets/modal_progress.dart';
+import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
 class SwappedVoucher extends StatelessWidget {
    SwappedVoucher({Key? key}) : super(key: key);
@@ -36,12 +35,15 @@ class SwappedVoucher extends StatelessWidget {
                     _mySwappedVoucherController.refreshController.loadFailed();
                   }
                 },
-                child: ListView.builder( 
-                  itemCount: _mySwappedVoucherController.swappedVoucherList!.length,
+                child: _mySwappedVoucherController.swappedVoucherList.isNotEmpty ? ListView.builder(
+                  itemCount: _mySwappedVoucherController.swappedVoucherList.length,
                   itemBuilder: (context, index) {
                     return
-                    VoucherHistoryCard(model: _mySwappedVoucherController.swappedVoucherList![index]);
+                      SwappedVoucherCard(model: _mySwappedVoucherController.swappedVoucherList[index]);
                   },
+                ) :
+                Center(
+                  child: smallText("No Data"),
                 )
               ),
             ),

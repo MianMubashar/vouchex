@@ -42,6 +42,7 @@ class MyVouchersScreen extends StatelessWidget {
                 children: [
                   MyVoucher(),
                   SwappedVoucher(),
+                  FreeVouchers(),
                   const CreateVoucher()
                 ],
               ),
