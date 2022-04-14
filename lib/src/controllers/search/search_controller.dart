@@ -18,6 +18,9 @@ class SearchController extends GetxController{
   var getServicesList = <Service>[].obs;
   var selectedServicesList = [].obs;
 
+  var groupValue = 3.obs;
+  var selectedGroupValue = false.obs;
+
   Future<List<Business>> getBusinessTypes() async {
     isLoading.value = true;
     var token = loginDetails.read("token");

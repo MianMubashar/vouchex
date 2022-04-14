@@ -104,6 +104,9 @@ class CreateBusinessPage extends StatelessWidget {
                                       hintText: "Enter name",
                                       textEditingController: _businessController.businessName,
                                       keyboardType: TextInputType.text,
+                                      validator: (String? value) => value!.isEmpty
+                                          ? "Required"
+                                          : null,
                                     ),
                                     const SizedBox(height: 5,),
                                     Padding(
@@ -113,7 +116,10 @@ class CreateBusinessPage extends StatelessWidget {
                                     VoucherFields(
                                       hintText: "Enter Email",
                                       textEditingController: _businessController.businessEmail,
-                                      keyboardType: TextInputType.text,
+                                      keyboardType: TextInputType.emailAddress,
+                                      validator: (String? value) => value!.isEmpty
+                                          ? "Required"
+                                          : null,
                                     ),
                                   ],
                                 ),
@@ -231,6 +237,9 @@ class CreateBusinessPage extends StatelessWidget {
                               keyboardType: TextInputType.multiline,
                               textInputAction: TextInputAction.newline,
                               maxLine: 3,
+                              validator: (String? value) => value!.isEmpty
+                                  ? "Required"
+                                  : null,
                             ),
                             const SizedBox(height: 15,),
                             Padding(
@@ -273,17 +282,6 @@ class CreateBusinessPage extends StatelessWidget {
                               padding: const EdgeInsets.only(bottom: 8),
                               child: smallText('Select Services', size: 18),
                             ),
-                            /*DropDownButton(
-                              list: _businessController.services,
-                              borderColor: const Color.fromRGBO(0, 0, 0, 0.1),
-                              name: 'services',
-                              onChanged: (value) {
-                                _businessController.selectedService.value = value!;
-                                if(_businessController.selectedServicesList.length <= 6) {
-                                  _businessController.selectedServicesList.add(value);
-                                }
-                              },
-                            ),*/
                             SizedBox(
                               height: 60,
                               child: FormBuilderDropdown<Service>(
@@ -462,7 +460,25 @@ class CreateBusinessPage extends StatelessWidget {
                     ),
                     RoundedRectangleButton(
                       onPress: (){
-                        _businessController.registerAsBusiness();
+                        if(_businessController.selectedProfileImagePath.value == '') {
+                          Get.snackbar("Empty fields", "Please add profile image");
+                        } else if(_businessController.selectedCoverImagePath.value== '') {
+                          Get.snackbar("Empty fields", "Please add both cover image");
+                        }
+                        else if(_businessController.businessName.text.isEmpty ) {
+                          Get.snackbar("Empty field", "Please enter name");
+                        } else if(_businessController.businessEmail.text.isEmpty) {
+                          Get.snackbar("Empty field", "Please enter email");
+                        }
+                        else if(_businessController.selectedBusinessID == 0) {
+                          Get.snackbar("Empty field", "Please select business type");
+                        } else if(_businessController.phoneNumber.value == '') {
+                          Get.snackbar("Empty fields", "Please enter phone number");
+                        } else {
+                          if(_formKey.currentState!.validate()) {
+                            _businessController.registerAsBusiness();
+                          }
+                        }
                       },
                       title: 'Create Page',
                     ),

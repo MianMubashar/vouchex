@@ -8,13 +8,13 @@ import 'package:vouchex/src/data/services/services.dart';
 
 
 class VouchexVouchersController extends GetxController {
-  List<VouchersData> vouchexList = [];
+  var vouchexList = <VouchersData>[].obs;
   int currentPage = 1;
   late int totalPages;
   final RefreshController refreshController = RefreshController(initialRefresh: true);
   var isLoading = false.obs;
   var loginDetails = GetStorage();
-
+  var noData = ''.obs;
   Future<bool> getVouchexData({bool isRefresh = false}) async {
     if (isRefresh) {
       currentPage = 1;
@@ -30,8 +30,11 @@ class VouchexVouchersController extends GetxController {
     var response = await GetDataFromAPI.fetchData("$baseUrl/get-vouchex-vouchers", token);
     if (response != null) {
       final result = vouchexModelFromJson(response);
+      if(result.vouchexVouchers.data.isEmpty) {
+        noData.value = "No Data exist";
+      }
       if (isRefresh) {
-        vouchexList = result.vouchexVouchers.data;
+        vouchexList.value = result.vouchexVouchers.data;
         print(vouchexList.length);
       }else{
         vouchexList.addAll(result.vouchexVouchers.data);

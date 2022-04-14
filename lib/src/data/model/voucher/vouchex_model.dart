@@ -46,7 +46,7 @@ class VouchexVouchers {
   int currentPage;
   List<VouchersData> data;
   String firstPageUrl;
-  int from;
+  int? from;
   int lastPage;
   String lastPageUrl;
   List<VouchexLinks> vLinks;
@@ -54,7 +54,7 @@ class VouchexVouchers {
   String path;
   int perPage;
   String? prevPageUrl;
-  int to;
+  int? to;
   int total;
 
   factory VouchexVouchers.fromJson(Map<String, dynamic> json) => VouchexVouchers(

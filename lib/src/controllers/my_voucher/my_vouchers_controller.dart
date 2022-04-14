@@ -16,6 +16,7 @@ class MyVoucherController extends GetxController{
   late int totalPages;
   final RefreshController refreshController = RefreshController(initialRefresh: true);
   var isLoading = false.obs;
+  var noData = ''.obs;
   var loginDetails = GetStorage();
 
   Future<bool> getMyVouchers({bool isRefresh = false}) async {
@@ -33,6 +34,9 @@ class MyVoucherController extends GetxController{
     var response = await GetDataFromAPI.fetchData("$baseUrl/my-vouchers", token);
     if (response != null) {
       final result = myVouchersFromJson(response);
+      if(result.vouchers!.data!.isEmpty) {
+        noData.value = 'No data exists';
+      }
       if (isRefresh) {
         if(result.vouchers != null) {
           myVouchersList.value = result.vouchers!.data!;

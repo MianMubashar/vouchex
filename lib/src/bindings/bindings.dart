@@ -27,3 +27,5 @@ export 'help_support/faq_binding.dart';
 export 'search/search_result_binding.dart';
 
 export 'about_us/aboutus_binding.dart';
+
+export 'notification/notification_binding.dart';

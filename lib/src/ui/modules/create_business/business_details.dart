@@ -15,7 +15,7 @@ class BusinessDetails extends StatelessWidget {
   var vouchersList = <Voucher>[];
   @override
   Widget build(BuildContext context) {
-    vouchersList = Get.arguments['vouchersList'];
+    vouchersList = Get.arguments['vouchersList'] != [] ? Get.arguments['vouchersList'] : [];
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -96,6 +96,7 @@ class BusinessDetails extends StatelessWidget {
                 child: titleText("Voucher", size: 20),
               ),
               const SizedBox(height: 10,),
+              vouchersList.isNotEmpty ?
               Column(
                 children: vouchersList.map((e) {
                   return Container(
@@ -162,6 +163,9 @@ class BusinessDetails extends StatelessWidget {
                     ),
                   );
                 }).toList(),
+              ) : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: smallText("No Vouchers found"),
               )
             ],
           ),

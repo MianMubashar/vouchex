@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -63,22 +66,32 @@ class EditBusinessController extends GetxController {
       request.fields['description'] = description.text;
       request.fields['business_type_id'] = '$selectedBusinessID';
       request.fields['business_id'] = '${businessId.value}';
-      request.files.add(await http.MultipartFile.fromPath('profile_photo', selectedProfileImagePath.value));
-      request.files.add(await http.MultipartFile.fromPath('cover_photo', selectedCoverImagePath.value));
+      if((selectedProfileImagePath.value != '') && (selectedCoverImagePath.value != '')) {
+        request.files.add(await http.MultipartFile.fromPath('profile_photo', selectedProfileImagePath.value));
+        request.files.add(await http.MultipartFile.fromPath('cover_photo', selectedCoverImagePath.value));
+      }
       request.fields['country_code'] = countryCode.value;
       Map<String, String> headers = {
         "content-type": "multipart/form-data",
         'Accept': 'application/json',
         "Authorization" : "Bearer $token"
       };
-
       isLoading.value = false;
       request.headers.addAll(headers);
       var response = await request.send();
       var responseData = await response.stream.toBytes();
       var responseString = String.fromCharCodes(responseData);
-      Get.offAndToNamed('/Profile');
       print(responseString);
+      var jsonString = json.decode(responseString);
+      var resStatus = jsonString['status'];
+      if(resStatus == true) {
+        Get.offAndToNamed('/Profile');
+      } else {
+        Get.snackbar("Error", "Something went wrong");
+        if (kDebugMode) {
+          print(jsonString);
+        }
+      }
     } catch(e) {
       debugPrint(e.toString());
     }

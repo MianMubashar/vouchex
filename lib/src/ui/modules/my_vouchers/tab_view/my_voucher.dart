@@ -4,6 +4,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/ui/modules/my_vouchers/widgets/my_voucher_card.dart';
 import 'package:vouchex/src/ui/widgets/custom_widgets/modal_progress.dart';
+import 'package:vouchex/src/ui/widgets/custom_widgets/text_widgets.dart';
 
 class MyVoucher extends StatelessWidget {
    MyVoucher({Key? key}) : super(key: key);
@@ -41,12 +42,14 @@ class MyVoucher extends StatelessWidget {
                   child: Column(
                     children: [
                       Expanded(
-                        child: ListView.builder(
+                        child: _myVoucherController.myVouchersList.isNotEmpty ? ListView.builder(
                           itemCount: _myVoucherController.myVouchersList.length,
                           itemBuilder: (context, index) {
                             return MyVoucherCard(model: _myVoucherController.myVouchersList[index], fromScreen: 'myVouchers',);
                           },
-                        ),
+                        ) : Center(
+                          child: smallText(_myVoucherController.noData.value),
+                        )
                       ),
                     ],
                   ),

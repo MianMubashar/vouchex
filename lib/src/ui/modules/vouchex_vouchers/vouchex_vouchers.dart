@@ -59,7 +59,7 @@ class VouchexVouchers extends StatelessWidget {
                           _vouchersController.refreshController.loadFailed();
                         }
                       },
-                      child: Padding(
+                      child: _vouchersController.vouchexList.isNotEmpty ? Padding(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: ListView.builder(
                           itemCount: _vouchersController.vouchexList.length,
@@ -67,7 +67,9 @@ class VouchexVouchers extends StatelessWidget {
                             return VouchexCard(model: _vouchersController.vouchexList[index]);
                           },
                         ),
-                      ),
+                      ) : Center(
+                        child: smallText(_vouchersController.noData.value),
+                      )
                     ),
                   ),
                 ],

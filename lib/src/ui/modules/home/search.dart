@@ -157,7 +157,42 @@ class SearchScreen extends StatelessWidget {
                               radius: 20,
                               height: 24,
                               width: 150,
-                            )
+                            ),
+                            const SizedBox(height: 10,),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: RadioListTile(
+                                      value: 0,
+                                      activeColor: Colors.black,
+                                      contentPadding: EdgeInsets.zero,
+                                      onChanged: (value) {
+                                        _controller.groupValue.value = value as int;
+                                        _controller.selectedGroupValue.value = true;
+                                      },
+                                      groupValue: _controller.groupValue.value,
+                                      title: smallText('Keep Static', size: 12, clr: blackText),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: RadioListTile(
+                                      value: 1,
+                                      activeColor: Colors.black,
+                                      contentPadding: EdgeInsets.zero,
+                                      onChanged: (value) {
+                                        _controller.groupValue.value = value as int;
+                                        _controller.selectedGroupValue.value = false;
+                                      },
+                                      groupValue: _controller.groupValue.value,
+                                      title: smallText('Ends', size: 12, clr: blackText),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           ],
                         ) : const SizedBox(width: 0,height: 0,)
                       ],

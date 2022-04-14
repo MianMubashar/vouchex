@@ -11,13 +11,13 @@ class VoucherData extends StatelessWidget {
 
   //final VoucherDataController _data = Get.put(VoucherDataController());
 
- // var list = <AllVoucherServices>[];
+  var list = <AllVoucherServices>[];
   int? userId;
   int? voucherId;
   String? uu_id;
   @override
   Widget build(BuildContext context) {
-    //list = Get.arguments['services'];
+    list = Get.arguments['services'];
     userId = Get.arguments['userId'];
     voucherId = Get.arguments['voucherId'];
     uu_id = Get.arguments['tokenCode'];
@@ -96,7 +96,7 @@ class VoucherData extends StatelessWidget {
               const SizedBox(
                 height: 4,
               ),
-              /*ListView.builder(
+              ListView.builder(
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
                   scrollDirection: Axis.vertical,
@@ -120,7 +120,7 @@ class VoucherData extends StatelessWidget {
                         ),
                       ],
                     );
-                  }),*/
+                  }),
               const SizedBox(
                 height: 15,
               ),

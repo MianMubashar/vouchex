@@ -26,7 +26,7 @@ class BusinessCard extends StatelessWidget {
             "description" : businessModel.description,
             "circleImage": "$networkImageBaseUrl${businessModel.profilePhotoPath}",
             "coverPhoto" : "$networkImageBaseUrl${businessModel.coverPhotoPath}",
-            "vouchersList" : businessModel.vouchers,
+            "vouchersList" : businessModel.vouchers ?? [],
           };
           Get.toNamed('/BusinessDetails', arguments: businessData);
           //Get.toNamed('/BusinessDetails',);

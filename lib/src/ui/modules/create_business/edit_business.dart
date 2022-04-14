@@ -106,6 +106,9 @@ class EditBusiness extends StatelessWidget {
                               VoucherFields(
                                 textEditingController: _businessController.name,
                                 keyboardType: TextInputType.text,
+                                validator: (String? value) => value!.isEmpty
+                                    ? "Required"
+                                    : null,
                               ),
                               const SizedBox(height: 10,),
                               Padding(
@@ -203,6 +206,9 @@ class EditBusiness extends StatelessWidget {
                                 keyboardType: TextInputType.multiline,
                                 textInputAction: TextInputAction.newline,
                                 maxLine: 3,
+                                validator: (String? value) => value!.isEmpty
+                                    ? "Required"
+                                    : null,
                               ),
                               const SizedBox(height: 15,),
                             ],
@@ -211,7 +217,9 @@ class EditBusiness extends StatelessWidget {
                       ),
                       RoundedRectangleButton(
                         onPress: (){
-                          _businessController.registerAsBusiness();
+                          if(_formKey.currentState!.validate()) {
+                            _businessController.registerAsBusiness();
+                          }
                         },
                         title: 'Edit Business',
                       ),

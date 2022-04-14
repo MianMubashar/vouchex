@@ -67,6 +67,7 @@ class CreateVoucherController extends GetxController {
 
 
   Future createVoucher() async {
+
     isLoading.value = true;
     var token = loginDetails.read("token");
     String dateAsString = selectedDate.value.toString();
@@ -74,32 +75,40 @@ class CreateVoucherController extends GetxController {
     DateFormat inputFormat = DateFormat('yyyy-MM-dd');
     DateTime date = inputFormat.parse(formatDate);
     var format = "${date.year}-${date.month}-${date.day}";
-     Map data = {
-      'name' : vName.text,
-      'code' : vCode.text,
-      'service_ids' : selectedServicesListId,
-      'expiry' : format,
-      'market_value' : double.tryParse(marketValue.text)?.toDouble(),
-      'terms' : terms.text,
-      'is_static' : selectedGroupValue.value,
-      'is_free' : selectedVType.value
-    };
-    var body = json.encode(data);
-    var response = await http.post(Uri.parse('$baseUrl/create-voucher'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          "Authorization" : "Bearer $token"
-        },
-        body: body
-    );
-    isLoading.value = false;
-    if(response.statusCode == 200) {
-      Get.back();
-      return response.body;
+
+    if((vName.text.isNotEmpty) && (vCode.text.isNotEmpty) && (selectedServicesListId.isNotEmpty) &&
+        (marketValue.text.isNotEmpty) && (terms.text.isNotEmpty) && (groupValue.value != 3)) {
+      Map data = {
+        'name' : vName.text,
+        'code' : vCode.text,
+        'service_ids' : selectedServicesListId,
+        'expiry' : format,
+        'market_value' : double.tryParse(marketValue.text)?.toDouble(),
+        'terms' : terms.text,
+        'is_static' : selectedGroupValue.value,
+        'is_free' : selectedVType.value
+      };
+      var body = json.encode(data);
+      var response = await http.post(Uri.parse('$baseUrl/create-voucher'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization" : "Bearer $token"
+          },
+          body: body
+      );
+      isLoading.value = false;
+      if(response.statusCode == 200) {
+        Get.back();
+        return response.body;
+      } else {
+        return print(response.body);
+      }
     } else {
-      return print(response.body);
+      isLoading.value = false;
+      Get.snackbar("Empty fields", "Please fill all fields");
     }
+
   }
 
   Future updateVoucher() async{

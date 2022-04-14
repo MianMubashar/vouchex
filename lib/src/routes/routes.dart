@@ -42,7 +42,8 @@ List<GetPage<dynamic>> routes = [
   ),
   GetPage(
     name: '/Notification',
-    page: () => NotificationsScreen()
+    page: () => NotificationsScreen(),
+    binding: NotificationsBinding()
   ),
   GetPage(
     name: '/MyVouchers',

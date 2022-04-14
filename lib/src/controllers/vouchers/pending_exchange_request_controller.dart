@@ -109,7 +109,7 @@ class PendingExchangeRequestController extends GetxController {
   }
 
 
-  /*static const _pageSize = 15;
+  static const _pageSize = 15;
 
   final PagingController<int, PEData> pagingController = PagingController(firstPageKey: 1);
 
@@ -148,6 +148,5 @@ class PendingExchangeRequestController extends GetxController {
       fetchPage(pageKey);
     });
     super.onInit();
-  }*/
-
+  }
 }

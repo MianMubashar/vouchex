@@ -25,7 +25,7 @@ class BusinessScreen extends StatelessWidget {
                 children: [
                   const SizedBox(height: 15,),
                   Expanded(
-                    child: SmartRefresher(
+                    child: /*SmartRefresher(
                       controller: _businessesController.refreshController,
                       enablePullUp: true,
                       onRefresh: () async {
@@ -48,7 +48,13 @@ class BusinessScreen extends StatelessWidget {
                       ) : Center(
                         child: smallText(_businessesController.noData.value),
                       )
-                    ),
+                    ),*/
+                    PagedListView<int, Datum>(
+                      pagingController: _businessesController.pagingController,
+                      builderDelegate: PagedChildBuilderDelegate<Datum>(
+                          itemBuilder: (context, item, index) => BusinessCard(businessModel: _businessesController.businessesList[index])
+                      ),
+                  ),
                   ),
                 ],
               ),
@@ -57,13 +63,4 @@ class BusinessScreen extends StatelessWidget {
       )
     );
   }
-
- /* @override
-  Widget build(BuildContext context) =>
-      PagedListView<int, Datum>(
-        pagingController: _businessesController.pagingController,
-        builderDelegate: PagedChildBuilderDelegate<Datum>(
-            itemBuilder: (context, item, index) => BusinessCard(businessModel: _businessesController.businessesList[index])
-        ),
-      );*/
 }

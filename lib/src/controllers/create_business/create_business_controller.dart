@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -112,32 +113,45 @@ class CreateBusinessController extends GetxController{
       request.files.add(await http.MultipartFile.fromPath('cover_photo', selectedCoverImagePath.value));
       request.fields['description'] = description.text;
       request.fields['business_type_id'] = '$selectedBusinessID';
-      request.fields['voucher_name'] = vName.text;
-      request.fields['code'] = vCode.text;
-      request.fields['voucher_expiry'] = format ;
-      request.fields['voucher_market_value'] = marketValue.text;
-      request.fields['voucher_terms'] = terms.text;
-      request.fields['voucher_is_static'] = '${groupValue.value}';
-      for(int i = 1; i < selectedServicesListId.length; i++){
-        request.fields['voucher_service_ids[$i]'] = '${selectedServicesListId[i]}';
-      }
       request.fields['country_code'] = countryCode.value;
+
+      if((vName.text.isNotEmpty) && (vCode.text.isNotEmpty) && (selectedDate.value != DateTime.now()) && (marketValue.text.isNotEmpty) &&
+          (terms.text.isNotEmpty) && (groupValue.value != 3) && (selectedServicesListId.isNotEmpty)) {
+        request.fields['voucher_name'] = vName.text;
+        request.fields['code'] = vCode.text;
+        request.fields['voucher_expiry'] = format ;
+        request.fields['voucher_market_value'] = marketValue.text;
+        request.fields['voucher_terms'] = terms.text;
+        request.fields['voucher_is_static'] = '${groupValue.value}';
+        for(int i = 0; i < selectedServicesListId.length; i++){
+          request.fields['voucher_service_ids[$i]'] = '${selectedServicesListId[i]}';
+        }
+      }
 
       Map<String, String> headers = {
         "content-type": "multipart/form-data",
         'Accept': 'application/json',
         "Authorization" : "Bearer $token"
       };
-
-      isLoading.value = false;
       request.headers.addAll(headers);
       var response = await request.send();
       var responseData = await response.stream.toBytes();
       var responseString = String.fromCharCodes(responseData);
-      print(responseString);
-      Get.snackbar("Business registered successfully", "");
-      await _homeTabs.validateToken();
-      Get.back();
+      if (kDebugMode) {
+        print(responseString);
+      }
+      var jsonString = json.decode(responseString);
+      var resStatus = jsonString['status'];
+      if(resStatus == true) {
+        isLoading.value = false;
+        Get.offAndToNamed('/BottomBar');
+      } else {
+        isLoading.value = false;
+        Get.snackbar("Error", "Something went wrong");
+        if (kDebugMode) {
+          print(jsonString);
+        }
+      }
     }catch (e) {
       isLoading.value = false;
       debugPrint(e.toString());

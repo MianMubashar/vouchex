@@ -23,7 +23,7 @@ class RequestScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10,),
             Expanded(
-              child: SmartRefresher(
+              child: /*SmartRefresher(
                   controller: _exchangeRequestController.peRefreshController,
                   enablePullUp: true,
                   onRefresh: () async {
@@ -58,7 +58,13 @@ class RequestScreen extends StatelessWidget {
                   Center(
                     child: smallText(_exchangeRequestController.noData.value),
                   )
-              ),
+              ),*/
+              PagedListView<int, PEData>(
+                pagingController: _exchangeRequestController.pagingController,
+                builderDelegate: PagedChildBuilderDelegate<PEData>(
+                    itemBuilder: (context, item, index) => PendingRequestCard(model: _exchangeRequestController.requesterVoucher[index])
+                ),
+              )
             ),
           ],
         ),
@@ -66,12 +72,4 @@ class RequestScreen extends StatelessWidget {
     );
   }
 
-  /*@override
-  Widget build(BuildContext context) =>
-      PagedListView<int, PEData>(
-        pagingController: _exchangeRequestController.pagingController,
-        builderDelegate: PagedChildBuilderDelegate<PEData>(
-          itemBuilder: (context, item, index) => PendingRequestCard(model: _exchangeRequestController.requesterVoucher[index])
-        ),
-      );*/
 }
