@@ -19,39 +19,9 @@ class PendingExchangeRequestController extends GetxController {
   var noData = ''.obs;
   var loginDetails = GetStorage();
 
-  Future<bool> getPendingExchangeRequest({bool isRefresh = false}) async {
-    if (isRefresh) {
-      currentPage = 1;
-    } else {
-      if (currentPage >= totalPages) {
-        peRefreshController.loadNoData();
-        return false;
-      }
-    }
-    var token = loginDetails.read("token");
-    debugPrint("This is token $token");
-    isLoading.value == true;
-    var response = await GetDataFromAPI.fetchData("$baseUrl/get-pending-exchange-requests", token);
-    if (response != null) {
-      final result = pendingExchangeRequestModelFromJson(response);
-      if(result.pendingExchangeRequests!.data!.isEmpty) {
-        noData.value = 'No request';
-      }
-      if (isRefresh) {
-        requesterVoucher.value = result.pendingExchangeRequests!.data!;
-      }else{
-        requesterVoucher.addAll(result.pendingExchangeRequests!.data!);
-      }
-      if(result.pendingExchangeRequests!.nextPageUrl != null) {
-        currentPage++;
-      }
-      totalPages = currentPage;
-      isLoading.value = false;
-      return true;
-    } else {
-      return false;
-    }
-  }
+  var perPage = 0.obs;
+  var listSize = 0.obs;
+
 
   Future updateRequestStatus(int id, String voucherStatus) async{
     var token = loginDetails.read("token");
@@ -78,7 +48,6 @@ class PendingExchangeRequestController extends GetxController {
         bool status = apiResponse['status'];
         if(status){
           Get.back();
-          getPendingExchangeRequest(isRefresh: true);
           voucherStatus == "accept" ? Get.snackbar("Accepted",
               "${apiResponse['message']}", colorText: blackText, icon: const Icon(Icons.verified_outlined, color: Colors.black,),backgroundColor: Colors.white) :
           Get.snackbar("Decline", "${apiResponse['message']}",
@@ -109,29 +78,29 @@ class PendingExchangeRequestController extends GetxController {
   }
 
 
-  static const _pageSize = 15;
+  final PagingController<int, PEData> pagingController = PagingController(firstPageKey: 0);
 
-  final PagingController<int, PEData> pagingController = PagingController(firstPageKey: 1);
 
-  Future<void> fetchPage(int pageKey) async {
+  Future<void> fetchPendingRequests(int pageKey) async {
     try {
       var token = loginDetails.read("token");
       debugPrint("This is token $token");
       isLoading.value == true;
-      var response = await GetDataFromAPI.fetchData(
-          "$baseUrl/get-pending-exchange-requests", token);
+      var response = await GetDataFromAPI.fetchData("$baseUrl/get-pending-exchange-requests?page=$currentPage", token);
       if (response != null) {
-        final result = pendingExchangeRequestModelFromJson(response);
-        if (result.pendingExchangeRequests!.data!.isEmpty) {
-          noData.value = 'No request';
-        }
-        requesterVoucher.value = result.pendingExchangeRequests!.data!;
-        final isLastPage = requesterVoucher.length < _pageSize;
 
+        final result = pendingExchangeRequestModelFromJson(response);
+
+        requesterVoucher.value = result.pendingExchangeRequests!.data!;
+        perPage.value = result.pendingExchangeRequests!.perPage!;
+        listSize.value = result.pendingExchangeRequests!.total!;
+
+        final isLastPage = requesterVoucher.length < perPage.value;
         if (isLastPage) {
           pagingController.appendLastPage(requesterVoucher);
         } else {
-          final nextPageKey = pageKey + requesterVoucher.length;
+          currentPage++;
+          var nextPageKey = currentPage;
           pagingController.appendPage(requesterVoucher, nextPageKey);
         }
       }
@@ -142,11 +111,11 @@ class PendingExchangeRequestController extends GetxController {
       }
     }
   }
-  @override
+/*  @override
   void onInit() {
     pagingController.addPageRequestListener((pageKey) {
-      fetchPage(pageKey);
+      fetchPendingRequests(pageKey);
     });
     super.onInit();
-  }
+  }*/
 }

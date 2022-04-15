@@ -18,63 +18,31 @@ class GetAllVouchersController extends GetxController {
   var noData = ''.obs;
   var loginDetails = GetStorage();
 
-  /*Future<bool> getAllVouchersDataData({bool isRefresh = false}) async {
-    if (isRefresh) {
-      currentPage = 1;
-    } else {
-      if (currentPage >= totalPages) {
-        vouchersRefreshController.loadNoData();
-        return false;
-      }
-    }
-    var token = loginDetails.read("token");
-    debugPrint("This is token $token");
-    isLoading.value == true;
-    var response = await GetDataFromAPI.fetchData("$baseUrl/get-all-vouchers", token);
-    if (response != null) {
-      final result = getAllVouchersFromJson(response);
-      if(result.vouchers!.data!.isEmpty) {
-        noData.value = "No data exists";
-      }
-      if (isRefresh) {
-        vouchersList.value = result.vouchers!.data!;
-      }else{
-        vouchersList.addAll(result.vouchers!.data!);
-      }
-      if(result.vouchers!.nextPageUrl != null) {
-        currentPage++;
-      }
-      totalPages = currentPage;
-      isLoading.value = false;
-      return true;
-    } else {
-      return false;
-    }
-  }*/
+  var perPage = 0.obs;
+  var listSize = 0.obs;
 
-  static const _pageSize = 15;
 
   final PagingController<int, AllVouchersData> pagingController = PagingController(firstPageKey: 0);
 
-  Future<void> fetchPage(int pageKey) async {
+  Future<void> fetchVouchers(int pageKey) async {
     try {
       var token = loginDetails.read("token");
       debugPrint("This is token $token");
       isLoading.value == true;
-      var response = await GetDataFromAPI.fetchData(
-          "$baseUrl/get-all-vouchers", token);
+      var response = await GetDataFromAPI.fetchData("$baseUrl/get-all-vouchers?page=$currentPage", token);
       if (response != null) {
         final result = getAllVouchersFromJson(response);
-        if (result.vouchers!.data!.isEmpty) {
-          noData.value = 'No request';
-        }
-        vouchersList.value = result.vouchers!.data!;
-        final isLastPage = vouchersList.length <= _pageSize;
 
+        vouchersList.value = result.vouchers!.data!;
+        perPage.value = result.vouchers!.perPage!;
+        listSize.value = result.vouchers!.total!;
+
+        final isLastPage = vouchersList.length < perPage.value;
         if (isLastPage) {
           pagingController.appendLastPage(vouchersList);
         } else {
-          final nextPageKey = pageKey + vouchersList.length;
+          currentPage++;
+          var nextPageKey = currentPage;
           pagingController.appendPage(vouchersList, nextPageKey);
         }
       }
@@ -88,7 +56,7 @@ class GetAllVouchersController extends GetxController {
   @override
   void onInit() {
     pagingController.addPageRequestListener((pageKey) {
-      fetchPage(pageKey);
+      fetchVouchers(pageKey);
     });
     super.onInit();
   }

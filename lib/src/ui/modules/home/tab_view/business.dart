@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vouchex/src/controllers/businesses/get_businesses.dart';
+import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 import '../widgets/business_card.dart';
@@ -17,50 +18,34 @@ class BusinessScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(() =>
-          ModalProgress(
-            call: _businessesController.isLoading.value,
-            child: SafeArea(
-              child: Column(
-                children: [
-                  const SizedBox(height: 15,),
-                  Expanded(
-                    child: /*SmartRefresher(
-                      controller: _businessesController.refreshController,
-                      enablePullUp: true,
-                      onRefresh: () async {
-                        final result = await _businessesController.getBusinessesData(isRefresh: true);
-                        if (result) {
-                          _businessesController.refreshController.refreshCompleted();
-                        }
-                      },
-                      onLoading: () async {
-                        final result = await _businessesController.getBusinessesData();
-                        if (result) {
-                          _businessesController.refreshController.loadComplete();
-                        }
-                      },
-                      child:  _businessesController.businessesList.isNotEmpty ? ListView.builder(
-                        itemCount: _businessesController.businessesList.length,
-                        itemBuilder: (context, index) {
-                          return BusinessCard(businessModel: _businessesController.businessesList[index]);
-                        },
-                      ) : Center(
-                        child: smallText(_businessesController.noData.value),
-                      )
-                    ),*/
-                    PagedListView<int, Datum>(
-                      pagingController: _businessesController.pagingController,
-                      builderDelegate: PagedChildBuilderDelegate<Datum>(
-                          itemBuilder: (context, item, index) => BusinessCard(businessModel: _businessesController.businessesList[index])
-                      ),
-                  ),
-                  ),
-                ],
-              ),
-            ),
+      body: Column(
+        children: [
+          const SizedBox(height: 15,),
+          Expanded(
+            child: PagedListView<int, Datum>(
+                pagingController: _businessesController.pagingController,
+                builderDelegate: PagedChildBuilderDelegate<Datum>(
+                    newPageProgressIndicatorBuilder: (_) => const SpinKitPulse(
+                      color: primaryColor,
+                    ),
+                    itemBuilder: (context, item, index) {
+                      return Column(
+                        children: [
+                          BusinessCard(businessModel: item),
+                          if (index == _businessesController.pagingController.itemList!.length - 1)
+                            Container(
+                              padding: const EdgeInsets.all(15.0),
+                              child: smallText("No More Data"),
+                            ),
+                        ],
+                      );
+                    }
+                )),
           ),
-      )
+          const SizedBox(height: 50,)
+        ],
+      ),
     );
   }
 }
+

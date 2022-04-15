@@ -18,6 +18,8 @@ class CreateBusinessController extends GetxController{
   var isLoading = false.obs;
   var loginDetails = GetStorage();
 
+  var isVoucherFieldsVisible = false.obs;
+
   var selectedCoverImagePath = ''.obs;
   var selectedProfileImagePath = ''.obs;
 
@@ -115,16 +117,22 @@ class CreateBusinessController extends GetxController{
       request.fields['business_type_id'] = '$selectedBusinessID';
       request.fields['country_code'] = countryCode.value;
 
-      if((vName.text.isNotEmpty) && (vCode.text.isNotEmpty) && (selectedDate.value != DateTime.now()) && (marketValue.text.isNotEmpty) &&
-          (terms.text.isNotEmpty) && (groupValue.value != 3) && (selectedServicesListId.isNotEmpty)) {
-        request.fields['voucher_name'] = vName.text;
-        request.fields['code'] = vCode.text;
-        request.fields['voucher_expiry'] = format ;
-        request.fields['voucher_market_value'] = marketValue.text;
-        request.fields['voucher_terms'] = terms.text;
-        request.fields['voucher_is_static'] = '${groupValue.value}';
-        for(int i = 0; i < selectedServicesListId.length; i++){
-          request.fields['voucher_service_ids[$i]'] = '${selectedServicesListId[i]}';
+
+      if(isVoucherFieldsVisible.value == true) {
+        if((vName.text.isNotEmpty) && (vCode.text.isNotEmpty) && (selectedDate.value != DateTime.now()) && (marketValue.text.isNotEmpty) &&
+            (terms.text.isNotEmpty) && (groupValue.value != 3) && (selectedServicesListId.isNotEmpty)) {
+          request.fields['voucher_name'] = vName.text;
+          request.fields['code'] = vCode.text;
+          request.fields['voucher_expiry'] = format ;
+          request.fields['voucher_market_value'] = marketValue.text;
+          request.fields['voucher_terms'] = terms.text;
+          request.fields['voucher_is_static'] = '${groupValue.value}';
+          for(int i = 0; i < selectedServicesListId.length; i++){
+            request.fields['voucher_service_ids[$i]'] = '${selectedServicesListId[i]}';
+          }
+        } else {
+          isLoading.value = false;
+          Get.snackbar("Empty Fields", "Please fill all voucher fields");
         }
       }
 

@@ -131,7 +131,7 @@ class PEData {
     isRedeemed: json["is_redeemed"],
     requester: json["requester"] != null ? Requester.fromJson(json["requester"]) : null,
     requesteeVoucher: RequesteeVoucher.fromJson(json['requestee_voucher']),
-    requesterVoucher: RequesterVoucher.fromJson(json["requester_voucher"]),
+    requesterVoucher: json["requester_voucher"] != null ? RequesterVoucher.fromJson(json["requester_voucher"]) : null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -183,7 +183,7 @@ class Requester {
     email: json["email"],
     phoneNo: json["phone_no"],
     deviceToken: json["device_token"],
-    profilePhotoPath: json["profile_photo_path"],
+    profilePhotoPath: json["profile_photo_path"] ?? "",
     createdAt: DateTime.parse(json["created_at"]),
     roleId: json["role_id"],
     countryCode: json["country_code"],

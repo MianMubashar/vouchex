@@ -45,13 +45,23 @@ class QrController extends GetxController{
         },
         body: body
     );
-    isLoading.value = false;
     if(response.statusCode == 200) {
       print(response.body);
-      ImageDialog(
-          imageUrl: 'assets/images/congrats_img.png',
-          title: 'Congratulations\nYou Get 10% discount'
-      ).show(Get.context);
+
+      var res = response.body;
+      var jsonRes = json.decode(res);
+      var status = jsonRes["status"];
+      isLoading.value = false;
+      if(status) {
+        qrResult.clear();
+        /*ImageDialog(
+            imageUrl: 'assets/images/congrats_img.png',
+            title: '${jsonRes["message"]}'
+        ).show(Get.context);*/
+        Get.snackbar("${jsonRes["message"]}", "");
+      } else {
+        Get.snackbar("Error", "Something went wrong");
+      }
       return response.body;
     } else {
       return print(response.body);

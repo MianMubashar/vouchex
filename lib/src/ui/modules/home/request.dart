@@ -7,7 +7,7 @@ import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/modules/home/widgets/voucher_card.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
-class RequestScreen extends StatelessWidget {
+/*class RequestScreen extends StatelessWidget {
    RequestScreen({Key? key}) : super(key: key);
 
   final PendingExchangeRequestController _exchangeRequestController = Get.put(PendingExchangeRequestController());
@@ -23,53 +23,85 @@ class RequestScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10,),
             Expanded(
-              child: /*SmartRefresher(
-                  controller: _exchangeRequestController.peRefreshController,
-                  enablePullUp: true,
-                  onRefresh: () async {
-                    try{
-                      final result = await _exchangeRequestController.getPendingExchangeRequest(isRefresh: true);
-                      if (result) {
-                        _exchangeRequestController.peRefreshController.refreshCompleted();
-
-                      }
-                    } catch (e) {
-                      _exchangeRequestController.peRefreshController.refreshFailed();
-                      print(e);
-                     }
-                  },
-                  onLoading: () async {
-                    final result = await _exchangeRequestController.getPendingExchangeRequest();
-                    if (result) {
-                      _exchangeRequestController.peRefreshController.loadComplete();
-                    }
-                  },
-                  child: _exchangeRequestController.requesterVoucher.isNotEmpty ? ModalProgress(
-                    call: _exchangeRequestController.isLoading.value,
-                    child: Obx(()=>
-                       ListView.builder(
-                        itemCount: _exchangeRequestController.requesterVoucher.length,
-                        itemBuilder: (context, index) {
-                          return PendingRequestCard(model: _exchangeRequestController.requesterVoucher[index]);
-                        },
-                      ),
-                    ),
-                  ) :
-                  Center(
-                    child: smallText(_exchangeRequestController.noData.value),
-                  )
-              ),*/
-              PagedListView<int, PEData>(
+              child: PagedListView<int, PEData>(
                 pagingController: _exchangeRequestController.pagingController,
                 builderDelegate: PagedChildBuilderDelegate<PEData>(
-                    itemBuilder: (context, item, index) => PendingRequestCard(model: _exchangeRequestController.requesterVoucher[index])
+                    itemBuilder: (context, item, index) {
+                      return Column(
+                        children: [
+                          PendingRequestCard(model: item),
+                          if (index == _exchangeRequestController.pagingController.itemList!.length - 1)
+                            Container(
+                              padding: const EdgeInsets.all(15.0),
+                              child: smallText("No More Data"),
+                            ),
+                        ],
+                      );
+                    }
                 ),
               )
             ),
+            const SizedBox(height: 50,)
           ],
         ),
       ),
     );
   }
 
+}*/
+
+class RequestScreen extends StatefulWidget {
+  const RequestScreen({Key? key}) : super(key: key);
+
+  @override
+  State<RequestScreen> createState() => _RequestScreenState();
 }
+
+class _RequestScreenState extends State<RequestScreen> {
+
+  final PendingExchangeRequestController _exchangeRequestController = Get.put(PendingExchangeRequestController());
+
+  @override
+  void initState() {
+    _exchangeRequestController.pagingController.addPageRequestListener((pageKey) {
+      _exchangeRequestController.fetchPendingRequests(pageKey);
+    });
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            const CustomAppBar(
+              title: "Exchange Requests",
+            ),
+            const SizedBox(height: 10,),
+            Expanded(
+                child: PagedListView<int, PEData>(
+                  pagingController: _exchangeRequestController.pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<PEData>(
+                      itemBuilder: (context, item, index) {
+                        return Column(
+                          children: [
+                            PendingRequestCard(model: item),
+                            if (index == _exchangeRequestController.pagingController.itemList!.length - 1)
+                              Container(
+                                padding: const EdgeInsets.all(15.0),
+                                child: smallText("No More Data"),
+                              ),
+                          ],
+                        );
+                      }
+                  ),
+                )
+            ),
+            const SizedBox(height: 50,)
+          ],
+        ),
+      ),
+    );
+  }
+}
+

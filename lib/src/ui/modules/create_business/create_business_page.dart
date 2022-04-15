@@ -125,7 +125,11 @@ class CreateBusinessPage extends StatelessWidget {
                                 ),
                                 textConfirm: 'Add',
                                 onConfirm: () {
-                                  Get.back();
+                                  if(_businessController.businessEmail.text.isEmail) {
+                                    Get.back();
+                                  } else {
+                                    Get.snackbar('Error', 'The email must be a valid email address');
+                                  }
                                 },
                                 buttonColor: primaryColor,
                                 confirmTextColor: Colors.white
@@ -233,6 +237,7 @@ class CreateBusinessPage extends StatelessWidget {
                               child: smallText('Description', size: 18),
                             ),
                             VoucherFields(
+                              name: 'bDesc',
                               textEditingController: _businessController.description,
                               keyboardType: TextInputType.multiline,
                               textInputAction: TextInputAction.newline,
@@ -242,217 +247,218 @@ class CreateBusinessPage extends StatelessWidget {
                                   : null,
                             ),
                             const SizedBox(height: 15,),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: titleText('Create your First Voucher', size: 20),
-                            ),
-                            const SizedBox(height: 10,),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: smallText('Voucher Name', size: 18),
-                            ),
-                            VoucherFields(
-                              textEditingController: _businessController.vName,
-                              height: 50,
-                              keyboardType: TextInputType.text,
-                            ),
-                            const SizedBox(height: 15,),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: smallText('Voucher Code', size: 18),
-                            ),
-                            VoucherFields(
-                              textEditingController: _businessController.vCode,
-                              height: 50,
-                              keyboardType: TextInputType.text,
-                            ),
-                            const SizedBox(height: 10,),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: smallText('Voucher Description', size: 18),
-                            ),
-                            VoucherFields(
-                              textEditingController: _businessController.vDescription,
-                              keyboardType: TextInputType.multiline,
-                              textInputAction: TextInputAction.newline,
-                              maxLine: 3,
-                            ),
-                            const SizedBox(height: 10,),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: smallText('Select Services', size: 18),
-                            ),
-                            SizedBox(
-                              height: 60,
-                              child: FormBuilderDropdown<Service>(
-                                decoration: const InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                      borderRadius:  BorderRadius.all(Radius.circular(12)),
-                                      borderSide: BorderSide(color: secondaryColor, width: 1)
-                                  ),
-                                  enabledBorder:  OutlineInputBorder(
-                                      borderRadius:  BorderRadius.all(Radius.circular(12)),
-                                      borderSide: BorderSide(color: secondaryColor, width: 1)
-                                  ),
-                                  focusedBorder:  OutlineInputBorder(
-                                      borderRadius:  BorderRadius.all(Radius.circular(12)),
-                                      borderSide: BorderSide(color: secondaryColor, width: 1)
-                                  ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ListTile(
+                                  onTap: (){_businessController.isVoucherFieldsVisible.toggle();},
+                                  title: titleText('Want to create Voucher?', size: 20),
+                                  trailing: const Icon(Icons.keyboard_arrow_down),
+                                  contentPadding: EdgeInsets.zero,
                                 ),
-                                icon: const Icon(Icons.keyboard_arrow_down_sharp, color: Colors.black,),
-                                autofocus: true,
-                                onChanged: (Service? newValue) {
-                                  _businessController.selectedService.value = newValue!.title;
-                                  _businessController.selectedServiceId = newValue.id;
-                                  print(newValue);
-                                  if(_businessController.selectedServicesList.length <= 6) {
-                                    _businessController.selectedServicesList.add(newValue.title);
-                                    _businessController.selectedServicesListId.add(newValue.id);
-                                  }
-                                },
-                                name: 'services',
-                                hint: const Text('Select'),
-                                items: _businessController.getServicesList.map<DropdownMenuItem<Service>>((Service value) {
-                                  return DropdownMenuItem<Service>(
-                                    value: value,
-                                    child: Text(value.title),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                            const SizedBox(height: 15,),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: smallText('Voucher Type', size: 18),
-                            ),
-                            DropDownButton(
-                              list: _businessController.vType,
-                              borderColor: const Color.fromRGBO(0, 0, 0, 0.1),
-                              name: 'type',
-                              onChanged: (value) {
-                                _businessController.selectedType.value = value!;
-                              },
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: smallText(_businessController.selectedServicesList.isNotEmpty ? "Note: you are able to Select 7 services " : " ", size: 12),
-                            ),
-                            _businessController.selectedServicesList.isNotEmpty ?
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: SizedBox(
-                                height: 30,
-                                width: MediaQuery.of(context).size.width,
-                                child: ListView.separated(
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  separatorBuilder: (BuildContext context, int index) {
-                                    return const SizedBox(width: 5,);
-                                  },
-                                  itemCount: _businessController.selectedServicesList.length,
-                                  itemBuilder: (context, index) {
-                                    return Chip(
-                                      shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(7))
+                                if(_businessController.isVoucherFieldsVisible.value == true)...[
+                                  const SizedBox(height: 10,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: smallText('Voucher Name', size: 18),
+                                  ),
+                                  VoucherFields(
+                                    name: 'voucherName',
+                                    textEditingController: _businessController.vName,
+                                    height: 50,
+                                    keyboardType: TextInputType.text,
+                                  ),
+                                  const SizedBox(height: 15,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: smallText('Voucher Code', size: 18),
+                                  ),
+                                  VoucherFields(
+                                    name: 'voucherCode',
+                                    textEditingController: _businessController.vCode,
+                                    height: 50,
+                                    keyboardType: TextInputType.text,
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: smallText('Voucher Description', size: 18),
+                                  ),
+                                  VoucherFields(
+                                    name: 'vDescriptions',
+                                    textEditingController: _businessController.vDescription,
+                                    keyboardType: TextInputType.multiline,
+                                    textInputAction: TextInputAction.newline,
+                                    maxLine: 3,
+                                  ),
+                                  const SizedBox(height: 10,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: smallText('Select Services', size: 18),
+                                  ),
+                                  SizedBox(
+                                    height: 60,
+                                    child: FormBuilderDropdown<Service>(
+                                      decoration: const InputDecoration(
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        border: OutlineInputBorder(
+                                            borderRadius:  BorderRadius.all(Radius.circular(12)),
+                                            borderSide: BorderSide(color: secondaryColor, width: 1)
+                                        ),
+                                        enabledBorder:  OutlineInputBorder(
+                                            borderRadius:  BorderRadius.all(Radius.circular(12)),
+                                            borderSide: BorderSide(color: secondaryColor, width: 1)
+                                        ),
+                                        focusedBorder:  OutlineInputBorder(
+                                            borderRadius:  BorderRadius.all(Radius.circular(12)),
+                                            borderSide: BorderSide(color: secondaryColor, width: 1)
+                                        ),
                                       ),
-                                      padding: EdgeInsets.zero,
-                                      backgroundColor: detailsButtonColor,
-                                      label: smallText(_businessController.selectedServicesList[index], size: 12, clr: blackText),
-                                      deleteIcon: const Icon(Icons.clear, color: blackText, size: 12,),
-                                      onDeleted: (){
-                                        _businessController.selectedServicesList.removeWhere((element) => element == _businessController.selectedServicesList[index]);
-                                        _businessController.selectedServicesListId.removeWhere((element) => element == _businessController.selectedServicesListId[index]);
+                                      icon: const Icon(Icons.keyboard_arrow_down_sharp, color: Colors.black,),
+                                      autofocus: true,
+                                      onChanged: (Service? newValue) {
+                                        _businessController.selectedService.value = newValue!.title;
+                                        _businessController.selectedServiceId = newValue.id;
+                                        print(newValue);
+                                        if(_businessController.selectedServicesList.length <= 6) {
+                                          _businessController.selectedServicesList.add(newValue.title);
+                                          _businessController.selectedServicesListId.add(newValue.id);
+                                        }
                                       },
-                                    );
-                                  },
-                                ),
-                              ),
-                            ) : Container(),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: RadioListTile(
-                                      value: 0,
-                                      activeColor: Colors.black,
-                                      contentPadding: EdgeInsets.zero,
-                                      onChanged: (value) {
-                                        _businessController.groupValue.value = value as int;
-                                      },
-                                      groupValue: _businessController.groupValue.value,
-                                      title: smallText('Keep Static', size: 12, clr: blackText),
+                                      name: 'voucherServices',
+                                      hint: const Text('Select'),
+                                      items: _businessController.getServicesList.map<DropdownMenuItem<Service>>((Service value) {
+                                        return DropdownMenuItem<Service>(
+                                          value: value,
+                                          child: Text(value.title),
+                                        );
+                                      }).toList(),
                                     ),
                                   ),
-                                  Expanded(
-                                    child: RadioListTile(
-                                      value: 1,
-                                      activeColor: Colors.black,
-                                      contentPadding: EdgeInsets.zero,
-                                      onChanged: (value) {
-                                        _businessController.groupValue.value = value as int;
-                                      },
-                                      groupValue: _businessController.groupValue.value,
-                                      title: smallText('Ends', size: 12, clr: blackText),
+                                  const SizedBox(height: 15,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: smallText('Voucher Type', size: 18),
+                                  ),
+                                  DropDownButton(
+                                    list: _businessController.vType,
+                                    borderColor: const Color.fromRGBO(0, 0, 0, 0.1),
+                                    name: 'businessTypes',
+                                    onChanged: (value) {
+                                      _businessController.selectedType.value = value!;
+                                    },
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 5),
+                                    child: smallText(_businessController.selectedServicesList.isNotEmpty ? "Note: you are able to Select 7 services " : " ", size: 12),
+                                  ),
+                                  _businessController.selectedServicesList.isNotEmpty ?
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: SizedBox(
+                                      height: 30,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: ListView.separated(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        separatorBuilder: (BuildContext context, int index) {
+                                          return const SizedBox(width: 5,);
+                                        },
+                                        itemCount: _businessController.selectedServicesList.length,
+                                        itemBuilder: (context, index) {
+                                          return Chip(
+                                            shape: const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(Radius.circular(7))
+                                            ),
+                                            padding: EdgeInsets.zero,
+                                            backgroundColor: detailsButtonColor,
+                                            label: smallText(_businessController.selectedServicesList[index], size: 12, clr: blackText),
+                                            deleteIcon: const Icon(Icons.clear, color: blackText, size: 12,),
+                                            onDeleted: (){
+                                              _businessController.selectedServicesList.removeWhere((element) => element == _businessController.selectedServicesList[index]);
+                                              _businessController.selectedServicesListId.removeWhere((element) => element == _businessController.selectedServicesListId[index]);
+                                            },
+                                          );
+                                        },
+                                      ),
                                     ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 15,),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: smallText('Terms and Conditions', size: 18),
-                            ),
-                            SizedBox(
-                              height: 50,
-                              child: ListTile(
-                                onTap: (){_businessController.selectDate();},
-                                tileColor: Colors.white,
-                                title: smallText(DateFormat("dd/MM/yy").format(_businessController.selectedDate.value).toString()),
-                                trailing: const Icon(Icons.date_range_sharp, color: Colors.black),
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(12),
+                                  ) : Container(),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: RadioListTile(
+                                            value: 0,
+                                            activeColor: Colors.black,
+                                            contentPadding: EdgeInsets.zero,
+                                            onChanged: (value) {
+                                              _businessController.groupValue.value = value as int;
+                                            },
+                                            groupValue: _businessController.groupValue.value,
+                                            title: smallText('Keep Static', size: 12, clr: blackText),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: RadioListTile(
+                                            value: 1,
+                                            activeColor: Colors.black,
+                                            contentPadding: EdgeInsets.zero,
+                                            onChanged: (value) {
+                                              _businessController.groupValue.value = value as int;
+                                            },
+                                            groupValue: _businessController.groupValue.value,
+                                            title: smallText('Ends', size: 12, clr: blackText),
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                    side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.1), width: 0.5)
-                                ),
-                              ),
+                                  ),
+                                  const SizedBox(height: 15,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: smallText('Terms and Conditions', size: 18),
+                                  ),
+                                  SizedBox(
+                                    height: 50,
+                                    child: ListTile(
+                                      onTap: (){_businessController.selectDate();},
+                                      tileColor: Colors.white,
+                                      title: smallText(DateFormat("dd/MM/yy").format(_businessController.selectedDate.value).toString()),
+                                      trailing: const Icon(Icons.date_range_sharp, color: Colors.black),
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(Radius.circular(12),
+                                          ),
+                                          side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.1), width: 0.5)
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: smallText('Market Value (\$)', size: 18),
+                                  ),
+                                  VoucherFields(
+                                    textEditingController: _businessController.marketValue,
+                                    height: 50,
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  const SizedBox(height: 15,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: smallText('Terms and Conditions', size: 18),
+                                  ),
+                                  VoucherFields(
+                                    textEditingController: _businessController.terms,
+                                    keyboardType: TextInputType.multiline,
+                                    textInputAction: TextInputAction.newline,
+                                    maxLine: 3,
+                                  ),
+                                ]
+                              ],
                             ),
-                            const SizedBox(height: 15,),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: smallText('Market Value (\$)', size: 18),
-                            ),
-                            VoucherFields(
-                              textEditingController: _businessController.marketValue,
-                              height: 50,
-                              keyboardType: TextInputType.number,
-                            ),
-                            const SizedBox(height: 15,),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: smallText('Terms and Conditions', size: 18),
-                            ),
-                            VoucherFields(
-                              textEditingController: _businessController.terms,
-                              keyboardType: TextInputType.multiline,
-                              textInputAction: TextInputAction.newline,
-                              maxLine: 3,
-                            ),
-                            /*Align(
-                          alignment: Alignment.bottomRight,
-                          child: DetailsButton(
-                            width: 100,
-                            showIcon: false,
-                            onPress: (){},
-                            title: 'Create',
-                            buttonColor: Colors.black,
-                            titleColor: whiteText,
-                          ),
-                        ),*/
                             const SizedBox(height: 25,),
                           ],
                         ),
