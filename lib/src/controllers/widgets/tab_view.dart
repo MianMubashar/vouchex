@@ -15,7 +15,11 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
   var userName = ''.obs;
   var profilePhotoPath = ''.obs;
   var profilePhotoUrl = ''.obs;
+  // var buisnessPhotoUrl= ''.obs;
+  var buisnessEmail= ''.obs;
+  var buisnessId= ''.obs;
   var isLoading = false.obs;
+
   var loginDetails = GetStorage();
 
   final List<Tab> tabs = <Tab>[
@@ -50,6 +54,9 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
         userName.value = apiResponse.user.business!.name!;
         profilePhotoPath.value = apiResponse.user.business!.profilePhotoPath!;
         profilePhotoUrl.value = apiResponse.user.profilePhotoUrl!;
+         buisnessId.value = apiResponse.user.businessId.toString();
+        buisnessEmail.value = apiResponse.user.business!.email!;
+
       }
       isLoading.value == false;
       return response;

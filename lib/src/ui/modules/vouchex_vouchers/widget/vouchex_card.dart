@@ -38,6 +38,9 @@ class VouchexCard extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 10, right: 9),
                   child:
                   CachedNetworkImage(
+                    height: 80,
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.cover,
                     imageUrl: "$networkImageBaseUrl${model.coverPhotoPath}",
                     placeholder: (context, url) => const SpinKitPulse(color: primaryColor, size: 25,),
                     errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -74,7 +77,7 @@ class VouchexCard extends StatelessWidget {
             RoundedRectangleButton(
               onPress: () async  {
                 var price = model.marketValue.substring(0,2);
-                await _stripeController.makePayment(price);
+                await _stripeController.makePayment(price,model.id);
               },
               title: 'Buy Now',
             ),

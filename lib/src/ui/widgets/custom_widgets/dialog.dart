@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/ui/widgets/custom_widgets/text_widgets.dart';
 
+import '../../../data/model/models.dart';
+
 class AppDialog {
   final String? oKText, cancelText;
   final void Function()? oKPressed, cancelPressed;
@@ -18,6 +20,7 @@ class AppDialog {
   final String requesterProfileImage;
   final String requesterCoverImage;
   final String requesterTerms;
+  final PEData model;
   AppDialog({
     this.oKText = 'OK',
     this.cancelText = 'Cancel',
@@ -35,6 +38,7 @@ class AppDialog {
     required this.requesterProfileImage,
     required this.requesterCoverImage,
     required this.requesterTerms,
+    required this.model
   });
 
   show(context) {

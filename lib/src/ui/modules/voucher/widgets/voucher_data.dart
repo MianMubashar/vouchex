@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:vouchex/src/controllers/vouchers/claim_voucher_controller.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
+
+import '../../../../controllers/controllers.dart';
 
 class VoucherData extends StatelessWidget {
   VoucherData({Key? key}) : super(key: key);
 
   //final VoucherDataController _data = Get.put(VoucherDataController());
+  final ClaimVoucherController _claimVoucherController=Get.put(ClaimVoucherController());
+
+  final HomeTabs _homeTabs = Get.put(HomeTabs());
 
   var list = <AllVoucherServices>[];
   int? userId;
@@ -58,7 +64,14 @@ class VoucherData extends StatelessWidget {
                           child: SmallButton(
                             onPress: () {
                               // Get.toNamed('/BottomBar');
-                              Get.back();
+                              if(_homeTabs.buisnessId.value != ''){
+                                _claimVoucherController.requestClaimVoucher(context,voucherId);
+                              }else{
+                                Get.snackbar("Please create buisness profile to enjoy more features", "", colorText: blackText,
+                                    icon: const Icon(Icons.verified_outlined, color: Colors.black,),
+                                    backgroundColor: Colors.white);
+                              }
+
                               /*ImageDialog(
                                   title: 'Your Voucher has been Successfully exchange',
                                   imageUrl: 'assets/images/congrats_img.png').show(context);*/
@@ -185,12 +198,18 @@ class VoucherData extends StatelessWidget {
               Get.arguments['isFree'] == 0 && Get.arguments['fromWhere'] == "vouchers"
                   ? RoundedRectangleButton(
                       onPress: () {
-                        Get.back();
-                        var voucherData = {
-                          'userId': userId,
-                          'voucherId': voucherId,
-                        };
-                        Get.toNamed('/myVoucherList',arguments: voucherData);
+                        if(_homeTabs.buisnessId != '') {
+                          Get.back();
+                          var voucherData = {
+                            'userId': userId,
+                            'voucherId': voucherId,
+                          };
+                          Get.toNamed('/myVoucherList', arguments: voucherData);
+                        }else{
+                          Get.snackbar("Please create buisness profile to enjoy more features", "", colorText: blackText,
+                              icon: const Icon(Icons.verified_outlined, color: Colors.black,),
+                              backgroundColor: Colors.white);
+                        }
                       },
                       title: "Exchange Request",
                     )

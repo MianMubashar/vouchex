@@ -25,7 +25,7 @@ class SearchController extends GetxController{
     isLoading.value = true;
     var token = loginDetails.read("token");
     var response = await GetDataFromAPI.fetchData("$baseUrl/get-business-types", token);
-    var result = getBusinessTypesFromJson(response!);
+    var result = getBusinessTypesFromJson(response!) ;
     getBusinessTypeList.value = result.businesses;
     var serviceResponse = await GetDataFromAPI.fetchData("$baseUrl/get-services", token);
     var serviceResult = getServicesFromJson(serviceResponse!);

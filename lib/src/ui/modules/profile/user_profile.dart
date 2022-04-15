@@ -31,17 +31,17 @@ class UserProfileScreen extends StatelessWidget {
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12))
                 ),
-                leading: Image.asset("assets/images/profile_img_1.png", width: 55, height: 55,),
+                leading: CircleAvatar(radius:40,backgroundImage: NetworkImage(_homeTabs.buisnessId.value != "" ? "$networkImageBaseUrl${_homeTabs.profilePhotoPath.value}" : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png")),
                 title: Row(
                   children: [
-                    smallText("North 9 Designs", size: 20, clr: Colors.black),
-                    IconButton(
-                      onPressed: (){},
-                      icon: const Icon(Icons.edit_outlined, color: primaryColor,),
-                    ),
+                    smallText(_homeTabs.buisnessId.value != "" ? "${_homeTabs.userName}" : '', size: 20, clr: Colors.black),
+                    // IconButton(
+                    //   onPressed: (){},
+                    //   icon: const Icon(Icons.edit_outlined, color: primaryColor,),
+                    // ),
                   ],
                 ),
-                subtitle: smallText("North 9 Designs@gmail.com"),
+                subtitle: smallText(_homeTabs.buisnessId.value != "" ? _homeTabs.buisnessEmail.value : ''),
               ),
             ),
             const SizedBox(height: 15,),

@@ -207,7 +207,8 @@ class PendingRequestCard extends StatelessWidget {
                             model.id!,
                             "accept"
                         );
-                      }
+                      },
+                    model: model
                   ).show(context);
                 },
               ),

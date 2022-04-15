@@ -18,4 +18,4 @@ String baseUrl = 'https://vouchex.reverbsoft.com/api';
 //String baseUrl = 'http://192.168.18.17/VouchEx/public/api';
 
 String networkImageBaseUrl='https://vouchex.reverbsoft.com/';
-//String networkImageBaseUrl='http://192.168.18.17/VouchEx/public/api/';
+//String networkImageBaseUrl='http://192.168.18.17/VouchEx/public/';

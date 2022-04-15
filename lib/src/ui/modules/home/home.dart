@@ -25,11 +25,13 @@ class HomeScreen extends StatelessWidget {
                     if(snapshot.connectionState == ConnectionState.done) {
                       return InkWell(
                         onTap: () {
+                          print(_homeTabs.profilePhotoPath.value);
                           if(_homeTabs.userName.value == "") {
                             Get.toNamed('/CreateBusiness');
                           } else {
                             Get.toNamed('/Profile');
                           }
+
                         },
                         child: CustomAppBar(
                           title: _homeTabs.userName.value != "" ? "Welcome ${_homeTabs.userName.value}" : "Register as Business for\nmore features",

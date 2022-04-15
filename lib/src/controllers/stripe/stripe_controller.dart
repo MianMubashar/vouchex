@@ -3,13 +3,15 @@ import 'package:get/get.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
+import 'package:vouchex/src/controllers/vouchex_vouchers/purchase_vouchex_voucher_controller.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
 class StripeController extends GetxController{
 
   Map<String, dynamic>? paymentIntentData;
+  PurchaseVouchexVoucherController _purchaseVouchexVoucherController=Get.put(PurchaseVouchexVoucherController());
 
-  Future<void> makePayment(String amount) async {
+  Future<void> makePayment(String amount,int voucherId) async {
     try {
 
       paymentIntentData =
@@ -24,7 +26,7 @@ class StripeController extends GetxController{
               merchantDisplayName: 'Vouchex')).then((value){
       });
       ///now finally display payment sheet
-      displayPaymentSheet();
+     await displayPaymentSheet(amount,voucherId);
     } catch (e, s) {
       if (kDebugMode) {
         print('exception:$e$s');
@@ -32,14 +34,14 @@ class StripeController extends GetxController{
     }
   }
 
-  displayPaymentSheet() async {
+  displayPaymentSheet(String amount,int voucherId) async {
 
     try {
       await Stripe.instance.presentPaymentSheet(
           parameters: PresentPaymentSheetParameters(
             clientSecret: paymentIntentData!['client_secret'],
             confirmPayment: true,
-          )).then((newValue){
+          )).then((newValue) async {
 
 
         print('payment intent'+paymentIntentData!['id'].toString());
@@ -47,9 +49,8 @@ class StripeController extends GetxController{
         print('payment intent'+paymentIntentData!['amount'].toString());
         print('payment intent'+paymentIntentData.toString());
         //orderPlaceApi(paymentIntentData!['id'].toString());
-        ImageDialog(
-            title: 'Congratulations\nYou have successfully purchase',
-            imageUrl: 'assets/images/congrats_img.png').show(Get.context!);
+
+        await _purchaseVouchexVoucherController.requestPurchaseVouchexVoucher(Get.context!, voucherId, amount);
         paymentIntentData = null;
 
       }).onError((error, stackTrace){
