@@ -56,7 +56,7 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
         "Authorization" : "Bearer $token"
       },
     );
-    if(response.statusCode == 200 && response.body.isNotEmpty) {
+    if(response.statusCode == 200) {
       isLoading.value == false;
       var apiResponse = validateTokenModelFromJson(response.body);
       if (apiResponse.user.businessId != null) {
@@ -67,20 +67,18 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
         loginDetails.write("cover", profilePhotoPath.value);
         businessId.value = apiResponse.user.businessId.toString();
         businessEmail.value = apiResponse.user.business!.email!;
-      } else {
-        isLoading.value == false;
-        loginDetails.remove("profile");
-        loginDetails.remove("cover");
-        loginDetails.remove("token");
-        loginDetails.remove("userId");
-        loginDetails.remove("device_token");
-        authService.signOut();
-        Get.offAllNamed('/');
       }
+      isLoading.value == false;
+      return response;
     }
     else {
       isLoading.value == false;
-      return null;
+      loginDetails.remove("profile");
+      loginDetails.remove("cover");
+      loginDetails.remove("token");
+      loginDetails.remove("userId");
+      authService.signOut();
+      Get.offAllNamed('/');
     }
   }
 
