@@ -55,7 +55,7 @@ class EditBusinessController extends GetxController {
     super.onReady();
   }
 
-  void registerAsBusiness() async {
+  void editAsBusiness() async {
     isLoading.value = true;
     var token = loginDetails.read("token");
     try{
@@ -76,7 +76,6 @@ class EditBusinessController extends GetxController {
         'Accept': 'application/json',
         "Authorization" : "Bearer $token"
       };
-      isLoading.value = false;
       request.headers.addAll(headers);
       var response = await request.send();
       var responseData = await response.stream.toBytes();
@@ -85,14 +84,35 @@ class EditBusinessController extends GetxController {
       var jsonString = json.decode(responseString);
       var resStatus = jsonString['status'];
       if(resStatus == true) {
-        Get.offAndToNamed('/Profile');
+        isLoading.value = false;
+        Get.back();
+        // Get.offAndToNamed('/Profile');
       } else {
-        Get.snackbar("Error", "Something went wrong");
+        isLoading.value = false;
+        if(jsonString.containsKey("error")){
+          var errors = jsonString["error"] as Map<String,dynamic>;
+          var errorMessage = "";
+          errors.forEach((key, value) {
+            var data = value[0];
+            errorMessage += data;
+            errorMessage += "\n";
+          });
+          Get.snackbar("Error", errorMessage);
+        }else if(jsonString.containsKey("message")){
+          Get.snackbar("Error", jsonString['message']);
+        }else{
+          Get.snackbar("Error", "Something went wrong");
+        }
+        if (kDebugMode) {
+          print(jsonString);
+        }
         if (kDebugMode) {
           print(jsonString);
         }
       }
     } catch(e) {
+      isLoading.value = false;
+      Get.snackbar("Error", "Something went wrong");
       debugPrint(e.toString());
     }
   }

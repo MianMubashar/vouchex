@@ -54,33 +54,37 @@ class MyBusinessDetails extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 20,),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(left: 30, right: 30),
+                      //   child: Column(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //
+                      //     ],
+                      //   ),
+                      // ),
+                      IconButton(
+                        onPressed: (){
+                          var data = {
+                            "name" : _businessDetailsController.name,
+                            "email" : _businessDetailsController.email,
+                            "phone" : _businessDetailsController.phone,
+                            "countryCode" : _businessDetailsController.countryCode,
+                            "description" : _businessDetailsController.description,
+                            "business_type_id" : _businessDetailsController.businessTypeId,
+                            "businessTypeName" : _businessDetailsController.businessTypeName,
+                            "business_id" : _businessDetailsController.businessId,
+                            "profilePhoto" : "$networkImageBaseUrl${_businessDetailsController.profilePhoto}",
+                            "coverPhoto" : "$networkImageBaseUrl${_businessDetailsController.coverPhoto}",
+                            "businessTypeList" : _businessDetailsController.getBusinessTypeList,
+                          };
+                          Get.toNamed('/EditBusiness', arguments: data);
+                        },
+                        icon: const Icon(Icons.edit, color: primaryColor,),
+                      ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 30, right: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            smallText(_businessDetailsController.name, size: 20, clr: Colors.black),
-                            IconButton(
-                              onPressed: (){
-                                var data = {
-                                  "name" : _businessDetailsController.name,
-                                  "email" : _businessDetailsController.email,
-                                  "phone" : _businessDetailsController.phone,
-                                  "countryCode" : _businessDetailsController.countryCode,
-                                  "description" : _businessDetailsController.description,
-                                  "business_type_id" : _businessDetailsController.businessTypeId,
-                                  "businessTypeName" : _businessDetailsController.businessTypeName,
-                                  "business_id" : _businessDetailsController.businessId,
-                                  "profilePhoto" : "$networkImageBaseUrl${_businessDetailsController.profilePhoto}",
-                                  "coverPhoto" : "$networkImageBaseUrl${_businessDetailsController.coverPhoto}",
-                                  "businessTypeList" : _businessDetailsController.getBusinessTypeList,
-                                };
-                                Get.toNamed('/EditBusiness', arguments: data);
-                                },
-                              icon: const Icon(Icons.edit, color: primaryColor,),
-                            )
-                          ],
-                        ),
+                          padding: const EdgeInsets.only(left: 15),
+                          child: smallText(_businessDetailsController.name, size: 20, clr: Colors.black),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 15),

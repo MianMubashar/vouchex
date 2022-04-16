@@ -253,7 +253,7 @@ class CreateBusinessPage extends StatelessWidget {
                                 ListTile(
                                   onTap: (){_businessController.isVoucherFieldsVisible.toggle();},
                                   title: titleText('Want to create Voucher?', size: 20),
-                                  trailing: const Icon(Icons.keyboard_arrow_down),
+                                  trailing: _businessController.isVoucherFieldsVisible.value ? const Icon(Icons.keyboard_arrow_up) : const Icon(Icons.keyboard_arrow_down),
                                   contentPadding: EdgeInsets.zero,
                                 ),
                                 if(_businessController.isVoucherFieldsVisible.value == true)...[

@@ -218,7 +218,7 @@ class EditBusiness extends StatelessWidget {
                       RoundedRectangleButton(
                         onPress: (){
                           if(_formKey.currentState!.validate()) {
-                            _businessController.registerAsBusiness();
+                            _businessController.editAsBusiness();
                           }
                         },
                         title: 'Edit Business',

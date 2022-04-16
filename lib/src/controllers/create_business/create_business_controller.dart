@@ -132,7 +132,6 @@ class CreateBusinessController extends GetxController{
           }
         } else {
           isLoading.value = false;
-          Get.snackbar("Empty Fields", "Please fill all voucher fields");
         }
       }
 
@@ -148,20 +147,34 @@ class CreateBusinessController extends GetxController{
       if (kDebugMode) {
         print(responseString);
       }
-      var jsonString = json.decode(responseString);
+      var jsonString = json.decode(responseString) as Map<String,dynamic>;
       var resStatus = jsonString['status'];
       if(resStatus == true) {
         isLoading.value = false;
         Get.offAndToNamed('/BottomBar');
       } else {
         isLoading.value = false;
-        Get.snackbar("Error", "Something went wrong");
+        if(jsonString.containsKey("error")){
+           var errors = jsonString["error"] as Map<String,dynamic>;
+           var errorMessage = "";
+           errors.forEach((key, value) {
+              var data = value[0];
+              errorMessage += data;
+              errorMessage += "\n";
+           });
+           Get.snackbar("Error", errorMessage);
+        }else if(jsonString.containsKey("message")){
+          Get.snackbar("Error", jsonString['message']);
+        }else{
+          Get.snackbar("Error", "Something went wrong");
+        }
         if (kDebugMode) {
           print(jsonString);
         }
       }
     }catch (e) {
       isLoading.value = false;
+      Get.snackbar("Error", "Something went wrong");
       debugPrint(e.toString());
     }
   }
