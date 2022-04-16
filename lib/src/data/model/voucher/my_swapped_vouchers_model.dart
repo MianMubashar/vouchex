@@ -111,6 +111,7 @@ class SwappedVouchersList {
     this.updatedAt,
     this.deletedAt,
     this.service,
+    this.business
   });
 
   int? id;
@@ -132,6 +133,7 @@ class SwappedVouchersList {
   DateTime?updatedAt;
   String? deletedAt;
   List<SwappedVouchersServices>? service;
+  SwappedVoucherBusiness? business;
 
   factory SwappedVouchersList.fromJson(Map<String, dynamic> json) => SwappedVouchersList(
     id: json["id"],
@@ -153,6 +155,7 @@ class SwappedVouchersList {
     updatedAt: DateTime.parse(json["updated_at"]),
     deletedAt: json["deleted_at"],
     service: List<SwappedVouchersServices>.from(json["service"].map((x) => SwappedVouchersServices.fromJson(x))),
+    business: SwappedVoucherBusiness.fromJson(json["business"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -175,6 +178,63 @@ class SwappedVouchersList {
     "updated_at": updatedAt!.toIso8601String(),
     "deleted_at": deletedAt,
     "service": List<dynamic>.from(service!.map((x) => x.toJson())),
+    "business": business!.toJson(),
+  };
+}
+
+class SwappedVoucherBusiness {
+  SwappedVoucherBusiness({
+    this.id,
+    this.name,
+    this.description,
+    this.coverPhotoPath,
+    this.profilePhotoPath,
+    this.businessTypeId,
+    this.createdAt,
+    this.updatedAt,
+    this.email,
+    this.phoneNo,
+    this.countryCode,
+  });
+
+  int? id;
+  String? name;
+  String? description;
+  String? coverPhotoPath;
+  String? profilePhotoPath;
+  int? businessTypeId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? email;
+  String? phoneNo;
+  String? countryCode;
+
+  factory SwappedVoucherBusiness.fromJson(Map<String, dynamic> json) => SwappedVoucherBusiness(
+    id: json["id"],
+    name: json["name"],
+    description: json["description"],
+    coverPhotoPath: json["cover_photo_path"],
+    profilePhotoPath: json["profile_photo_path"],
+    businessTypeId: json["business_type_id"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    email: json["email"],
+    phoneNo: json["phone_no"],
+    countryCode: json["country_code"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "description": description,
+    "cover_photo_path": coverPhotoPath,
+    "profile_photo_path": profilePhotoPath,
+    "business_type_id": businessTypeId,
+    "created_at": createdAt!.toIso8601String(),
+    "updated_at": updatedAt!.toIso8601String(),
+    "email": email,
+    "phone_no": phoneNo,
+    "country_code": countryCode,
   };
 }
 

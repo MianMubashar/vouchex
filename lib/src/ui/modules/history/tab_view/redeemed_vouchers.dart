@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/modules/history/modules.dart';
 import 'package:vouchex/src/ui/widgets/custom_widgets/modal_progress.dart';
+import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
 class RedeemedVouchers extends StatelessWidget {
    RedeemedVouchers({Key? key}) : super(key: key);
@@ -36,12 +37,14 @@ class RedeemedVouchers extends StatelessWidget {
                     _myRedeemedVoucherController.refreshController.loadFailed();
                   }
                 },
-                child: ListView.builder(
+                child: _myRedeemedVoucherController.redeemedVouchersList!.isNotEmpty ? ListView.builder(
                   itemCount: _myRedeemedVoucherController.redeemedVouchersList!.length,
                   itemBuilder: (context, index) {
-                    return VoucherHistoryCard(model: _myRedeemedVoucherController.redeemedVouchersList![index]);
+                    return SwappedVoucherCard(model: _myRedeemedVoucherController.redeemedVouchersList![index]);
                   },
-                ),
+                ) : Center(
+                  child: smallText(_myRedeemedVoucherController.noData.value),
+                )
               ),
             ),
           ),

@@ -23,9 +23,6 @@ class CreateBusinessController extends GetxController{
   var selectedCoverImagePath = ''.obs;
   var selectedProfileImagePath = ''.obs;
 
-
-  final HomeTabs _homeTabs = Get.put(HomeTabs());
-
   List<Business> getBusinessTypeList = [];
   int selectedBusinessID = 0;
   var selectedBusiness = ''.obs;

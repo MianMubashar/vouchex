@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
@@ -12,6 +13,7 @@ class UserProfileScreen extends StatelessWidget {
 
   final AuthService authService = AuthService();
    final HomeTabs _homeTabs = Get.put(HomeTabs());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,17 +33,13 @@ class UserProfileScreen extends StatelessWidget {
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12))
                 ),
-                leading: CircleAvatar(radius:40,backgroundImage: NetworkImage(_homeTabs.buisnessId.value != "" ? "$networkImageBaseUrl${_homeTabs.profilePhotoPath.value}" : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png")),
+                leading: CircleAvatar(radius:40,backgroundImage: NetworkImage(_homeTabs.businessId.value != "" ? "$networkImageBaseUrl${_homeTabs.profilePhotoPath.value}" : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png")),
                 title: Row(
                   children: [
-                    smallText(_homeTabs.buisnessId.value != "" ? "${_homeTabs.userName}" : '', size: 20, clr: Colors.black),
-                    // IconButton(
-                    //   onPressed: (){},
-                    //   icon: const Icon(Icons.edit_outlined, color: primaryColor,),
-                    // ),
+                    smallText(_homeTabs.businessId.value != "" ? "${_homeTabs.userName}" : '', size: 20, clr: Colors.black),
                   ],
                 ),
-                subtitle: smallText(_homeTabs.buisnessId.value != "" ? _homeTabs.buisnessEmail.value : ''),
+                subtitle: smallText(_homeTabs.businessId.value != "" ? _homeTabs.businessEmail.value : ''),
               ),
             ),
             const SizedBox(height: 15,),
@@ -61,6 +59,12 @@ class UserProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 20),
               child: RoundedButtonSolidColor(
                 onPress: (){
+                  var loginDetails = GetStorage();
+                  loginDetails.remove("profile");
+                  loginDetails.remove("cover");
+                  loginDetails.remove("token");
+                  loginDetails.remove("userId");
+                  loginDetails.remove("device_token");
                   authService.signOut();
                   Get.offAllNamed('/');
                   },

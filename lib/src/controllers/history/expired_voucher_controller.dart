@@ -7,12 +7,13 @@ import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/data/services/services.dart';
 
 class ExpiredVoucherController extends GetxController {
-  List<VoucherHistoryData>? expiredVouchersList = [];
+  List<MyVouchersData>? expiredVouchersList = [];
   int currentPage = 1;
   int totalPages = 1;
   final RefreshController refreshController = RefreshController(initialRefresh: true);
   var isLoading = false.obs;
   var loginDetails = GetStorage();
+  var noData = ''.obs;
 
   Future<bool> getMyExpiredVouchers({bool isRefresh = false}) async {
     if (isRefresh) {
@@ -26,9 +27,12 @@ class ExpiredVoucherController extends GetxController {
     var token = loginDetails.read("token");
     debugPrint("This is token $token");
     isLoading.value == true;
-    var response = await GetDataFromAPI.fetchData("$baseUrl/my-redeemed-voucher", token);
+    var response = await GetDataFromAPI.fetchData("$baseUrl/my-expired-vouchers", token);
     if (response != null) {
-      final result = voucherHistoryModelFromJson(response);
+      final result = myVouchersFromJson(response);
+      if(result.vouchers!.data!.isEmpty) {
+        noData.value = 'No Data';
+      }
       if (isRefresh) {
         if(result.vouchers != null) {
           expiredVouchersList = result.vouchers!.data;

@@ -31,7 +31,6 @@ class HomeScreen extends StatelessWidget {
                           } else {
                             Get.toNamed('/Profile');
                           }
-
                         },
                         child: CustomAppBar(
                           title: _homeTabs.userName.value != "" ? "Welcome ${_homeTabs.userName.value}" : "Register as Business for\nmore features",

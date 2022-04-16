@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/ui/widgets/custom_widgets/text_widgets.dart';
 
@@ -113,11 +114,19 @@ class AppDialog {
                     children: [
                       Image.asset("assets/images/voucher_card.png", width: 140),
                       Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 0),
-                        child: CachedNetworkImage(
-                          width: 140,
-                          imageUrl: requesterCoverImage,
-                          errorWidget: (context, url, error) => const Icon(Icons.error, size: 10,),
+                        padding: const EdgeInsets.only(left: 0, right: 0),
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(5),
+                            topRight: Radius.circular(5),
+                          ),
+                          child: CachedNetworkImage(
+                            width: 137,
+                            height: 28,
+                            imageUrl: requesterCoverImage,
+                            errorWidget: (context, url, error) => const Icon(Icons.error, size: 10,),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Padding(
@@ -148,14 +157,22 @@ class AppDialog {
                   Stack(
                     children: [
                       Image.asset("assets/images/voucher_card.png", width: 140),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(left: 15, right: 0),
-                      //   child: CachedNetworkImage(
-                      //     width: 140,
-                      //     imageUrl: requesteeCoverImage,
-                      //     errorWidget: (context, url, error) => const Icon(Icons.error, size: 10,),
-                      //   ),
-                      // ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 0, right: 0),
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(5),
+                            topRight: Radius.circular(5),
+                          ),
+                          child: CachedNetworkImage(
+                            width: 137,
+                            height: 28,
+                            imageUrl: requesteeCoverImage,
+                            errorWidget: (context, url, error) => const Icon(Icons.error, size: 10,),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(top: 15,left: 10),
                         child: CircleAvatar(
@@ -168,7 +185,10 @@ class AppDialog {
                         top: MediaQuery.of(context).size.height * 0.05,
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: titleText(requesteeVoucherName, size: 8)),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: titleText(requesteeVoucherName, size: 8),
+                            )),
                       ),
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.25,

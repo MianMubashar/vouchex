@@ -32,8 +32,6 @@ class FreeVouchers extends StatelessWidget {
                       final result = await _freeVoucherController.getFreeVouchers();
                       if (result) {
                         _freeVoucherController.refreshController.loadComplete();
-                      } else {
-                        _freeVoucherController.refreshController.loadFailed();
                       }
                     },
                     child: _freeVoucherController.freeVoucherList.isNotEmpty ? ListView.builder(

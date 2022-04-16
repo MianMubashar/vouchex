@@ -74,6 +74,7 @@ class SearchScreen extends StatelessWidget {
                                       _controller.voucher.toggle();
                                       _controller.selectedValue.value = 'Voucher';
                                       _controller.business.value = false;
+                                      _controller.groupValue.value = 3;
                                     },
                                     child: Text(
                                       'Voucher',
@@ -171,7 +172,8 @@ class SearchScreen extends StatelessWidget {
                                       contentPadding: EdgeInsets.zero,
                                       onChanged: (value) {
                                         _controller.groupValue.value = value as int;
-                                        _controller.selectedGroupValue.value = true;
+                                        _controller.isEnd.value = 0;
+                                        _controller.isStatic.value = 1;
                                       },
                                       groupValue: _controller.groupValue.value,
                                       title: smallText('Keep Static', size: 12, clr: blackText),
@@ -184,7 +186,8 @@ class SearchScreen extends StatelessWidget {
                                       contentPadding: EdgeInsets.zero,
                                       onChanged: (value) {
                                         _controller.groupValue.value = value as int;
-                                        _controller.selectedGroupValue.value = false;
+                                        _controller.isEnd.value = 1;
+                                        _controller.isStatic.value = 0;
                                       },
                                       groupValue: _controller.groupValue.value,
                                       title: smallText('Ends', size: 12, clr: blackText),
@@ -201,12 +204,22 @@ class SearchScreen extends StatelessWidget {
                   const SizedBox(height: 50,),
                   RoundedRectangleButton(
                     onPress: (){
-                      var  data = {
-                      "servicesList" : _controller.selectedServicesList,
-                      "businessTypeList" : _controller.selectedBusinessType,
-                      "searchResult" : _controller.selectedValue.value,
-                  };
-                  Get.toNamed('/SearchResults', arguments: data);
+                      if(_controller.selectedValue.value == ''){
+                        Get.snackbar("Please select business or voucher", "");
+                      } else if((_controller.selectedValue.value == 'Business') && (_controller.selectedBusinessType.isEmpty)) {
+                        Get.snackbar("Please select business type", "");
+                      } else if((_controller.selectedValue.value == 'Voucher') && (_controller.selectedServicesList.isEmpty)) {
+                        Get.snackbar("Please select any service", "");
+                      } else {
+                        var  data = {
+                          "servicesList" : _controller.selectedServicesList,
+                          "businessTypeList" : _controller.selectedBusinessType,
+                          "searchResult" : _controller.selectedValue.value,
+                          "isStatic" : _controller.isStatic.value,
+                          "isEnd" : _controller.isEnd.value,
+                        };
+                        Get.toNamed('/SearchResults', arguments: data);
+                      }
                     },
                     title: 'Apply',
                   )

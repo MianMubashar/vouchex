@@ -86,7 +86,7 @@ class EditBusinessController extends GetxController {
       if(resStatus == true) {
         isLoading.value = false;
         Get.back();
-        // Get.offAndToNamed('/Profile');
+        //Get.offAndToNamed('/Profile');
       } else {
         isLoading.value = false;
         if(jsonString.containsKey("error")){

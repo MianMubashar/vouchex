@@ -64,7 +64,7 @@ class VoucherData extends StatelessWidget {
                           child: SmallButton(
                             onPress: () {
                               // Get.toNamed('/BottomBar');
-                              if(_homeTabs.buisnessId.value != ''){
+                              if(_homeTabs.businessId.value != ''){
                                 _claimVoucherController.requestClaimVoucher(context,voucherId);
                               }else{
                                 Get.snackbar("Please create buisness profile to enjoy more features", "", colorText: blackText,
@@ -198,7 +198,7 @@ class VoucherData extends StatelessWidget {
               Get.arguments['isFree'] == 0 && Get.arguments['fromWhere'] == "vouchers"
                   ? RoundedRectangleButton(
                       onPress: () {
-                        if(_homeTabs.buisnessId != '') {
+                        if(_homeTabs.businessId.value != '') {
                           Get.back();
                           var voucherData = {
                             'userId': userId,

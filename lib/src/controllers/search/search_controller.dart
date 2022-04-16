@@ -17,9 +17,9 @@ class SearchController extends GetxController{
   var selectedBusinessType = [].obs;
   var getServicesList = <Service>[].obs;
   var selectedServicesList = [].obs;
-
   var groupValue = 3.obs;
-  var selectedGroupValue = false.obs;
+  var isStatic = 3.obs;
+  var isEnd = 3.obs;
 
   Future<List<Business>> getBusinessTypes() async {
     isLoading.value = true;

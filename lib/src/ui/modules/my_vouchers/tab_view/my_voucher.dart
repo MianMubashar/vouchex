@@ -18,23 +18,22 @@ class MyVoucher extends StatelessWidget {
             call: _myVoucherController.isLoading.value,
             child: SafeArea(
               child: SmartRefresher(
-                controller: _myVoucherController.refreshController,
+                controller: _myVoucherController.myVouchersRefreshController,
                 enablePullUp: true,
-                enablePullDown: true,
                 onRefresh: () async {
                   final result = await _myVoucherController.getMyVouchers(isRefresh: true);
                   if (result) {
-                    _myVoucherController.refreshController.refreshCompleted();
+                    _myVoucherController.myVouchersRefreshController.refreshCompleted();
                   } else {
-                    _myVoucherController.refreshController.refreshFailed();
+                    _myVoucherController.myVouchersRefreshController.refreshFailed();
                   }
                 },
                 onLoading: () async {
                   final result = await _myVoucherController.getMyVouchers();
                   if (result) {
-                    _myVoucherController.refreshController.loadComplete();
+                    _myVoucherController.myVouchersRefreshController.loadComplete();
                   } else {
-                    _myVoucherController.refreshController.loadFailed();
+                    _myVoucherController.myVouchersRefreshController.loadFailed();
                   }
                 },
                 child: Container(

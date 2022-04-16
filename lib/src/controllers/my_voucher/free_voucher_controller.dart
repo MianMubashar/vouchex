@@ -7,7 +7,7 @@ import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/data/services/api/fetch_data.dart';
 
 class FreeVoucherController extends GetxController{
-  var freeVoucherList = <VoucherHistoryData>[].obs;
+  var freeVoucherList = <MyVouchersData>[].obs;
   int currentPage = 1;
   late int totalPages;
   final RefreshController refreshController = RefreshController(initialRefresh: true);
@@ -27,10 +27,9 @@ class FreeVoucherController extends GetxController{
     var token = loginDetails.read("token");
     debugPrint("This is token $token");
     isLoading.value == true;
-    var response = await GetDataFromAPI.fetchData("$baseUrl/rewarded-vouchers", token);
+    var response = await GetDataFromAPI.fetchData("$baseUrl/rewarded-vouchers?page=$currentPage", token);
     if (response != null) {
-      final result = voucherHistoryModelFromJson(response);
-
+      final result = myVouchersFromJson(response);
       if (isRefresh) {
         if(result.vouchers != null) {
           freeVoucherList.value = result.vouchers!.data!;
@@ -38,17 +37,13 @@ class FreeVoucherController extends GetxController{
             noData.value = "No data exists";
           }
         }
-
       }else{
         if(result.vouchers != null) {
           freeVoucherList.addAll(result.vouchers!.data!);
-          if(result.vouchers!.nextPageUrl != null) {
-            currentPage++;
-          }
         }
       }
-
-      totalPages = currentPage;
+      currentPage++;
+      totalPages = result.vouchers!.total;
       isLoading.value = false;
       return true;
     } else {

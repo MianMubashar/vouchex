@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:vouchex/src/controllers/controllers.dart';
+import 'package:http/http.dart' as http;
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/data/services/services.dart';
-
 import '../../data/model/authentication/validate_token_model.dart';
 
 class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
@@ -15,13 +14,15 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
 
   var userName = ''.obs;
   var profilePhotoPath = ''.obs;
-  var profilePhotoUrl = ''.obs;
-  // var buisnessPhotoUrl= ''.obs;
-  var buisnessEmail= ''.obs;
-  var buisnessId= ''.obs;
+  var coverPhotoUrl = ''.obs;
+  var businessEmail= ''.obs;
+  var businessId= ''.obs;
   var isLoading = false.obs;
 
   var loginDetails = GetStorage();
+
+  final AuthService authService = AuthService();
+
 
   final List<Tab> tabs = <Tab>[
     const Tab(
@@ -44,23 +45,42 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
     super.onInit();
   }
 
-  Future validateToken() async {
+  Future validateToken() async{
     var token = loginDetails.read("token");
     debugPrint("This is token $token");
     isLoading.value == true;
-    var response = await GetDataFromAPI.fetchData("$baseUrl/validate-token", token);
-    if(response != null) {
-      var apiResponse = validateTokenModelFromJson(response);
-      if(apiResponse.user.businessId != null) {
+    var response  = await http.post(Uri.parse("$baseUrl/validate-token"),
+      headers: {
+        "Content-Type": "application/json",
+        'Accept': 'application/json',
+        "Authorization" : "Bearer $token"
+      },
+    );
+    if(response.statusCode == 200 && response.body.isNotEmpty) {
+      isLoading.value == false;
+      var apiResponse = validateTokenModelFromJson(response.body);
+      if (apiResponse.user.businessId != null) {
         userName.value = apiResponse.user.business!.name!;
         profilePhotoPath.value = apiResponse.user.business!.profilePhotoPath!;
-        profilePhotoUrl.value = apiResponse.user.profilePhotoUrl!;
-         buisnessId.value = apiResponse.user.businessId.toString();
-        buisnessEmail.value = apiResponse.user.business!.email!;
-
+        loginDetails.write("profile", profilePhotoPath.value);
+        coverPhotoUrl.value = apiResponse.user.business!.coverPhotoPath!;
+        loginDetails.write("cover", profilePhotoPath.value);
+        businessId.value = apiResponse.user.businessId.toString();
+        businessEmail.value = apiResponse.user.business!.email!;
+      } else {
+        isLoading.value == false;
+        loginDetails.remove("profile");
+        loginDetails.remove("cover");
+        loginDetails.remove("token");
+        loginDetails.remove("userId");
+        loginDetails.remove("device_token");
+        authService.signOut();
+        Get.offAllNamed('/');
       }
+    }
+    else {
       isLoading.value == false;
-      return response;
+      return null;
     }
   }
 

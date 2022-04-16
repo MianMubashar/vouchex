@@ -35,14 +35,23 @@ class MyVoucherCard extends StatelessWidget {
           Stack(
             children: [
               Image.asset("assets/images/voucher_card.png",),
-              CachedNetworkImage(
-                height: 80,
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.cover,
-                imageUrl: "$networkImageBaseUrl${model.coverPhotoPath}",
-                placeholder: (context, url) => const SpinKitPulse(color: primaryColor, size: 25,),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 9),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(11),
+                    topRight: Radius.circular(11),
+                  ),
+                  child: CachedNetworkImage(
+                    height: 80,
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.cover,
+                    imageUrl: "$networkImageBaseUrl${model.business!.coverPhotoPath}",
+                    placeholder: (context, url) => const SpinKitPulse(color: primaryColor, size: 25,),
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
 
+                  ),
+                ),
               ),
               Positioned.fill(
                 child: Padding(
@@ -52,7 +61,7 @@ class MyVoucherCard extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 25,
                       backgroundColor: Colors.blue,
-                      foregroundImage: NetworkImage("$networkImageBaseUrl${model.profilePhotoPath}",),
+                      foregroundImage: NetworkImage("$networkImageBaseUrl${model.business!.profilePhotoPath}",),
                     ),
                   ),
                 ),

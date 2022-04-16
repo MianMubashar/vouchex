@@ -163,6 +163,7 @@ class Requester {
     this.countryCode,
     this.businessId,
     this.profilePhotoUrl,
+    this.business
   });
 
   int? id;
@@ -176,6 +177,7 @@ class Requester {
   String? countryCode;
   int? businessId;
   String? profilePhotoUrl;
+  RequesterBusiness? business;
 
   factory Requester.fromJson(Map<String, dynamic> json) => Requester(
     id: json["id"],
@@ -189,6 +191,7 @@ class Requester {
     countryCode: json["country_code"],
     businessId: json["business_id"],
     profilePhotoUrl: json["profile_photo_url"],
+    business: RequesterBusiness.fromJson(json["business"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -203,6 +206,63 @@ class Requester {
     "country_code": countryCode,
     "business_id": businessId,
     "profile_photo_url": profilePhotoUrl,
+    "business": business!.toJson(),
+  };
+}
+
+class RequesterBusiness {
+  RequesterBusiness({
+    this.id,
+    this.name,
+    this.description,
+    this.coverPhotoPath,
+    this.profilePhotoPath,
+    this.businessTypeId,
+    this.createdAt,
+    this.updatedAt,
+    this.email,
+    this.phoneNo,
+    this.countryCode,
+  });
+
+  int? id;
+  String? name;
+  String? description;
+  String? coverPhotoPath;
+  String? profilePhotoPath;
+  int? businessTypeId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? email;
+  String? phoneNo;
+  String? countryCode;
+
+  factory RequesterBusiness.fromJson(Map<String, dynamic> json) => RequesterBusiness(
+    id: json["id"],
+    name: json["name"],
+    description: json["description"],
+    coverPhotoPath: json["cover_photo_path"],
+    profilePhotoPath: json["profile_photo_path"],
+    businessTypeId: json["business_type_id"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    email: json["email"],
+    phoneNo: json["phone_no"],
+    countryCode: json["country_code"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "description": description,
+    "cover_photo_path": coverPhotoPath,
+    "profile_photo_path": profilePhotoPath,
+    "business_type_id": businessTypeId,
+    "created_at": createdAt!.toIso8601String(),
+    "updated_at": updatedAt!.toIso8601String(),
+    "email": email,
+    "phone_no": phoneNo,
+    "country_code": countryCode,
   };
 }
 

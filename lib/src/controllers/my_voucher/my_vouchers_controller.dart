@@ -15,6 +15,7 @@ class MyVoucherController extends GetxController{
   int currentPage = 1;
   late int totalPages;
   final RefreshController refreshController = RefreshController(initialRefresh: true);
+  final RefreshController myVouchersRefreshController = RefreshController(initialRefresh: true);
   var isLoading = false.obs;
   var noData = ''.obs;
   var loginDetails = GetStorage();
@@ -24,25 +25,27 @@ class MyVoucherController extends GetxController{
       currentPage = 1;
     } else {
       if (currentPage >= totalPages) {
-        refreshController.loadNoData();
+        myVouchersRefreshController.loadNoData();
         return false;
       }
     }
     var token = loginDetails.read("token");
     debugPrint("This is token $token");
     isLoading.value == true;
-    var response = await GetDataFromAPI.fetchData("$baseUrl/my-vouchers", token);
+    var response = await GetDataFromAPI.fetchData("$baseUrl/my-vouchers?page=$currentPage", token);
     if (response != null) {
       final result = myVouchersFromJson(response);
-      if(result.vouchers!.data!.isEmpty) {
-        noData.value = 'No data exists';
-      }
       if (isRefresh) {
         if(result.vouchers != null) {
           myVouchersList.value = result.vouchers!.data!;
+          if(result.vouchers!.data!.isEmpty) {
+            noData.value = 'No data exists';
+          }
         }
       }else{
-        myVouchersList.addAll(result.vouchers!.data!);
+        if(result.vouchers != null) {
+          myVouchersList.addAll(result.vouchers!.data!);
+        }
       }
       currentPage++;
       totalPages = result.vouchers!.total;

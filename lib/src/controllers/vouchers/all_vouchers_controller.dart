@@ -13,7 +13,6 @@ class GetAllVouchersController extends GetxController {
   var vouchersList = <AllVouchersData>[].obs;
   int currentPage = 1;
   late int totalPages;
-  //final RefreshController vouchersRefreshController = RefreshController(initialRefresh: true);
   var isLoading = false.obs;
   var noData = ''.obs;
   var loginDetails = GetStorage();
@@ -37,7 +36,7 @@ class GetAllVouchersController extends GetxController {
         perPage.value = result.vouchers!.perPage!;
         listSize.value = result.vouchers!.total!;
 
-        final isLastPage = vouchersList.length < perPage.value;
+        final isLastPage = listSize.value == result.vouchers!.to;
         if (isLastPage) {
           pagingController.appendLastPage(vouchersList);
         } else {

@@ -7,11 +7,12 @@ import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/data/services/services.dart';
 
 class MyRedeemedVoucherController extends GetxController {
-  List<VoucherHistoryData>? redeemedVouchersList = [];
+  List<SwappedVouchersList>? redeemedVouchersList = [];
   int currentPage = 1;
   int totalPages = 1;
   final RefreshController refreshController = RefreshController(initialRefresh: true);
   var isLoading = false.obs;
+  var noData = ''.obs;
   var loginDetails = GetStorage();
 
   Future<bool> getMyRedeemedVouchers({bool isRefresh = false}) async {
@@ -28,20 +29,23 @@ class MyRedeemedVoucherController extends GetxController {
     isLoading.value == true;
     var response = await GetDataFromAPI.fetchData("$baseUrl/my-redeemed-voucher", token);
     if (response != null) {
-      final result = voucherHistoryModelFromJson(response);
+      final result = mySwappedVouchersModelFromJson(response);
+      if(result.swappedVouchers!.data!.isEmpty) {
+        noData.value = 'No Data';
+      }
       if (isRefresh) {
-        if(result.vouchers != null) {
-          redeemedVouchersList = result.vouchers!.data;
+        if(result.swappedVouchers != null) {
+          redeemedVouchersList = result.swappedVouchers!.data;
         }
 
       }else{
-        if(result.vouchers != null) {
-          redeemedVouchersList!.addAll(result.vouchers!.data!);
+        if(result.swappedVouchers != null) {
+          redeemedVouchersList!.addAll(result.swappedVouchers!.data!);
         }
       }
       currentPage++;
-      if(result.vouchers != null) {
-        totalPages = result.vouchers!.total;
+      if(result.swappedVouchers != null) {
+        totalPages = result.swappedVouchers!.total;
       }
       isLoading.value = false;
       return true;

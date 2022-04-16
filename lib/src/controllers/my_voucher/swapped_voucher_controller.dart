@@ -16,6 +16,7 @@ class MySwappedVoucherController extends GetxController{
   final RefreshController refreshController = RefreshController(initialRefresh: true);
   var isLoading = false.obs;
   var loginDetails = GetStorage();
+  var noData = ''.obs;
 
   Future<bool> getMySwappedVouchers({bool isRefresh = false}) async {
     if (isRefresh) {
@@ -29,9 +30,12 @@ class MySwappedVoucherController extends GetxController{
     var token = loginDetails.read("token");
     debugPrint("This is token $token");
     isLoading.value == true;
-    var response = await GetDataFromAPI.fetchData("$baseUrl/my-swapped-vouchers", token);
+    var response = await GetDataFromAPI.fetchData("$baseUrl/my-swapped-vouchers?page=$currentPage", token);
     if (response != null) {
       final result = mySwappedVouchersModelFromJson(response);
+      if(result.swappedVouchers!.data!.isEmpty) {
+        noData.value = 'No Data';
+      }
       if (isRefresh) {
         if(result.swappedVouchers != null) {
           swappedVoucherList.value = result.swappedVouchers!.data!;

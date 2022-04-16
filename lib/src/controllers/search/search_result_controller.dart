@@ -14,8 +14,13 @@ class SearchResultController extends GetxController{
   var vouchersList = <AllVouchersData>[].obs;
   int currentPage = 1;
   int totalPages = 1;
+  final TextEditingController search = TextEditingController();
+  var searchText = ''.obs;
   final RefreshController refreshController = RefreshController(initialRefresh: true);
   var loginDetails = GetStorage();
+
+  var serviceList = [].obs;
+  var businessList = [].obs;
 
   Future<bool> searchBusinessOrVoucher({bool isRefresh = false}) async {
     if (isRefresh) {
@@ -31,12 +36,19 @@ class SearchResultController extends GetxController{
     isLoading.value == true;
     Map businessData = {
       'business_type_ids' : Get.arguments['businessTypeList'],
+      'search' : searchText.value != "" ? searchText.value : ""
     };
     Map serviceData = {
-      'service_ids' : Get.arguments['servicesList'],
+      'service_ids' : serviceList,
+      'search' : searchText.value != "" ? searchText.value : "",
+      if(Get.arguments["isStatic"] != 3)
+        'is_static' : Get.arguments['isStatic'],
+      if(Get.arguments["isEnd"] != 3)
+        'is_end': Get.arguments['isEnd'],
     };
     var body = Get.arguments['searchResult'] == 'Business' ? json.encode(businessData) : json.encode(serviceData);
-    var response = await http.post(Get.arguments['searchResult'] == 'Business' ? Uri.parse('$baseUrl/search-business') : Uri.parse('$baseUrl/search-voucher'),
+    var response = await http.post(Get.arguments['searchResult'] == 'Business' ? Uri.parse('$baseUrl/search-business?page=$currentPage')
+        : Uri.parse('$baseUrl/search-voucher?page=$currentPage'),
         headers: {
           'Content-Type': 'application/json',
           "Authorization" : "Bearer $token"
@@ -73,7 +85,15 @@ class SearchResultController extends GetxController{
 
   @override
   void onInit() {
+    serviceList.addAll(Get.arguments['servicesList']);
+    print(Get.arguments["isStatic"]);
     searchBusinessOrVoucher();
     super.onInit();
+  }
+
+  @override
+  void onReady() {
+
+    super.onReady();
   }
 }

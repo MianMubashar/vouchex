@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/data/constants.dart';
@@ -113,6 +114,7 @@ class PendingRequestCard extends StatelessWidget {
 
   final PEData model;
   final PendingExchangeRequestController _exchangeRequestController = Get.put(PendingExchangeRequestController());
+   var loginDetails = GetStorage();
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -149,17 +151,29 @@ class PendingRequestCard extends StatelessWidget {
               Stack(
                 children: [
                   Image.asset("assets/images/voucher_card.png",),
-                  CachedNetworkImage(
-                    imageUrl: "$networkImageBaseUrl${model.requesterVoucher!.coverPhotoPath}",
-                    placeholder: (context, url) => const SpinKitPulse(color: primaryColor,),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 9),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(11),
+                        topRight: Radius.circular(11),
+                      ),
+                      child: CachedNetworkImage(
+                        height: 80,
+                        width: MediaQuery.of(context).size.width,
+                        fit: BoxFit.cover,
+                        imageUrl: "$networkImageBaseUrl${model.requester!.business!.coverPhotoPath}",
+                        placeholder: (context, url) => const SpinKitPulse(color: primaryColor,),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 40, left: 30),
                     child: CircleAvatar(
                       radius: 25,
                       backgroundColor: Colors.blue,
-                      foregroundImage: NetworkImage("$networkImageBaseUrl${model.requesterVoucher!.profilePhotoPath}"),
+                      foregroundImage: NetworkImage("$networkImageBaseUrl${model.requester!.business!.profilePhotoPath}"),
                     ),
                   ),
                   Positioned.fill(
@@ -189,12 +203,12 @@ class PendingRequestCard extends StatelessWidget {
                     exchangeRequestId: model.id!,
                     requesteeVoucherName: model.requesteeVoucher!.name!,
                     requesteeVoucherCode: model.requesteeVoucher!.code!,
-                    requesteeProfileImage:"$networkImageBaseUrl${model.requesteeVoucher!.profilePhotoPath}",
-                    requesteeCoverImage: "$networkImageBaseUrl${model.requesteeVoucher!.coverPhotoPath}",
+                    requesteeProfileImage:"$networkImageBaseUrl${loginDetails.read("profile")}",
+                    requesteeCoverImage: "$networkImageBaseUrl${loginDetails.read("cover")}",
                     requesterVoucherName: model.requesterVoucher!.name!,
                     requesterVoucherCode: model.requesterVoucher!.code!,
-                    requesterProfileImage:"$networkImageBaseUrl${model.requesterVoucher!.profilePhotoPath}",
-                    requesterCoverImage: "$networkImageBaseUrl${model.requesterVoucher!.coverPhotoPath}",
+                    requesterProfileImage:"$networkImageBaseUrl${model.requester!.business!.profilePhotoPath}",
+                    requesterCoverImage: "$networkImageBaseUrl${model.requester!.business!.coverPhotoPath}",
                     requesterTerms: model.requesterVoucher!.termsConditions!,
                       cancelPressed: (){
                         _exchangeRequestController.updateRequestStatus(

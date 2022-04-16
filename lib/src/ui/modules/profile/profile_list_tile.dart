@@ -7,7 +7,7 @@ import '../../../controllers/controllers.dart';
 import '../../../data/constants.dart';
 
 class ProfileListTile extends StatelessWidget {
-   ProfileListTile({Key? key, required this.profileModel}) : super(key: key);
+   const ProfileListTile({Key? key, required this.profileModel}) : super(key: key);
 
    final ProfileModel profileModel;
    @override

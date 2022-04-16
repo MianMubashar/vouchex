@@ -35,12 +35,14 @@ class ExpiredVouchers extends StatelessWidget {
                     _expiredVoucherController.refreshController.loadFailed();
                   }
                 },
-                child: ListView.builder(
+                child: _expiredVoucherController.expiredVouchersList!.isNotEmpty ? ListView.builder(
                   itemCount: _expiredVoucherController.expiredVouchersList!.length,
                   itemBuilder: (context, index) {
                     return VoucherHistoryCard(model: _expiredVoucherController.expiredVouchersList![index]);
                   },
-                ),
+                ) : Center(
+                  child: smallText(_expiredVoucherController.noData.value),
+                )
               ),
             ),
           ),

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
-import 'package:vouchex/src/data/constants.dart';
-import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/modules/home/widgets/business_card.dart';
 import 'package:vouchex/src/ui/modules/home/widgets/voucher_card.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
@@ -12,9 +10,8 @@ import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 class SearchResult extends StatelessWidget {
    SearchResult({Key? key}) : super(key: key);
 
-   final TextEditingController _search = TextEditingController();
    final SearchResultController _searchResultController = Get.find();
-   List list = Get.arguments['businessTypeList'];
+
    String searchResult = Get.arguments['searchResult'];
   @override
   Widget build(BuildContext context) {
@@ -34,11 +31,17 @@ class SearchResult extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left:15, right: 15),
                     child: RoundedInputField(
-                      textEditingController: _search,
+                      textEditingController: _searchResultController.search,
                       hintText: "Search Businesses",
                       icon: Icons.search,
                       fillColor: Colors.white,
-                      onSubmitted: (_) => FocusScope.of(context).unfocus(),
+                      onChanged: (text) {
+                        _searchResultController.searchText.value = text.toString();
+                      },
+                      onSubmitted: (_) {
+                        _searchResultController.searchBusinessOrVoucher(isRefresh: true);
+                        FocusScope.of(context).unfocus();
+                      },
                     ),
                   ),
                   const SizedBox(height: 15,),
@@ -89,14 +92,11 @@ class SearchResult extends StatelessWidget {
                         final result = await _searchResultController.searchBusinessOrVoucher();
                         if (result) {
                           _searchResultController.refreshController.loadComplete();
-                        } else {
-                          _searchResultController.refreshController.loadFailed();
                         }
                       },
                       child: ListView.builder(
                         itemCount: _searchResultController.businessesList.length,
                         itemBuilder: (context, index) {
-                          // return BusinessCard(businessModel: businessList[index]);
                           return BusinessCard(businessModel: _searchResultController.businessesList[index],);
                         },
                       ),
@@ -118,8 +118,6 @@ class SearchResult extends StatelessWidget {
                         final result = await _searchResultController.searchBusinessOrVoucher();
                         if (result) {
                           _searchResultController.refreshController.loadComplete();
-                        } else {
-                          _searchResultController.refreshController.loadFailed();
                         }
                       },
                       child: ListView.builder(

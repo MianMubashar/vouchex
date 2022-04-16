@@ -183,7 +183,7 @@ class CreateNewVoucher extends StatelessWidget {
                             const SizedBox(height: 15,),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8),
-                              child: smallText('Terms and Conditions', size: 18),
+                              child: smallText('Expiry Date', size: 18),
                             ),
                             SizedBox(
                               height: 50,

@@ -43,7 +43,7 @@ class SwappedVoucher extends StatelessWidget {
                   },
                 ) :
                 Center(
-                  child: smallText("No Data"),
+                  child: smallText(_mySwappedVoucherController.noData.value),
                 )
               ),
             ),
