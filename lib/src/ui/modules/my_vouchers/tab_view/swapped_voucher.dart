@@ -32,7 +32,7 @@ class SwappedVoucher extends StatelessWidget {
                   if (result) {
                     _mySwappedVoucherController.refreshController.loadComplete();
                   } else {
-                    _mySwappedVoucherController.refreshController.loadFailed();
+                    _mySwappedVoucherController.refreshController.loadNoData();
                   }
                 },
                 child: _mySwappedVoucherController.swappedVoucherList.isNotEmpty ? ListView.builder(

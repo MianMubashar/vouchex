@@ -33,7 +33,7 @@ class MyVoucher extends StatelessWidget {
                   if (result) {
                     _myVoucherController.myVouchersRefreshController.loadComplete();
                   } else {
-                    _myVoucherController.myVouchersRefreshController.loadFailed();
+                    _myVoucherController.myVouchersRefreshController.loadNoData();
                   }
                 },
                 child: Container(
