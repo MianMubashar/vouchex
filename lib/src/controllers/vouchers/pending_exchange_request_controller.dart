@@ -57,12 +57,17 @@ class PendingExchangeRequestController extends GetxController {
           }
           //Get.back();
         }else{
+          isLoading.value=false;
+          if(apiResponse.containsKey("message")){
+            Get.snackbar("Error", apiResponse['message']);
+          }
           if (kDebugMode) {
             print('message is ${apiResponse['message']}');
           }
         }
       }else{
         isLoading.value=false;
+        Get.snackbar("Error", "Something Went Wrong");
         if (kDebugMode) {
           print('error from request voucher exchange');
         }
@@ -70,6 +75,7 @@ class PendingExchangeRequestController extends GetxController {
       }
     }catch(e){
       isLoading.value=false;
+      Get.snackbar("Error", "Something Went Wrong");
       if (kDebugMode) {
         print('try catch error from request voucher exchange controller $e');
       }
