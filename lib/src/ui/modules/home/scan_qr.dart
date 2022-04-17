@@ -18,6 +18,7 @@ class ScanQRScreen extends StatelessWidget {
             child: SafeArea(
               child: Container(
                 height: MediaQuery.of(context).size.height,
+                margin: const EdgeInsets.only(top: 50),
                 color: qrBackgroundColor,
                 child: SingleChildScrollView(
                   child: Column(
