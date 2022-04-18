@@ -22,21 +22,26 @@ class VouchersScreen extends StatelessWidget {
                 children: [
                   const SizedBox(height: 15,),
                   Expanded(
-                    child: PagedListView<int, AllVouchersData>(
-                      pagingController: _getAllVouchers.pagingController,
-                      builderDelegate: PagedChildBuilderDelegate<AllVouchersData>(
-                          itemBuilder: (context, item, index) {
-                            return Column(
-                              children: [
-                                VoucherCard(model: item),
-                                if (index == _getAllVouchers.pagingController.itemList!.length - 1)
-                                  Container(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: smallText("No More Data"),
-                                  ),
-                              ],
-                            );
-                          }
+                    child: RefreshIndicator(
+                      onRefresh: () async{
+                        _getAllVouchers.fetchVouchers(isRefresh: true);
+                      },
+                      child: PagedListView<int, AllVouchersData>(
+                        pagingController: _getAllVouchers.pagingController,
+                        builderDelegate: PagedChildBuilderDelegate<AllVouchersData>(
+                            itemBuilder: (context, item, index) {
+                              return Column(
+                                children: [
+                                  VoucherCard(model: item),
+                                  if (index == _getAllVouchers.pagingController.itemList!.length - 1)
+                                    Container(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: smallText("No More Data"),
+                                    ),
+                                ],
+                              );
+                            }
+                        ),
                       ),
                     ),
                   ),

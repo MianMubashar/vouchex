@@ -15,11 +15,14 @@ class FreeVoucherController extends GetxController{
   var loginDetails = GetStorage();
   var noData = ''.obs;
 
+  var to = 0.obs;
+  var total = 0.obs;
+
   Future<bool> getFreeVouchers({bool isRefresh = false}) async {
     if (isRefresh) {
       currentPage = 1;
     } else {
-      if (currentPage >= totalPages) {
+      if (to.value >= total.value) {
         refreshController.loadNoData();
         return false;
       }
@@ -30,6 +33,9 @@ class FreeVoucherController extends GetxController{
     var response = await GetDataFromAPI.fetchData("$baseUrl/rewarded-vouchers?page=$currentPage", token);
     if (response != null) {
       final result = myVouchersFromJson(response);
+
+      total.value = result.vouchers!.total;
+      to.value = result.vouchers!.to!;
       if (isRefresh) {
         if(result.vouchers != null) {
           freeVoucherList.value = result.vouchers!.data!;

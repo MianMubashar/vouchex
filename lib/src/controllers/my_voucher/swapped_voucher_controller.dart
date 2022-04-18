@@ -12,17 +12,18 @@ class MySwappedVoucherController extends GetxController{
 
   var swappedVoucherList = <SwappedVouchersList>[].obs;
   int currentPage = 1;
-  late int totalPages;
   final RefreshController refreshController = RefreshController(initialRefresh: true);
   var isLoading = false.obs;
   var loginDetails = GetStorage();
   var noData = ''.obs;
+  var to = 0.obs;
+  var total = 0.obs;
 
   Future<bool> getMySwappedVouchers({bool isRefresh = false}) async {
     if (isRefresh) {
       currentPage = 1;
     } else {
-      if (currentPage >= totalPages) {
+      if (to.value >= total.value) {
         refreshController.loadNoData();
         return false;
       }
@@ -33,6 +34,9 @@ class MySwappedVoucherController extends GetxController{
     var response = await GetDataFromAPI.fetchData("$baseUrl/my-swapped-vouchers?page=$currentPage", token);
     if (response != null) {
       final result = mySwappedVouchersModelFromJson(response);
+      total.value = result.swappedVouchers!.total;
+      to.value = result.swappedVouchers!.to!;
+
       if(result.swappedVouchers!.data!.isEmpty) {
         noData.value = 'No Data';
       }
@@ -40,11 +44,11 @@ class MySwappedVoucherController extends GetxController{
         if(result.swappedVouchers != null) {
           swappedVoucherList.value = result.swappedVouchers!.data!;
         }
-      }else{
+      } else{
         swappedVoucherList.addAll(result.swappedVouchers!.data!);
       }
       currentPage++;
-      totalPages = result.swappedVouchers!.total;
+      total.value = result.swappedVouchers!.total;
       isLoading.value = false;
       return true;
     } else {

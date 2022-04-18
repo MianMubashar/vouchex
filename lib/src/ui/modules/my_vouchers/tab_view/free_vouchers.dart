@@ -24,8 +24,6 @@ class FreeVouchers extends StatelessWidget {
                       final result = await _freeVoucherController.getFreeVouchers(isRefresh: true);
                       if (result) {
                         _freeVoucherController.refreshController.refreshCompleted();
-                      } else {
-                        _freeVoucherController.refreshController.refreshFailed();
                       }
                     },
                     onLoading: () async {

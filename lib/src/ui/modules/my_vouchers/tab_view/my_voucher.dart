@@ -14,45 +14,30 @@ class MyVoucher extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() =>
-          ModalProgress(
-            call: _myVoucherController.isLoading.value,
-            child: SafeArea(
-              child: SmartRefresher(
-                controller: _myVoucherController.myVouchersRefreshController,
-                enablePullUp: true,
-                onRefresh: () async {
-                  final result = await _myVoucherController.getMyVouchers(isRefresh: true);
-                  if (result) {
-                    _myVoucherController.myVouchersRefreshController.refreshCompleted();
-                  } else {
-                    _myVoucherController.myVouchersRefreshController.refreshFailed();
-                  }
+          SafeArea(
+            child: SmartRefresher(
+              controller: _myVoucherController.myVouchersRefreshController,
+              enablePullUp: true,
+              enablePullDown: true,
+              onRefresh: () async {
+                final result = await _myVoucherController.getMyVouchers(isRefresh: true);
+                if (result) {
+                  _myVoucherController.myVouchersRefreshController.refreshCompleted();
+                }
+              },
+              onLoading: () async {
+                final result = await _myVoucherController.getMyVouchers();
+                if (result) {
+                  _myVoucherController.myVouchersRefreshController.loadComplete();
+                }
+              },
+              child: _myVoucherController.myVouchersList.isNotEmpty ? ListView.builder(
+                itemCount: _myVoucherController.myVouchersList.length,
+                itemBuilder: (context, index) {
+                  return MyVoucherCard(model: _myVoucherController.myVouchersList[index]);
                 },
-                onLoading: () async {
-                  final result = await _myVoucherController.getMyVouchers();
-                  if (result) {
-                    _myVoucherController.myVouchersRefreshController.loadComplete();
-                  } else {
-                    _myVoucherController.myVouchersRefreshController.loadNoData();
-                  }
-                },
-                child: Container(
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: _myVoucherController.myVouchersList.isNotEmpty ? ListView.builder(
-                          itemCount: _myVoucherController.myVouchersList.length,
-                          itemBuilder: (context, index) {
-                            return MyVoucherCard(model: _myVoucherController.myVouchersList[index], fromScreen: 'myVouchers',);
-                          },
-                        ) : Center(
-                          child: smallText(_myVoucherController.noData.value),
-                        )
-                      ),
-                    ],
-                  ),
-                ),
+              ) : Center(
+                child: smallText(_myVoucherController.noData.value),
               ),
             ),
           ),

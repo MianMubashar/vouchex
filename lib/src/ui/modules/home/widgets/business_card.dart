@@ -21,7 +21,7 @@ class BusinessCard extends StatelessWidget {
           var  businessData = {
             "title" : businessModel.name,
             "email": businessModel.email,
-            "businessType" : businessModel.businessTypeId.toString(),
+            "businessType" : businessModel.businessType!.name,
             "number": businessModel.phoneNo,
             "description" : businessModel.description,
             "circleImage": "$networkImageBaseUrl${businessModel.profilePhotoPath}",

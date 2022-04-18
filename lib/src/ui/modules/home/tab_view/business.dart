@@ -22,25 +22,30 @@ class BusinessScreen extends StatelessWidget {
         children: [
           const SizedBox(height: 15,),
           Expanded(
-            child: PagedListView<int, Datum>(
-                pagingController: _businessesController.pagingController,
-                builderDelegate: PagedChildBuilderDelegate<Datum>(
-                    newPageProgressIndicatorBuilder: (_) => const SpinKitPulse(
-                      color: primaryColor,
-                    ),
-                    itemBuilder: (context, item, index) {
-                      return Column(
-                        children: [
-                          BusinessCard(businessModel: item),
-                          if (index == _businessesController.pagingController.itemList!.length - 1)
-                            Container(
-                              padding: const EdgeInsets.all(15.0),
-                              child: smallText("No More Data"),
-                            ),
-                        ],
-                      );
-                    }
-                )),
+            child: RefreshIndicator(
+              onRefresh: () async{
+                _businessesController.fetchPage(isRefresh: true);
+              },
+              child: PagedListView<int, Datum>(
+                  pagingController: _businessesController.pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<Datum>(
+                      newPageProgressIndicatorBuilder: (_) => const SpinKitPulse(
+                        color: primaryColor,
+                      ),
+                      itemBuilder: (context, item, index) {
+                        return Column(
+                          children: [
+                            BusinessCard(businessModel: item),
+                            if (index == _businessesController.pagingController.itemList!.length - 1)
+                              Container(
+                                padding: const EdgeInsets.all(15.0),
+                                child: smallText("No More Data"),
+                              ),
+                          ],
+                        );
+                      }
+                  )),
+            ),
           ),
           const SizedBox(height: 50,)
         ],

@@ -15,11 +15,14 @@ class MyRedeemedVoucherController extends GetxController {
   var noData = ''.obs;
   var loginDetails = GetStorage();
 
+  var to = 0.obs;
+  var total = 0.obs;
+
   Future<bool> getMyRedeemedVouchers({bool isRefresh = false}) async {
     if (isRefresh) {
       currentPage = 1;
     } else {
-      if (currentPage >= totalPages) {
+      if (to.value >= total.value) {
         refreshController.loadNoData();
         return false;
       }
@@ -30,6 +33,8 @@ class MyRedeemedVoucherController extends GetxController {
     var response = await GetDataFromAPI.fetchData("$baseUrl/my-redeemed-voucher", token);
     if (response != null) {
       final result = mySwappedVouchersModelFromJson(response);
+      total.value = result.swappedVouchers!.total;
+      to.value = result.swappedVouchers!.to!;
       if(result.swappedVouchers!.data!.isEmpty) {
         noData.value = 'No Data';
       }
@@ -44,9 +49,7 @@ class MyRedeemedVoucherController extends GetxController {
         }
       }
       currentPage++;
-      if(result.swappedVouchers != null) {
-        totalPages = result.swappedVouchers!.total;
-      }
+      total.value = result.swappedVouchers!.total;
       isLoading.value = false;
       return true;
     } else {

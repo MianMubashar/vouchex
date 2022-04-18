@@ -67,8 +67,8 @@ class Businesses {
     path: json["path"],
     perPage: json["per_page"],
     prevPageUrl: json["prev_page_url"],
-    to: json["to"],
-    total: json["total"],
+    to: json["to"] ?? 0,
+    total: json["total"] ?? 0,
   );
 
   Map<String, dynamic> toJson() => {

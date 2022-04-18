@@ -20,25 +20,48 @@ class GetBusinessesController extends GetxController{
 
   final PagingController<int, Datum> pagingController = PagingController(firstPageKey: 0);
 
-  Future<void> fetchPage(int key) async {
+  Future<void> fetchPage({bool isRefresh = false}) async {
     try {
       var token = loginDetails.read("token");
       debugPrint("This is token $token");
       isLoading.value == true;
-      var response = await GetDataFromAPI.fetchData("$baseUrl/get-businesses?page=$currentPage", token);
-      if (response != null) {
-        final result = getBusinessesModelFromJson(response);
 
-        businessesList.value = result.businesses!.data!;
-        perPage.value = result.businesses!.perPage!;
-        listSize.value = result.businesses!.total!;
-        final isLastPage = listSize.value == result.businesses!.to;
-        if (isLastPage) {
-          pagingController.appendLastPage(businessesList);
-        } else {
-          currentPage++;
-          var nextPageKey = currentPage;
-          pagingController.appendPage(businessesList, nextPageKey);
+      if(isRefresh) {
+        pagingController.itemList!.length = 0;
+        businessesList.length = 0;
+        currentPage = 1;
+        var response = await GetDataFromAPI.fetchData("$baseUrl/get-businesses?page=$currentPage", token);
+        if (response != null) {
+          final result = getBusinessesModelFromJson(response);
+
+          businessesList.value = result.businesses!.data!;
+          perPage.value = result.businesses!.perPage!;
+          listSize.value = result.businesses!.total!;
+          final isLastPage = listSize.value == result.businesses!.to;
+          if (isLastPage) {
+            pagingController.appendLastPage(businessesList);
+          } else {
+            currentPage++;
+            var nextPageKey = currentPage;
+            pagingController.appendPage(businessesList, nextPageKey);
+          }
+        }
+      } else {
+        var response = await GetDataFromAPI.fetchData("$baseUrl/get-businesses?page=$currentPage", token);
+        if (response != null) {
+          final result = getBusinessesModelFromJson(response);
+
+          businessesList.value = result.businesses!.data!;
+          perPage.value = result.businesses!.perPage!;
+          listSize.value = result.businesses!.total!;
+          final isLastPage = listSize.value == result.businesses!.to;
+          if (isLastPage) {
+            pagingController.appendLastPage(businessesList);
+          } else {
+            currentPage++;
+            var nextPageKey = currentPage;
+            pagingController.appendPage(businessesList, nextPageKey);
+          }
         }
       }
     } catch (e) {
@@ -52,7 +75,7 @@ class GetBusinessesController extends GetxController{
   @override
   void onInit() {
     pagingController.addPageRequestListener((currentPage) {
-      fetchPage(currentPage);
+      fetchPage();
     });
     super.onInit();
   }

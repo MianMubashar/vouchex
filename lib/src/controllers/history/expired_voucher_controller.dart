@@ -15,11 +15,14 @@ class ExpiredVoucherController extends GetxController {
   var loginDetails = GetStorage();
   var noData = ''.obs;
 
+  var to = 0.obs;
+  var total = 0.obs;
+
   Future<bool> getMyExpiredVouchers({bool isRefresh = false}) async {
     if (isRefresh) {
       currentPage = 1;
     } else {
-      if (currentPage >= totalPages) {
+      if (to.value >= total.value) {
         refreshController.loadNoData();
         return false;
       }
@@ -30,6 +33,8 @@ class ExpiredVoucherController extends GetxController {
     var response = await GetDataFromAPI.fetchData("$baseUrl/my-expired-vouchers", token);
     if (response != null) {
       final result = myVouchersFromJson(response);
+      total.value = result.vouchers!.total;
+      to.value = result.vouchers!.to!;
       if(result.vouchers!.data!.isEmpty) {
         noData.value = 'No Data';
       }
@@ -44,9 +49,7 @@ class ExpiredVoucherController extends GetxController {
         }
       }
       currentPage++;
-      if(result.vouchers != null) {
-        totalPages = result.vouchers!.total;
-      }
+      total.value = result.vouchers!.total;
       isLoading.value = false;
       return true;
     } else {

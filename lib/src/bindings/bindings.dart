@@ -8,6 +8,7 @@ export 'authentication/phone_binding.dart';
 export 'widgets/bottom_bar_binding.dart';
 
 export 'voucher/voucher_data_binding.dart';
+export 'voucher/sent_pending_request.dart';
 
 export 'history/tab_view_binding.dart';
 

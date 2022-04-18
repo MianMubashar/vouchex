@@ -13,8 +13,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 class PendingExchangeRequestController extends GetxController {
   var requesterVoucher = <PEData>[].obs;
   int currentPage = 1;
-  late int totalPages;
-  final RefreshController peRefreshController = RefreshController(initialRefresh: true);
   var isLoading = false.obs;
   var noData = ''.obs;
   var loginDetails = GetStorage();
@@ -48,6 +46,7 @@ class PendingExchangeRequestController extends GetxController {
         bool status = apiResponse['status'];
         if(status){
           Get.back();
+          await fetchPendingRequests(isRefresh: true);
           voucherStatus == "accept" ? Get.snackbar("Accepted",
               "${apiResponse['message']}", colorText: blackText, icon: const Icon(Icons.verified_outlined, color: Colors.black,),backgroundColor: Colors.white) :
           Get.snackbar("Decline", "${apiResponse['message']}",
@@ -87,29 +86,55 @@ class PendingExchangeRequestController extends GetxController {
   final PagingController<int, PEData> pagingController = PagingController(firstPageKey: 0);
 
 
-  Future<void> fetchPendingRequests(int pageKey) async {
+  Future<void> fetchPendingRequests({bool isRefresh = false}) async {
     try {
       var token = loginDetails.read("token");
       debugPrint("This is token $token");
       isLoading.value == true;
-      var response = await GetDataFromAPI.fetchData("$baseUrl/get-pending-exchange-requests?page=$currentPage", token);
-      if (response != null) {
 
-        final result = pendingExchangeRequestModelFromJson(response);
+      if(isRefresh) {
+        pagingController.itemList!.length = 0;
+        requesterVoucher.length = 0;
+        currentPage = 1;
+        var response = await GetDataFromAPI.fetchData("$baseUrl/get-pending-exchange-requests?page=$currentPage", token);
+        if (response != null) {
 
-        requesterVoucher.value = result.pendingExchangeRequests!.data!;
-        perPage.value = result.pendingExchangeRequests!.perPage!;
-        listSize.value = result.pendingExchangeRequests!.total!;
+          final result = pendingExchangeRequestModelFromJson(response);
 
-        final isLastPage = requesterVoucher.length < perPage.value;
-        if (isLastPage) {
-          pagingController.appendLastPage(requesterVoucher);
-        } else {
-          currentPage++;
-          var nextPageKey = currentPage;
-          pagingController.appendPage(requesterVoucher, nextPageKey);
+          requesterVoucher.value = result.pendingExchangeRequests!.data!;
+          perPage.value = result.pendingExchangeRequests!.perPage!;
+          listSize.value = result.pendingExchangeRequests!.total!;
+
+          final isLastPage = requesterVoucher.length == result.pendingExchangeRequests!.to;
+          if (isLastPage) {
+            pagingController.appendLastPage(requesterVoucher);
+          } else {
+            currentPage++;
+            var nextPageKey = currentPage;
+            pagingController.appendPage(requesterVoucher, nextPageKey);
+          }
+        }
+      } else {
+        var response = await GetDataFromAPI.fetchData("$baseUrl/get-pending-exchange-requests?page=$currentPage", token);
+        if (response != null) {
+
+          final result = pendingExchangeRequestModelFromJson(response);
+
+          requesterVoucher.value = result.pendingExchangeRequests!.data!;
+          perPage.value = result.pendingExchangeRequests!.perPage!;
+          listSize.value = result.pendingExchangeRequests!.total!;
+
+          final isLastPage = requesterVoucher.length == result.pendingExchangeRequests!.to;
+          if (isLastPage) {
+            pagingController.appendLastPage(requesterVoucher);
+          } else {
+            currentPage++;
+            var nextPageKey = currentPage;
+            pagingController.appendPage(requesterVoucher, nextPageKey);
+          }
         }
       }
+
     } catch (e) {
       pagingController.error = e;
       if (kDebugMode) {
@@ -117,11 +142,13 @@ class PendingExchangeRequestController extends GetxController {
       }
     }
   }
-/*  @override
+
+
+  @override
   void onInit() {
     pagingController.addPageRequestListener((pageKey) {
-      fetchPendingRequests(pageKey);
+      fetchPendingRequests();
     });
     super.onInit();
-  }*/
+  }
 }

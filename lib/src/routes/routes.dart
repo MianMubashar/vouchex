@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:vouchex/src/bindings/bindings.dart';
+import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/ui/modules/modules.dart';
 import 'package:vouchex/src/ui/modules/my_vouchers/modules.dart';
 
@@ -111,5 +112,10 @@ List<GetPage<dynamic>> routes = [
     name: '/EditBusiness',
     page: () => EditBusiness(),
     binding: EditBusinessBinding()
+  ),
+  GetPage(
+    name: '/SentPendingRequest',
+    page: () => SentPendingRequests(),
+    binding: SentPendingRequestBinding()
   )
 ];

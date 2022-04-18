@@ -13,7 +13,8 @@ class ProfileModel {
 List<ProfileModel> profileItems = <ProfileModel>[
   ProfileModel(title: "Business Details", imageUrl: "assets/images/business_icon.png", route: "/EditBusiness"),
   ProfileModel(title: "My Vouchers", imageUrl: "assets/images/voucher_icon.png", route: "/MyVouchers"),
-  ProfileModel(title: "VouchEx Vouchers", imageUrl: "assets/images/business_icon.png", route: "/VxVouchers"),
+  ProfileModel(title: "Pending Requests", imageUrl: "assets/images/voucher_icon.png", route: "/SentPendingRequest"),
+  ProfileModel(title: "VouchEx Vouchers", imageUrl: "assets/images/voucher_icon.png", route: "/VxVouchers"),
   ProfileModel(title: "Notification", imageUrl: "assets/images/notification_icon.png", route: "/Notification"),
   ProfileModel(title: "History", imageUrl: "assets/images/history_icon.png", route: "/History"),
   ProfileModel(title: "Help and Support", imageUrl: "assets/images/help_icon.png", route: "/HelpSupport"), 

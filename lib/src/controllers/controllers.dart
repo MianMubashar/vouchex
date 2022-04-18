@@ -23,6 +23,7 @@ export 'my_voucher/free_voucher_controller.dart';
 
 export 'vouchers/all_vouchers_controller.dart';
 export 'vouchers/pending_exchange_request_controller.dart';
+export 'vouchers/sent_pending_request_controller.dart';
 
 export 'search/search_controller.dart';
 export 'search/search_result_controller.dart';

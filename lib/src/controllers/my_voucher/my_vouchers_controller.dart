@@ -11,30 +11,33 @@ import 'package:vouchex/src/data/services/services.dart';
 class MyVoucherController extends GetxController{
 
   var myVouchersList = <MyVouchersData>[].obs;
-  var selectedServices = <SelectedServices>[].obs;
   int currentPage = 1;
   late int totalPages;
-  final RefreshController refreshController = RefreshController(initialRefresh: true);
   final RefreshController myVouchersRefreshController = RefreshController(initialRefresh: true);
   var isLoading = false.obs;
   var noData = ''.obs;
   var loginDetails = GetStorage();
 
+  var to = 0.obs;
+  var total = 0.obs;
+
   Future<bool> getMyVouchers({bool isRefresh = false}) async {
     if (isRefresh) {
       currentPage = 1;
     } else {
-      if (currentPage >= totalPages) {
+      if (to.value >= total.value) {
         myVouchersRefreshController.loadNoData();
         return false;
       }
     }
     var token = loginDetails.read("token");
     debugPrint("This is token $token");
-    isLoading.value == true;
+    isLoading.value = true;
     var response = await GetDataFromAPI.fetchData("$baseUrl/my-vouchers?page=$currentPage", token);
     if (response != null) {
       final result = myVouchersFromJson(response);
+      total.value = result.vouchers!.total;
+      to.value = result.vouchers!.to!;
       if (isRefresh) {
         if(result.vouchers != null) {
           myVouchersList.value = result.vouchers!.data!;
