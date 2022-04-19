@@ -234,8 +234,41 @@ class CreateBusinessPage extends StatelessWidget {
                             const SizedBox(height: 10,),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8),
+                              child: smallText('Location', size: 18),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Get.toNamed('/Location');
+                              },
+                              child: Container(
+                                height: 60,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                   color: Colors.white,
+                                  border: Border.all(
+                                    width: 1,
+                                    color: const Color.fromRGBO(0, 0, 0, 0.1)
+                                  ),
+                                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: smallText('Tap to enter location'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10,),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
                               child: smallText('Description', size: 18),
                             ),
+                            const SizedBox(height: 10,),
                             VoucherFields(
                               name: 'bDesc',
                               textEditingController: _businessController.description,

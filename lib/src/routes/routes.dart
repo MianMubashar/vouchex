@@ -19,6 +19,11 @@ List<GetPage<dynamic>> routes = [
     binding: PhoneBinding()
   ),
   GetPage(
+    name: '/Login',
+    page: () => LoginScreen(),
+    binding: LoginBinding()
+  ),
+  GetPage(
     name: '/OtpScreen',
     page: () => OtpScreen(),
     binding: OtpBinding()
@@ -117,5 +122,10 @@ List<GetPage<dynamic>> routes = [
     name: '/SentPendingRequest',
     page: () => SentPendingRequests(),
     binding: SentPendingRequestBinding()
-  )
+  ),
+  GetPage(
+    name: '/Location',
+    page: () => PickLocationFromMap(),
+    binding: LocationBinding()
+  ),
 ];

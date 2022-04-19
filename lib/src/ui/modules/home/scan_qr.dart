@@ -16,11 +16,11 @@ class ScanQRScreen extends StatelessWidget {
           ModalProgress(
             call: _qrController.isLoading.value,
             child: SafeArea(
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                margin: const EdgeInsets.only(top: 50),
-                color: qrBackgroundColor,
-                child: SingleChildScrollView(
+              child: SingleChildScrollView(
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  margin: const EdgeInsets.only(top: 50),
+                  color: qrBackgroundColor,
                   child: Column(
                     children: [
                       const CustomAppBar(
@@ -29,18 +29,27 @@ class ScanQRScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
                         child: Container(
-                          color: const Color.fromRGBO(196, 196, 196, 0.08),
+                          decoration: const BoxDecoration(
+                              color:  Color.fromRGBO(196, 196, 196, 0.08),
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(20),
+                                bottomLeft: Radius.circular(20)
+                              )
+                          ),
                           child: Column(
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(left: 30, right: 30, top: 16),
-                                child: titleText("TO use voucher please scan QR code ", clr: Colors.white, textAlign: TextAlign.center),
+                                child: titleText("To use voucher please scan QR code ", clr: Colors.white, textAlign: TextAlign.center),
                               ),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height/2,
-                                child: QRView(
-                                  key: _qrController.qrKey,
-                                  onQRViewCreated: _qrController.onQRViewCreated,
+                              ClipRRect(
+                              borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                child: SizedBox(
+                                  height: MediaQuery.of(context).size.height/2,
+                                  child: QRView(
+                                    key: _qrController.qrKey,
+                                    onQRViewCreated: _qrController.onQRViewCreated,
+                                  ),
                                 ),
                               ),
                             ],

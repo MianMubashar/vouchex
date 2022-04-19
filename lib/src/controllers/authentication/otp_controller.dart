@@ -81,7 +81,7 @@ class OtpController extends GetxController{
       print(json);
       var loginResponse = loginFromJson(json);
       if(loginResponse.status == true){
-        _helperFunctions.saveUserToken(loginResponse.token);
+        _helperFunctions.saveUserToken(loginResponse.token!);
         _helperFunctions.saveUserId(loginResponse.user!.id!);
 
         /*storageList['name'] = loginResponse.user!.business!.name!;

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class BottomBarController extends GetxController {
@@ -20,9 +21,17 @@ class BottomBarController extends GetxController {
     tabController.index = changedIndex;
   }
 
-  bool isUserLoggedIn() {
+/*  bool isUserLoggedIn() {
     var user = _firebaseAuth.currentUser;
     return !(user == null);
+  }*/
+  bool isUserLoggedIn() {
+    final loginCredentials = GetStorage();
+    var id = loginCredentials.read("userId");
+    print(id);
+    var email = loginCredentials.read("email");
+    print(email);
+    return !(id == null && email == null);
   }
 
   @override

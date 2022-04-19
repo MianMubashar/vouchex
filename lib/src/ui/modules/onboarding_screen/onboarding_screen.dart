@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
@@ -67,12 +66,15 @@ class OnBoardingScreen extends StatelessWidget {
             title: 'Get Started',
           ),
           SizedBox(height: MediaQuery.of(context).size.height/20,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              smallText('Already have an account? ', textAlign: TextAlign.center),
-              smallText('Login', decoration: TextDecoration.underline, clr: primaryColor),
-            ],
+          InkWell(
+          onTap: (){Get.toNamed('/Login');},
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                smallText('Already have an account? ', textAlign: TextAlign.center),
+                smallText('Login', decoration: TextDecoration.underline, clr: primaryColor),
+              ],
+            ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height/9.2,),
         ],

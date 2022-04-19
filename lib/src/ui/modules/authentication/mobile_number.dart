@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:vouchex/src/controllers/authentication/phone_controller.dart';
-import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 
 class MobileNumber extends StatelessWidget {
     MobileNumber({Key? key}) : super(key: key);
 
     final PhoneController _controller = Get.find();
+    final _formKey = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,21 +35,58 @@ class MobileNumber extends StatelessWidget {
                             topRight: Radius.circular(36)
                         )
                     ),
-                    height: MediaQuery.of(context).size.height/2.2,
+                    height: MediaQuery.of(context).size.height/1.8,
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 24, top: 30),
-                          child: titleText("Get going with VExchange"),
+                          child: titleText("Create Account"),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16, top: 30),
-                          child: smallText("Enter Phone Number"),
+                        FormBuilder(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16, top: 30),
+                                child: smallText("Email"),
+                              ),
+                              const SizedBox(height: 10,),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16, right: 16),
+                                child: VoucherFields(
+                                  hintText: "Enter Email",
+                                  textEditingController: _controller.emailController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (String? value) => value!.isEmpty
+                                      ? "Required"
+                                      : null,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16, top: 10),
+                                child: smallText("Password"),
+                              ),
+                              const SizedBox(height: 10,),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16, right: 16),
+                                child: VoucherFields(
+                                  hintText: "Enter Password",
+                                  textEditingController: _controller.passwordController,
+                                  keyboardType: TextInputType.text,
+                                  obscureText: true,
+                                  validator: (String? value) => value!.isEmpty
+                                      ? "Required"
+                                      : null,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        const SizedBox(height: 10,),
-                        Padding(
+
+                       /* Padding(
                           padding: const EdgeInsets.only(left: 16, right: 16),
                           child: IntlPhoneField(
                             decoration: const InputDecoration(
@@ -81,14 +118,19 @@ class MobileNumber extends StatelessWidget {
 
                             },
                           ),
-                        ),
-                        const SizedBox(height: 20,),
+                        ),*/
+                        const SizedBox(height: 25,),
                         RoundedRectangleButton(
                           onPress: () async{
-                            print(_controller.phoneNumber.value);
-                            await _controller.login();
+                            if(_formKey.currentState!.validate()) {
+                              if(_controller.emailController.text.isEmail) {
+                                await _controller.register();
+                              } else {
+                                Get.snackbar('Error', 'The email must be a valid email address');
+                              }
+                            }
                           },
-                          title: 'Get Started',
+                          title: 'Register',
                         ),
                       ],
                     ),

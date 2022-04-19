@@ -10,4 +10,8 @@ class HelperFunctions{
   saveUserId(int uid) {
     return loginDetails.write("userId", uid);
   }
+
+  saveUserEmail(String email) {
+    return loginDetails.write("email", email);
+  }
 }

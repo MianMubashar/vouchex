@@ -4,6 +4,7 @@ export 'main_bindings.dart';
 
 export 'authentication/otp_binding.dart';
 export 'authentication/phone_binding.dart';
+export 'authentication/login_binding.dart';
 
 export 'widgets/bottom_bar_binding.dart';
 
@@ -30,3 +31,5 @@ export 'search/search_result_binding.dart';
 export 'about_us/aboutus_binding.dart';
 
 export 'notification/notification_binding.dart';
+
+export 'location/location_binding.dart';

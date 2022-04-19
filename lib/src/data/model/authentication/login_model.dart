@@ -12,9 +12,9 @@ class Login {
     this.user,
   });
 
-  bool status;
-  String token;
-  String message;
+  bool? status;
+  String? token;
+  String? message;
   User? user;
 
   factory Login.fromJson(Map<String, dynamic> json) => Login(

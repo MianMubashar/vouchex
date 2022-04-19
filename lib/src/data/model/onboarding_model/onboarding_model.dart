@@ -11,13 +11,13 @@ class OnBoardingContent {
 
 List<OnBoardingContent> contents = [
   OnBoardingContent(
-      title: 'Get Discount',
+      title: 'Start Trading',
       image: 'assets/images/onboarding_img_1.png',
-      description: "Faster,cheaper global money transfers.plus\nyour first few transfer are fee-free"
+      description: "Create your own voucher and\ntrade it with others in the marketplace"
   ),
   OnBoardingContent(
-      title: 'Exchange vouchers with others',
+      title: '',
       image: 'assets/images/onboarding_img_2.png',
-      description: "Faster,cheaper global money transfers.plus\nyour first few transfer are fee-free"
+      description: ""
   ),
 ];

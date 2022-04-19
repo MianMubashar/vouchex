@@ -2,6 +2,7 @@ export 'onboarding/onboarding_controller.dart';
 
 export 'authentication/otp_controller.dart';
 export 'authentication/phone_controller.dart';
+export 'authentication/login_controller.dart';
 
 export 'widgets/bottom_bar_controller.dart';
 export 'widgets/tab_view.dart';
@@ -40,3 +41,5 @@ export 'help_support/contact_us_controller.dart';
 export 'help_support/faq_controller.dart';
 
 export 'notification/notifications_controller.dart';
+
+export 'location/location_controller.dart';

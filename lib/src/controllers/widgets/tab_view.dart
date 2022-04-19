@@ -21,7 +21,7 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
 
   var loginDetails = GetStorage();
 
-  final AuthService authService = AuthService();
+  //final AuthService authService = AuthService();
 
 
   final List<Tab> tabs = <Tab>[
@@ -77,7 +77,8 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
       loginDetails.remove("cover");
       loginDetails.remove("token");
       loginDetails.remove("userId");
-      authService.signOut();
+      loginDetails.remove("email");
+      //authService.signOut();
       Get.offAllNamed('/');
     }
   }
