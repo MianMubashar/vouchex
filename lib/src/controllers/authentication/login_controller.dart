@@ -36,12 +36,10 @@ class LoginController extends GetxController {
       var loginResponse = loginFromJson(apiRes);
       if(loginResponse.status == true){
         isLoading.value = false;
-        emailController.clear();
-        passwordController.clear();
         _helperFunctions.saveUserToken(loginResponse.token!);
         _helperFunctions.saveUserId(loginResponse.user!.id!);
         _helperFunctions.saveUserEmail(loginResponse.user!.email!);
-        Get.offAllNamed('/BottomBar',);
+        Get.offAllNamed('/BottomBar');
         return [loginResponse.status, loginResponse.token, loginResponse.message, loginResponse.user, ""];
       } else if(loginResponse.status == false){
         isLoading.value = false;

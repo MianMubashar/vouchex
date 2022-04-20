@@ -3,6 +3,7 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geocoding/geocoding.dart';
 
 
 class PickLocationController extends GetxController {
@@ -12,6 +13,7 @@ class PickLocationController extends GetxController {
   var long = 122.085749655962.obs;
 
   var kGoogleApiKey = 'AIzaSyBsMhCxC7WU4S9xsJ7MGP6PeRObctNwzCc';
+  var address = ''.obs;
 
   late GoogleMapController googleMapController;
   CameraPosition initialCameraPosition = const CameraPosition(target: LatLng(37.42796133580664, -122.085749655962), zoom: 14);
@@ -50,17 +52,21 @@ class PickLocationController extends GetxController {
     return position;
   }
 
-  getCurrentLocation() async {
-    Position position = await determinePosition();
-    googleMapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(position.latitude, position.longitude), zoom: 14)));
-    markers.clear();
-    markers.add(Marker(markerId: const MarkerId('currentLocation'),position: LatLng(position.latitude, position.longitude),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed)));
+
+
+  Future<void> getAddressFromCurrentPosition(Position position)async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemarks);
+    Placemark place = placemarks[0];
+    address.value = '${place.street} ${place.subLocality} ${place.locality} ${place.postalCode} ${place.country}';
+    Get.snackbar("Location", address.value, colorText: Colors.white, backgroundColor: Colors.black, snackPosition: SnackPosition.BOTTOM);
   }
 
-  @override
-  void onInit() async {
-    //await getCurrentLocation();
-    super.onInit();
+  Future<void> getAddressFromLatLong(lat, long)async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
+    print(placemarks);
+    Placemark place = placemarks[0];
+    address.value = '${place.street} ${place.subLocality} ${place.locality} ${place.postalCode} ${place.country}';
+    Get.snackbar("Location", address.value, colorText: Colors.white, backgroundColor: Colors.black, snackPosition: SnackPosition.BOTTOM);
   }
 }

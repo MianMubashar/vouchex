@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
@@ -8,123 +9,180 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 
-class PickLocationFromMap extends StatelessWidget {
-   PickLocationFromMap({Key? key}) : super(key: key);
+class PickLocationFromMap extends StatefulWidget {
+  const PickLocationFromMap({Key? key}) : super(key: key);
 
-   final PickLocationController _controller = Get.find();
-   final homeScaffoldKey = GlobalKey<ScaffoldState>();
+  @override
+  State<PickLocationFromMap> createState() => _PickLocationFromMapState();
+}
+
+class _PickLocationFromMapState extends State<PickLocationFromMap> {
+
+  final PickLocationController _controller = Get.find();
+  final homeScaffoldKey = GlobalKey<ScaffoldState>();
+
+
+  getCurrentLocation() async {
+    Position position = await _controller.determinePosition();
+    _controller.googleMapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(position.latitude, position.longitude), zoom: 14)));
+    _controller.markers.clear();
+    setState(() {
+      _controller.markers.add(Marker(markerId: const MarkerId('currentLocation'),position: LatLng(position.latitude, position.longitude),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed)));
+      _controller.getAddressFromCurrentPosition(position);
+    });
+  }
+
+  @override
+  void initState() {
+    getCurrentLocation();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: homeScaffoldKey,
-      body: SafeArea(
-        child: Column(
-          children: [
-            CustomAppBar(
-              title: "Location",
-              showLeadingIcon: true,
-              leadingIconPressed: () {Get.back();} ,
-            ),
-            Expanded(
-              child: Stack(
-                children: [
-                  GoogleMap(
-                    initialCameraPosition: _controller.initialCameraPosition,
-                    markers: _controller.markers,
-                    mapType: MapType.normal,
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller.googleMapController = controller;
-                    },
-                    onTap: (latlng){
-                      if(kDebugMode) {
-                        print('${latlng.latitude} +"  "+${latlng.longitude}');
-                      }
-                      _controller.lat.value=latlng.latitude;
-                      _controller.long.value=latlng.longitude;
-                    },
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      await handlePressButton();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-                      child: Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              width: 1,
-                              color: const Color.fromRGBO(0, 0, 0, 0.1)
+    return WillPopScope(
+      onWillPop: () async {
+        Map data = {
+          "lat" : _controller.lat.value,
+          "long" : _controller.long.value,
+          "address" : _controller.address.value
+        };
+        Get.back(result: data);
+        return true;
+      },
+      child: Scaffold(
+        key: homeScaffoldKey,
+        body: Obx(() =>
+            ModalProgress(
+              call: _controller.isLoading.value,
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    CustomAppBar(
+                      title: "Location",
+                      showLeadingIcon: true,
+                      leadingIconPressed: () {
+                        Map data = {
+                          "lat" : _controller.lat.value,
+                          "long" : _controller.long.value,
+                          "address" : _controller.address.value
+                        };
+                        Get.back(result: data);
+                        } ,
+                    ),
+                    Expanded(
+                      child: Stack(
+                        children: [
+                          GoogleMap(
+                            initialCameraPosition: _controller.initialCameraPosition,
+                            markers: _controller.markers,
+                            mapType: MapType.normal,
+                            onMapCreated: (GoogleMapController controller) {
+                              _controller.googleMapController = controller;
+                            },
+                            onTap: (latlng){
+                              if(kDebugMode) {
+                                print('${latlng.latitude} +"  "+${latlng.longitude}');
+                              }
+                              _controller.lat.value = latlng.latitude;
+                              _controller.long.value = latlng.longitude;
+                              setState(() {
+                                _controller.markers.add(Marker(markerId: const MarkerId('newLocation'),position: LatLng(latlng.latitude, latlng.longitude),
+                                    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan)));
+                                _controller.getAddressFromLatLong(latlng.latitude, latlng.longitude);
+                              });
+                            },
                           ),
-                          borderRadius: const BorderRadius.all(Radius.circular(12)),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(Icons.search),
+                          InkWell(
+                            onTap: () async {
+                              await handlePressButton();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+                              child: Container(
+                                height: 60,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      width: 1,
+                                      color: const Color.fromRGBO(0, 0, 0, 0.1)
+                                  ),
+                                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(Icons.search),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: smallText('Search places...'),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: smallText('Search places...'),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ],
-        ),
+        )
       ),
     );
   }
 
-   Future<void> handlePressButton() async {
-     Prediction? p = await PlacesAutocomplete.show(
-         context: Get.context!,
-         apiKey: _controller.kGoogleApiKey,
-         onError: onError,
-         mode: _controller.mode,
-         language: 'en',
-         strictbounds: false,
-         types: [""],
-         decoration: InputDecoration(
-             hintText: 'Search',
-             focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: BorderSide(color: Colors.white))),
-         components: [Component(Component.country,"pk"),Component(Component.country,"usa")]);
+  Future<void> handlePressButton() async {
+    Prediction? p = await PlacesAutocomplete.show(
+        context: Get.context!,
+        apiKey: _controller.kGoogleApiKey,
+        onError: onError,
+        mode: _controller.mode,
+        language: 'en',
+        strictbounds: false,
+        types: [""],
+        decoration: InputDecoration(
+            hintText: 'Search',
+            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20), borderSide: const BorderSide(color: Colors.white))),
+        components: [Component(Component.country,"pk"),Component(Component.country,"usa")]);
 
 
-      displayPrediction(p!,homeScaffoldKey.currentState);
-   }
+    displayPrediction(p!,homeScaffoldKey.currentState);
 
-   void onError(PlacesAutocompleteResponse response){
-      homeScaffoldKey.currentState!.showSnackBar(SnackBar(content: Text(response.errorMessage!)));
-   }
+  }
 
-   Future<void> displayPrediction(Prediction p, ScaffoldState? currentState) async {
+  void onError(PlacesAutocompleteResponse response){
+    homeScaffoldKey.currentState!.showSnackBar(SnackBar(content: Text(response.errorMessage!)));
+  }
 
-     GoogleMapsPlaces places = GoogleMapsPlaces(
-         apiKey: _controller.kGoogleApiKey,
-         apiHeaders: await const GoogleApiHeaders().getHeaders()
-     );
+  Future<void> displayPrediction(Prediction p, ScaffoldState? currentState) async {
 
-     PlacesDetailsResponse detail = await places.getDetailsByPlaceId(p.placeId!);
+    GoogleMapsPlaces places = GoogleMapsPlaces(
+        apiKey: _controller.kGoogleApiKey,
+        apiHeaders: await const GoogleApiHeaders().getHeaders()
+    );
 
-     final lat = detail.result.geometry!.location.lat;
-     final lng = detail.result.geometry!.location.lng;
+    PlacesDetailsResponse detail = await places.getDetailsByPlaceId(p.placeId!);
 
-     _controller.markers.clear();
-     _controller.markers.add(Marker(markerId: const MarkerId("newLocation"),position: LatLng(lat, lng),infoWindow: InfoWindow(title: detail.result.name)));
+    final lat = detail.result.geometry!.location.lat;
+    final lng = detail.result.geometry!.location.lng;
 
+    _controller.markers.clear();
 
-     _controller.googleMapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14.0));
-
-   }
+    setState(() {
+      _controller.lat.value = lat;
+      _controller.long.value = lng;
+      _controller.markers.add(Marker(markerId: const MarkerId("newLocation"),position: LatLng(lat, lng),
+          infoWindow: InfoWindow(title: detail.result.name), icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet)));
+    });
+    _controller.getAddressFromLatLong(lat, lng);
+    _controller.googleMapController.animateCamera(CameraUpdate.newLatLngZoom(LatLng(lat, lng), 14.0));
+  }
 }

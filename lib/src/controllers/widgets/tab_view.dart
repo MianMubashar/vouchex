@@ -16,6 +16,7 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
   var profilePhotoPath = ''.obs;
   var coverPhotoUrl = ''.obs;
   var businessEmail= ''.obs;
+  var countryCode = ''.obs;
   var businessId= ''.obs;
   var isLoading = false.obs;
 
@@ -48,7 +49,6 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
   Future validateToken() async{
     var token = loginDetails.read("token");
     debugPrint("This is token $token");
-    isLoading.value == true;
     var response  = await http.post(Uri.parse("$baseUrl/validate-token"),
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +57,6 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
       },
     );
     if(response.statusCode == 200) {
-      isLoading.value == false;
       var apiResponse = validateTokenModelFromJson(response.body);
       if (apiResponse.user.businessId != null) {
         userName.value = apiResponse.user.business!.name!;
@@ -67,20 +66,22 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
         loginDetails.write("cover", coverPhotoUrl.value);
         businessId.value = apiResponse.user.businessId.toString();
         businessEmail.value = apiResponse.user.business!.email!;
+        countryCode.value = apiResponse.user.business!.countryCode!;
+        return response;
       }
-      isLoading.value == false;
-      return response;
+      else {
+        return response;
+      }
     }
-    else {
-      isLoading.value == false;
+    /*else {
       loginDetails.remove("profile");
       loginDetails.remove("cover");
       loginDetails.remove("token");
       loginDetails.remove("userId");
       loginDetails.remove("email");
-      //authService.signOut();
       Get.offAllNamed('/');
-    }
+      return response;
+    }*/
   }
 
   @override

@@ -166,7 +166,7 @@ class EditBusiness extends StatelessWidget {
                                 child: smallText('Enter Your Phone Number', size: 18),
                               ),
                               IntlPhoneField(
-                                initialCountryCode: 'US',
+                                initialCountryCode: _businessController.countryCode.value,
                                 initialValue: _businessController.phoneNumber.value,
                                 decoration: const InputDecoration(
                                   filled: true,

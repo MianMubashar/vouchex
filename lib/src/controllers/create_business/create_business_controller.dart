@@ -15,7 +15,6 @@ import 'package:http/http.dart' as http;
 
 class CreateBusinessController extends GetxController{
 
-  PickLocationController _pickLocationController=Get.put(PickLocationController());
   var isLoading = false.obs;
   var loginDetails = GetStorage();
 
@@ -29,6 +28,10 @@ class CreateBusinessController extends GetxController{
   var selectedBusiness = ''.obs;
   var phoneNumber = ''.obs;
 
+  var latitude = 0.0.obs;
+  var longitude = 0.0.obs;
+  var address = 'Tap to get location'.obs;
+
   TextEditingController description = TextEditingController();
   TextEditingController vName = TextEditingController();
   TextEditingController vCode = TextEditingController();
@@ -41,12 +44,16 @@ class CreateBusinessController extends GetxController{
 
   List<Service> getServicesList = [];
   int selectedServiceId = 0;
+  int selectedBusinessServiceId = 0;
   List<int> selectedServicesListId = [];
+  List<int> selectedBusinessServicesListId = [];
   var selectedDate = DateTime.now().obs;
   List<String> vType = ['Free', 'Not Free'];
   var selectedType = ''.obs;
   var selectedServicesList = [].obs;
+  var selectedBusinessServiceList = [].obs;
   var selectedService = ''.obs;
+  var selectedBusinessService = ''.obs;
   var groupValue = 3.obs;
   var countryCode = ''.obs;
 
@@ -115,9 +122,14 @@ class CreateBusinessController extends GetxController{
       request.fields['description'] = description.text;
       request.fields['business_type_id'] = '$selectedBusinessID';
       request.fields['country_code'] = countryCode.value;
-      request.fields['lat'] = _pickLocationController.lat.value.toString();
-      request.fields['lng'] = _pickLocationController.long.value.toString();
+      request.fields['lat'] = latitude.value.toString();
+      request.fields['lng'] = longitude.value.toString();
 
+      if(selectedBusinessServicesListId.isNotEmpty) {
+        for(int i = 0; i < selectedBusinessServicesListId.length; i++){
+          request.fields['business_service_ids[$i]'] = '${selectedBusinessServicesListId[i]}';
+        }
+      }
 
       if(isVoucherFieldsVisible.value == true) {
         if((vName.text.isNotEmpty) && (vCode.text.isNotEmpty) && (selectedDate.value != DateTime.now()) && (marketValue.text.isNotEmpty) &&

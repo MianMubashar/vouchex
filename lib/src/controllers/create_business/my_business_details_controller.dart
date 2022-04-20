@@ -26,9 +26,9 @@ class MyBusinessDetailsController extends GetxController {
    Future validateToken() async {
       var token = loginDetails.read("token");
       debugPrint("This is token $token");
-      isLoading.value == true;
+      isLoading.value = true;
       var response = await GetDataFromAPI.fetchData("$baseUrl/validate-token", token);
-      isLoading.value == false;
+      isLoading.value = false;
       if(response != null) {
          var apiResponse = validateTokenModelFromJson(response);
          name = apiResponse.user.business!.name!;
@@ -41,6 +41,8 @@ class MyBusinessDetailsController extends GetxController {
          profilePhoto = apiResponse.user.business!.profilePhotoPath!;
          coverPhoto = apiResponse.user.business!.coverPhotoPath!;
          description = apiResponse.user.business!.description!;
+      } else {
+         isLoading.value = false;
          return response;
       }
    }

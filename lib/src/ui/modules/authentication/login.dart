@@ -18,12 +18,18 @@ class LoginScreen extends StatelessWidget {
             SafeArea(
               child: ModalProgress(
                 call: _loginController.isLoading.value,
-                child: Container(
-                  color: secondaryColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Align(
-                      alignment: Alignment.center,
+                child: Stack(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height/2,
+                      width: MediaQuery.of(context).size.width,
+                      decoration:  BoxDecoration(
+                          color: Colors.grey.shade200,
+                          image: const DecorationImage(image: AssetImage('assets/images/login.png'))
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
                       child: Container(
                         decoration: const BoxDecoration(
                             color: Colors.white,
@@ -96,7 +102,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),

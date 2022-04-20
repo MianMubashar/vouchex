@@ -29,7 +29,9 @@ class CreateBusinessPage extends StatelessWidget {
                     CustomAppBar(
                       title: "Create Your Business Page",
                       showLeadingIcon: true,
-                      leadingIconPressed: () {Get.back();} ,
+                      leadingIconPressed: () {
+                        Get.back();
+                        } ,
                     ),
                     Stack(
                       children: [
@@ -238,7 +240,11 @@ class CreateBusinessPage extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
-                                Get.toNamed('/Location');
+                                Get.toNamed('/Location')?.then((result) {
+                                  _businessController.latitude.value = result['lat'];
+                                  _businessController.longitude.value = result['long'];
+                                  _businessController.address.value = result['address'];
+                                });
                               },
                               child: Container(
                                 height: 60,
@@ -257,13 +263,93 @@ class CreateBusinessPage extends StatelessWidget {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: smallText('Tap to enter location'),
+                                      child: smallText(_businessController.address.value),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
                             const SizedBox(height: 10,),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: smallText('Looking to exchange for', size: 18),
+                            ),
+                            SizedBox(
+                              height: 60,
+                              child: FormBuilderDropdown<Service>(
+                                decoration: const InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                      borderRadius:  BorderRadius.all(Radius.circular(12)),
+                                      borderSide: BorderSide(color: secondaryColor, width: 1)
+                                  ),
+                                  enabledBorder:  OutlineInputBorder(
+                                      borderRadius:  BorderRadius.all(Radius.circular(12)),
+                                      borderSide: BorderSide(color: secondaryColor, width: 1)
+                                  ),
+                                  focusedBorder:  OutlineInputBorder(
+                                      borderRadius:  BorderRadius.all(Radius.circular(12)),
+                                      borderSide: BorderSide(color: secondaryColor, width: 1)
+                                  ),
+                                ),
+                                icon: const Icon(Icons.keyboard_arrow_down_sharp, color: Colors.black,),
+                                autofocus: true,
+                                onChanged: (Service? newValue) {
+                                  _businessController.selectedBusinessService.value = newValue!.title;
+                                  _businessController.selectedBusinessServiceId = newValue.id;
+                                  print(newValue);
+                                  if(_businessController.selectedBusinessServiceList.length <= 6) {
+                                    _businessController.selectedBusinessServiceList.add(newValue.title);
+                                    _businessController.selectedBusinessServicesListId.add(newValue.id);
+                                  }
+                                },
+                                name: 'businessServices',
+                                hint: const Text('Select'),
+                                items: _businessController.getServicesList.map<DropdownMenuItem<Service>>((Service value) {
+                                  return DropdownMenuItem<Service>(
+                                    value: value,
+                                    child: Text(value.title),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                            const SizedBox(height: 15,),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: smallText(_businessController.selectedBusinessServiceList.isNotEmpty ? "Note: you are able to Select 7 services " : " ", size: 12),
+                            ),
+                            _businessController.selectedBusinessServiceList.isNotEmpty ?
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: SizedBox(
+                                height: 30,
+                                width: MediaQuery.of(context).size.width,
+                                child: ListView.separated(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  separatorBuilder: (BuildContext context, int index) {
+                                    return const SizedBox(width: 5,);
+                                  },
+                                  itemCount: _businessController.selectedBusinessServiceList.length,
+                                  itemBuilder: (context, index) {
+                                    return Chip(
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(Radius.circular(7))
+                                      ),
+                                      padding: EdgeInsets.zero,
+                                      backgroundColor: detailsButtonColor,
+                                      label: smallText(_businessController.selectedBusinessServiceList[index], size: 12, clr: blackText),
+                                      deleteIcon: const Icon(Icons.clear, color: blackText, size: 12,),
+                                      onDeleted: (){
+                                        _businessController.selectedBusinessServiceList.removeWhere((element) => element == _businessController.selectedBusinessServiceList[index]);
+                                        _businessController.selectedBusinessServicesListId.removeWhere((element) => element == _businessController.selectedBusinessServicesListId[index]);
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ) : Container(),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: smallText('Description', size: 18),
@@ -500,19 +586,22 @@ class CreateBusinessPage extends StatelessWidget {
                     RoundedRectangleButton(
                       onPress: (){
                         if(_businessController.selectedProfileImagePath.value == '') {
-                          Get.snackbar("Empty fields", "Please add profile image");
+                          Get.snackbar("Required", "Please add profile image");
                         } else if(_businessController.selectedCoverImagePath.value== '') {
-                          Get.snackbar("Empty fields", "Please add both cover image");
+                          Get.snackbar("Required", "Please add both cover image");
                         }
                         else if(_businessController.businessName.text.isEmpty ) {
-                          Get.snackbar("Empty field", "Please enter name");
+                          Get.snackbar("Required", "Please enter name");
                         } else if(_businessController.businessEmail.text.isEmpty) {
-                          Get.snackbar("Empty field", "Please enter email");
+                          Get.snackbar("Required", "Please enter email");
                         }
                         else if(_businessController.selectedBusinessID == 0) {
-                          Get.snackbar("Empty field", "Please select business type");
+                          Get.snackbar("Required", "Please select business type");
                         } else if(_businessController.phoneNumber.value == '') {
-                          Get.snackbar("Empty fields", "Please enter phone number");
+                          Get.snackbar("Required", "Please enter phone number");
+
+                        } else if((_businessController.latitude.value == 0.0) && (_businessController.longitude.value == 0.0)) {
+                          Get.snackbar("Required", "Please enter location");
                         } else {
                           if(_formKey.currentState!.validate()) {
                             _businessController.registerAsBusiness();

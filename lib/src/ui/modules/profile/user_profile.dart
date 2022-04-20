@@ -64,7 +64,7 @@ class UserProfileScreen extends StatelessWidget {
                   loginDetails.remove("cover");
                   loginDetails.remove("token");
                   loginDetails.remove("userId");
-                  authService.signOut();
+                  loginDetails.remove("email");
                   Get.offAllNamed('/');
                   },
                 title: 'Log Out',
