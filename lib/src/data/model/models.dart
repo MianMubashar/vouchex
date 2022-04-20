@@ -12,7 +12,7 @@ export 'voucher/my_vouchers.dart';
 export 'voucher/vocher_history_model.dart';
 export 'voucher/all_vouchers.dart';
 export 'voucher/pending_exchange_request.dart';
-export 'voucher/my_swapped_vouchers_model.dart';
+// export 'voucher/my_swapped_vouchers_model.dart.dart';
 
 export 'profile/profile_model.dart';
 

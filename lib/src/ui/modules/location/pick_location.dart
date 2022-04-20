@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
@@ -33,6 +34,13 @@ class PickLocationFromMap extends StatelessWidget {
                     mapType: MapType.normal,
                     onMapCreated: (GoogleMapController controller) {
                       _controller.googleMapController = controller;
+                    },
+                    onTap: (latlng){
+                      if(kDebugMode) {
+                        print('${latlng.latitude} +"  "+${latlng.longitude}');
+                      }
+                      _controller.lat.value=latlng.latitude;
+                      _controller.long.value=latlng.longitude;
                     },
                   ),
                   InkWell(

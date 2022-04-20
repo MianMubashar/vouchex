@@ -8,6 +8,8 @@ import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/data/services/services.dart';
 
+import '../../data/model/voucher/my_swapped_vouchers_model.dart';
+
 class MySwappedVoucherController extends GetxController{
 
   var swappedVoucherList = <SwappedVouchersList>[].obs;

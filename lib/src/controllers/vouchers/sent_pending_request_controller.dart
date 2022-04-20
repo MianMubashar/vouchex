@@ -6,6 +6,7 @@ import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/data/services/services.dart';
 
 import '../../data/constants.dart';
+import '../../data/model/voucher/my_swapped_vouchers_model.dart';
 
 class SentPendingRequestController  extends GetxController {
   var sentPendingRequestList = <SwappedVouchersList>[].obs;

@@ -15,6 +15,7 @@ import 'package:http/http.dart' as http;
 
 class CreateBusinessController extends GetxController{
 
+  PickLocationController _pickLocationController=Get.put(PickLocationController());
   var isLoading = false.obs;
   var loginDetails = GetStorage();
 
@@ -97,6 +98,7 @@ class CreateBusinessController extends GetxController{
 
   void registerAsBusiness() async {
     try{
+
       isLoading.value = true;
       String dateAsString = selectedDate.value.toString();
       String formatDate = dateAsString.split('/').reversed.join('-');
@@ -113,6 +115,8 @@ class CreateBusinessController extends GetxController{
       request.fields['description'] = description.text;
       request.fields['business_type_id'] = '$selectedBusinessID';
       request.fields['country_code'] = countryCode.value;
+      request.fields['lat'] = _pickLocationController.lat.value.toString();
+      request.fields['lng'] = _pickLocationController.long.value.toString();
 
 
       if(isVoucherFieldsVisible.value == true) {

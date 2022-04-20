@@ -110,8 +110,11 @@ class SwappedVouchersList {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.service,
-    this.business
+    this.requestee,
+    this.requesteeVoucher,
+    this.requesterVoucher
+    //this.service,
+    //this.business
   });
 
   int? id;
@@ -132,8 +135,12 @@ class SwappedVouchersList {
   DateTime? createdAt;
   DateTime?updatedAt;
   String? deletedAt;
-  List<SwappedVouchersServices>? service;
-  SwappedVoucherBusiness? business;
+  Requestee? requestee;
+  RequesteeVoucher? requesteeVoucher;
+  RequesterVoucher? requesterVoucher;
+
+  //List<SwappedVouchersServices>? service;
+  //SwappedVoucherBusiness? business;
 
   factory SwappedVouchersList.fromJson(Map<String, dynamic> json) => SwappedVouchersList(
     id: json["id"],
@@ -144,7 +151,7 @@ class SwappedVouchersList {
     marketValue: json["market_value"],
     termsConditions: json["terms_conditions"],
     isStatic: json["is_static"],
-    expiry: DateTime.parse(json["expiry"]),
+    expiry: json["expiry"] != null ? DateTime.parse(json["expiry"]) : DateTime.now() ,
     userId: json["user_id"],
     isRedeemed: json["is_redeemed"],
     isSwapped: json["is_swapped"],
@@ -154,8 +161,11 @@ class SwappedVouchersList {
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
     deletedAt: json["deleted_at"],
-    service: List<SwappedVouchersServices>.from(json["service"].map((x) => SwappedVouchersServices.fromJson(x))),
-    business: SwappedVoucherBusiness.fromJson(json["business"]),
+    requestee: json['requestee'] != null ? Requestee.fromJson(json['requestee']): null,
+    requesteeVoucher: json['requestee_voucher'] != null ? RequesteeVoucher.fromJson(json['requestee_voucher']) : null,
+    requesterVoucher: json['requester_voucher'] != null ? RequesterVoucher.fromJson(json['requester_voucher']) : null
+    //service: json["service"] != null ? List<SwappedVouchersServices>.from(json["service"].map((x) => SwappedVouchersServices.fromJson(x))) : null,
+    //business: json["business"] != null ? SwappedVoucherBusiness.fromJson(json["business"]) : null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -177,8 +187,293 @@ class SwappedVouchersList {
     "created_at": createdAt!.toIso8601String(),
     "updated_at": updatedAt!.toIso8601String(),
     "deleted_at": deletedAt,
-    "service": List<dynamic>.from(service!.map((x) => x.toJson())),
+    "requestee": requestee,
+    "requestee_voucher":requesteeVoucher,
+    "requester_voucher": requesterVoucher,
+    //"service": List<dynamic>.from(service!.map((x) => x.toJson())),
+    //"business": business!.toJson(),
+  };
+}
+class Requestee {
+  Requestee({
+    this.id,
+    this.name,
+    this.email,
+    this.phoneNo,
+    this.deviceToken,
+    this.profilePhotoPath,
+    this.createdAt,
+    this.roleId,
+    this.countryCode,
+    this.businessId,
+    this.profilePhotoUrl,
+    this.business
+  });
+
+  int? id;
+  String? name;
+  String? email;
+  String? phoneNo;
+  String? deviceToken;
+  String? profilePhotoPath;
+  DateTime? createdAt;
+  int? roleId;
+  String? countryCode;
+  int? businessId;
+  String? profilePhotoUrl;
+  RequesteeBusiness? business;
+
+  factory Requestee.fromJson(Map<String, dynamic> json) => Requestee(
+    id: json["id"],
+    name: json["name"],
+    email: json["email"],
+    phoneNo: json["phone_no"],
+    deviceToken: json["device_token"],
+    profilePhotoPath: json["profile_photo_path"] ?? "",
+    createdAt: DateTime.parse(json["created_at"]),
+    roleId: json["role_id"],
+    countryCode: json["country_code"],
+    businessId: json["business_id"],
+    profilePhotoUrl: json["profile_photo_url"],
+    business: RequesteeBusiness.fromJson(json["business"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "email": email,
+    "phone_no": phoneNo,
+    "device_token": deviceToken,
+    "profile_photo_path": profilePhotoPath,
+    "created_at": createdAt!.toIso8601String(),
+    "role_id": roleId,
+    "country_code": countryCode,
+    "business_id": businessId,
+    "profile_photo_url": profilePhotoUrl,
     "business": business!.toJson(),
+  };
+}
+
+class RequesteeBusiness {
+  RequesteeBusiness({
+    this.id,
+    this.name,
+    this.description,
+    this.coverPhotoPath,
+    this.profilePhotoPath,
+    this.businessTypeId,
+    this.createdAt,
+    this.updatedAt,
+    this.email,
+    this.phoneNo,
+    this.countryCode,
+  });
+
+  int? id;
+  String? name;
+  String? description;
+  String? coverPhotoPath;
+  String? profilePhotoPath;
+  int? businessTypeId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? email;
+  String? phoneNo;
+  String? countryCode;
+
+  factory RequesteeBusiness.fromJson(Map<String, dynamic> json) => RequesteeBusiness(
+    id: json["id"],
+    name: json["name"],
+    description: json["description"],
+    coverPhotoPath: json["cover_photo_path"],
+    profilePhotoPath: json["profile_photo_path"],
+    businessTypeId: json["business_type_id"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    email: json["email"],
+    phoneNo: json["phone_no"],
+    countryCode: json["country_code"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "description": description,
+    "cover_photo_path": coverPhotoPath,
+    "profile_photo_path": profilePhotoPath,
+    "business_type_id": businessTypeId,
+    "created_at": createdAt!.toIso8601String(),
+    "updated_at": updatedAt!.toIso8601String(),
+    "email": email,
+    "phone_no": phoneNo,
+    "country_code": countryCode,
+  };
+}
+
+class RequesterVoucher {
+  RequesterVoucher({
+    this.id,
+    this.uuId,
+    this.name,
+    this.code,
+    this.isFree,
+    this.marketValue,
+    this.termsConditions,
+    this.isStatic,
+    this.expiry,
+    this.userId,
+    this.isRedeemed,
+    this.isSwapped,
+    this.isVouchex,
+    this.profilePhotoPath,
+    this.coverPhotoPath,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+  });
+
+  int? id;
+  String? uuId;
+  String? name;
+  String? code;
+  int? isFree;
+  String? marketValue;
+  String? termsConditions;
+  String? isStatic;
+  DateTime? expiry;
+  int? userId;
+  String? isRedeemed;
+  String? isSwapped;
+  String? isVouchex;
+  String? profilePhotoPath;
+  String? coverPhotoPath;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  DateTime? deletedAt;
+
+  factory RequesterVoucher.fromJson(Map<String, dynamic> json) => RequesterVoucher(
+    id: json["id"],
+    uuId: json["uu_id"],
+    name: json["name"],
+    code: json["code"],
+    isFree: json["is_free"],
+    marketValue: json["market_value"],
+    termsConditions: json["terms_conditions"],
+    isStatic: json["is_static"],
+    expiry: DateTime.parse(json["expiry"]),
+    userId: json["user_id"],
+    isRedeemed: json["is_redeemed"],
+    isSwapped: json["is_swapped"],
+    isVouchex: json["is_vouchex"],
+    profilePhotoPath: json["profile_photo_path"],
+    coverPhotoPath: json["cover_photo_path"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    deletedAt: json["deleted_at"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "uu_id": uuId,
+    "name": name,
+    "code": code,
+    "is_free": isFree,
+    "market_value": marketValue,
+    "terms_conditions": termsConditions,
+    "is_static": isStatic,
+    "expiry": "${expiry!.year.toString().padLeft(4, '0')}-${expiry!.month.toString().padLeft(2, '0')}-${expiry!.day.toString().padLeft(2, '0')}",
+    "user_id": userId,
+    "is_redeemed": isRedeemed,
+    "is_swapped": isSwapped,
+    "is_vouchex": isVouchex,
+    "profile_photo_path": profilePhotoPath,
+    "cover_photo_path": coverPhotoPath,
+    "created_at": createdAt!.toIso8601String(),
+    "updated_at": updatedAt!.toIso8601String(),
+    "deleted_at": deletedAt,
+  };
+}
+class RequesteeVoucher {
+  RequesteeVoucher({
+    this.id,
+    this.uuId,
+    this.name,
+    this.code,
+    this.isFree,
+    this.marketValue,
+    this.termsConditions,
+    this.isStatic,
+    this.expiry,
+    this.userId,
+    this.isRedeemed,
+    this.isSwapped,
+    this.isVouchex,
+    this.profilePhotoPath,
+    this.coverPhotoPath,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+  });
+
+  int? id;
+  String? uuId;
+  String? name;
+  String? code;
+  int? isFree;
+  String? marketValue;
+  String? termsConditions;
+  String? isStatic;
+  DateTime? expiry;
+  int? userId;
+  String? isRedeemed;
+  String? isSwapped;
+  String? isVouchex;
+  String? profilePhotoPath;
+  String? coverPhotoPath;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  DateTime? deletedAt;
+
+  factory RequesteeVoucher.fromJson(Map<String, dynamic> json) => RequesteeVoucher(
+    id: json["id"],
+    uuId: json["uu_id"],
+    name: json["name"],
+    code: json["code"],
+    isFree: json["is_free"],
+    marketValue: json["market_value"],
+    termsConditions: json["terms_conditions"],
+    isStatic: json["is_static"],
+    expiry: DateTime.parse(json["expiry"]),
+    userId: json["user_id"],
+    isRedeemed: json["is_redeemed"],
+    isSwapped: json["is_swapped"],
+    isVouchex: json["is_vouchex"],
+    profilePhotoPath: json["profile_photo_path"],
+    coverPhotoPath: json["cover_photo_path"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    deletedAt: json["deleted_at"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "uu_id": uuId,
+    "name": name,
+    "code": code,
+    "is_free": isFree,
+    "market_value": marketValue,
+    "terms_conditions": termsConditions,
+    "is_static": isStatic,
+    "expiry": "${expiry!.year.toString().padLeft(4, '0')}-${expiry!.month.toString().padLeft(2, '0')}-${expiry!.day.toString().padLeft(2, '0')}",
+    "user_id": userId,
+    "is_redeemed": isRedeemed,
+    "is_swapped": isSwapped,
+    "is_vouchex": isVouchex,
+    "profile_photo_path": profilePhotoPath,
+    "cover_photo_path": coverPhotoPath,
+    "created_at": createdAt!.toIso8601String(),
+    "updated_at": updatedAt!.toIso8601String(),
+    "deleted_at": deletedAt,
   };
 }
 

@@ -21,7 +21,8 @@ class AppDialog {
   final String requesterProfileImage;
   final String requesterCoverImage;
   final String requesterTerms;
-  final PEData model;
+  String isRequesterOrRequestee ;
+
   AppDialog({
     this.oKText = 'OK',
     this.cancelText = 'Cancel',
@@ -39,7 +40,8 @@ class AppDialog {
     required this.requesterProfileImage,
     required this.requesterCoverImage,
     required this.requesterTerms,
-    required this.model
+    this.isRequesterOrRequestee = 'requester'
+
   });
 
   show(context) {
@@ -141,7 +143,8 @@ class AppDialog {
                         top: MediaQuery.of(context).size.height * 0.05,
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: titleText(requesterVoucherName, size: 8)),
+                            child: Padding(padding:EdgeInsets.only(left: 5),
+                                child: SizedBox(width:MediaQuery.of(context).size.width * 0.36,child: titleText(requesterVoucherName, size: 8,overflow: TextOverflow.ellipsis)))),
                       ),
                       Positioned(
                         left: MediaQuery.of(context).size.width * 0.25,
@@ -187,7 +190,7 @@ class AppDialog {
                             alignment: Alignment.centerLeft,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 5),
-                              child: titleText(requesteeVoucherName, size: 8),
+                              child: SizedBox(width: MediaQuery.of(context).size.width * 0.36,child: titleText(requesteeVoucherName, size: 8,overflow: TextOverflow.ellipsis)),
                             )),
                       ),
                       Positioned(
@@ -206,7 +209,7 @@ class AppDialog {
             const SizedBox(height: 5,),
             Row(
               children: [
-                Expanded(
+               showCancelButton == false ? SizedBox(): Expanded(
                   child: InkWell(
                     onTap: cancelPressed,
                     child: Container(
@@ -218,11 +221,11 @@ class AppDialog {
                         ),
                       ),
                       child: Center(
-                          child: smallText("Decline", size: 14, clr: primaryColor)),
+                          child: smallText(isRequesterOrRequestee == 'requester'?"Decline":"Cancel", size: 14, clr: primaryColor)),
                     ),
                   ),
                 ),
-                Expanded(
+                showOkButton == false ? SizedBox():Expanded(
                   child: InkWell(
                     onTap: oKPressed,
                     child: Container(

@@ -64,7 +64,7 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
         profilePhotoPath.value = apiResponse.user.business!.profilePhotoPath!;
         loginDetails.write("profile", profilePhotoPath.value);
         coverPhotoUrl.value = apiResponse.user.business!.coverPhotoPath!;
-        loginDetails.write("cover", profilePhotoPath.value);
+        loginDetails.write("cover", coverPhotoUrl.value);
         businessId.value = apiResponse.user.businessId.toString();
         businessEmail.value = apiResponse.user.business!.email!;
       }
