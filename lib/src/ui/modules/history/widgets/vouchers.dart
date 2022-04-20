@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:vouchex/src/controllers/vouchers/cancel_sent_pending_request_vooucher.dart';
 import 'package:vouchex/src/data/constants.dart';
 import 'package:vouchex/src/data/model/models.dart';
 import 'package:vouchex/src/ui/widgets/global_widgets.dart';
@@ -9,10 +11,12 @@ import 'package:vouchex/src/ui/widgets/global_widgets.dart';
 import '../../../../data/model/voucher/my_swapped_vouchers_model.dart';
 
 class VoucherHistoryCard extends StatelessWidget {
-  const VoucherHistoryCard({
+   VoucherHistoryCard({
     Key? key,
     required this.model,
   }) : super(key: key);
+
+
 
   final MyVouchersData model;
   @override
@@ -95,6 +99,7 @@ class SwappedVoucherCard extends StatelessWidget {
     required this.model,
   }) : super(key: key);
   var loginDetails = GetStorage();
+   CancelSentPendingRequestVoucher _cancelSentPendingRequestVoucher=Get.put(CancelSentPendingRequestVoucher());
 
   final SwappedVouchersList model;
   @override
@@ -114,13 +119,12 @@ class SwappedVoucherCard extends StatelessWidget {
             requesterTerms: model.requesterVoucher!.termsConditions!,
             showOkButton: false,
             showCancelButton: true,
-            isRequesterOrRequestee: 'requestee'
-            // cancelPressed: (){
-            //   _exchangeRequestController.updateRequestStatus(
-            //       model.id!,
-            //       "decline"
-            //   );
-            // },
+            isRequesterOrRequestee: 'requestee',
+            cancelPressed: () async{
+              await _cancelSentPendingRequestVoucher.requestCancelSentPendingRequestVoucher(context,
+                  model.id,
+                  'cancel');
+            },
             // oKPressed: (){
             //   _exchangeRequestController.updateRequestStatus(
             //       model.id!,
@@ -171,7 +175,7 @@ class SwappedVoucherCard extends StatelessWidget {
                       child: CircleAvatar(
                         radius: 25,
                         backgroundColor: Colors.blue,
-                        foregroundImage: model.requestee!.business != null ? NetworkImage("$networkImageBaseUrl${model.requestee!.profilePhotoPath}") : NetworkImage("$networkImageBaseUrl${model.profilePhotoPath}"),
+                        foregroundImage: model.requestee!.business != null ? NetworkImage("$networkImageBaseUrl${model.requestee!.business!.profilePhotoPath}") : NetworkImage("$networkImageBaseUrl${model.profilePhotoPath}"),
                       ),
                     ),
                   ),
