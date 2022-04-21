@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
@@ -70,45 +71,90 @@ class CreateNewVoucher extends StatelessWidget {
                               padding: const EdgeInsets.only(bottom: 8),
                               child: smallText('Select Services', size: 18),
                             ),
-                            SizedBox(
-                              height: 60,
-                              child: FormBuilderDropdown<Service>(
-                                decoration: const InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                      borderRadius:  BorderRadius.all(Radius.circular(12)),
-                                      borderSide: BorderSide(color: secondaryColor, width: 1)
-                                  ),
-                                  enabledBorder:  OutlineInputBorder(
-                                      borderRadius:  BorderRadius.all(Radius.circular(12)),
-                                      borderSide: BorderSide(color: secondaryColor, width: 1)
-                                  ),
-                                  focusedBorder:  OutlineInputBorder(
-                                      borderRadius:  BorderRadius.all(Radius.circular(12)),
-                                      borderSide: BorderSide(color: secondaryColor, width: 1)
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width/1.5,
+                                  height: 60,
+                                  child: FormBuilderDropdown<Service>(
+                                    decoration: const InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                          borderRadius:  BorderRadius.all(Radius.circular(12)),
+                                          borderSide: BorderSide(color: secondaryColor, width: 1)
+                                      ),
+                                      enabledBorder:  OutlineInputBorder(
+                                          borderRadius:  BorderRadius.all(Radius.circular(12)),
+                                          borderSide: BorderSide(color: secondaryColor, width: 1)
+                                      ),
+                                      focusedBorder:  OutlineInputBorder(
+                                          borderRadius:  BorderRadius.all(Radius.circular(12)),
+                                          borderSide: BorderSide(color: secondaryColor, width: 1)
+                                      ),
+                                    ),
+                                    icon: const Icon(Icons.keyboard_arrow_down_sharp, color: Colors.black,),
+                                    autofocus: true,
+                                    onChanged: (Service? newValue) {
+                                      _createVoucherController.selectedService.value = newValue!.title;
+                                      _createVoucherController.selectedServiceId = newValue.id;
+                                      print(newValue);
+                                      if(_createVoucherController.selectedServicesList.length <= 6) {
+                                        _createVoucherController.selectedServicesList.add(newValue.title);
+                                        _createVoucherController.selectedServicesListId.add(newValue.id);
+                                      }
+                                    },
+                                    name: 'services',
+                                    hint: const Text('Select'),
+                                    items: _createVoucherController.getServicesList.map<DropdownMenuItem<Service>>((Service value) {
+                                      return DropdownMenuItem<Service>(
+                                        value: value,
+                                        child: Text(value.title),
+                                      );
+                                    }).toList(),
                                   ),
                                 ),
-                                icon: const Icon(Icons.keyboard_arrow_down_sharp, color: Colors.black,),
-                                autofocus: true,
-                                onChanged: (Service? newValue) {
-                                  _createVoucherController.selectedService.value = newValue!.title;
-                                  _createVoucherController.selectedServiceId = newValue.id;
-                                  print(newValue);
-                                  if(_createVoucherController.selectedServicesList.length <= 6) {
-                                    _createVoucherController.selectedServicesList.add(newValue.title);
-                                    _createVoucherController.selectedServicesListId.add(newValue.id);
-                                  }
-                                },
-                                name: 'services',
-                                hint: const Text('Select'),
-                                items: _createVoucherController.getServicesList.map<DropdownMenuItem<Service>>((Service value) {
-                                  return DropdownMenuItem<Service>(
-                                    value: value,
-                                    child: Text(value.title),
-                                  );
-                                }).toList(),
-                              ),
+                                SmallButton(
+                                  height: 50,
+                                  title: 'Add new',
+                                  onPress: () {
+                                    Get.defaultDialog(
+                                        title: 'Create New Service',
+                                        content: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(bottom: 8),
+                                              child: smallText('Service', size: 18),
+                                            ),
+                                            VoucherFields(
+                                              hintText: "Enter service",
+                                              textEditingController: _createVoucherController.addService,
+                                              keyboardType: TextInputType.text,
+                                            ),
+                                          ],
+                                        ),
+                                        textCancel: 'Cancel',
+                                        onCancel: (){
+
+                                        },
+                                        textConfirm: 'Add',
+                                        onConfirm: () async {
+                                          if(_createVoucherController.addService.text.isNotEmpty) {
+                                            await _createVoucherController.addNewService();
+                                            await _createVoucherController.getServices();
+                                          } else {
+                                            Get.snackbar("Required", "Service name field must be filled");
+                                          }
+                                        },
+                                        buttonColor: Colors.black,
+                                        confirmTextColor: Colors.white,
+                                      cancelTextColor: Colors.black,
+                                    );
+                                  },
+                                )
+                              ],
                             ),
                             const SizedBox(height: 15,),
                             Padding(
@@ -153,7 +199,7 @@ class CreateNewVoucher extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: RadioListTile(
-                                        value: 0,
+                                        value: 1,
                                         activeColor: Colors.black,
                                         contentPadding: EdgeInsets.zero,
                                         onChanged: (value) {
@@ -166,7 +212,7 @@ class CreateNewVoucher extends StatelessWidget {
                                   ),
                                   Expanded(
                                       child: RadioListTile(
-                                        value: 1,
+                                        value: 0,
                                         activeColor: Colors.black,
                                         contentPadding: EdgeInsets.zero,
                                         onChanged: (value) {
@@ -206,11 +252,12 @@ class CreateNewVoucher extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: RadioListTile(
-                                      value: 0,
+                                      value: 1,
                                       activeColor: Colors.black,
                                       contentPadding: EdgeInsets.zero,
                                       onChanged: (value) {
                                         _createVoucherController.vType.value = value as int;
+                                        print("Selected V type ${_createVoucherController.vType.value}");
                                         _createVoucherController.selectedVType.value = true;
                                       },
                                       groupValue: _createVoucherController.vType.value,
@@ -219,11 +266,12 @@ class CreateNewVoucher extends StatelessWidget {
                                   ),
                                   Expanded(
                                     child: RadioListTile(
-                                      value: 1,
+                                      value: 0,
                                       activeColor: Colors.black,
                                       contentPadding: EdgeInsets.zero,
                                       onChanged: (value) {
                                         _createVoucherController.vType.value = value as int;
+                                        print("Selected V type ${_createVoucherController.vType.value}");
                                         _createVoucherController.selectedVType.value = false;
                                       },
                                       groupValue: _createVoucherController.vType.value,

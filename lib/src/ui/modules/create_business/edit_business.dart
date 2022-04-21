@@ -227,7 +227,7 @@ class EditBusiness extends StatelessWidget {
                                 cursorColor: primaryColor,
                                 dropdownIconPosition: IconPosition.trailing,
                                 onChanged: (phone) {
-                                  _businessController.phoneNumber.value = phone.completeNumber;
+                                  _businessController.phoneNumber.value = phone.number;
                                   _businessController.countryCode.value = phone.countryISOCode;
                                   print(_businessController.countryCode.value);
                                 },

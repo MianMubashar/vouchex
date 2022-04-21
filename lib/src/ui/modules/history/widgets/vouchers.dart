@@ -99,7 +99,7 @@ class SwappedVoucherCard extends StatelessWidget {
     required this.model,
   }) : super(key: key);
   var loginDetails = GetStorage();
-   CancelSentPendingRequestVoucher _cancelSentPendingRequestVoucher=Get.put(CancelSentPendingRequestVoucher());
+   final CancelSentPendingRequestVoucher _cancelSentPendingRequestVoucher = Get.put(CancelSentPendingRequestVoucher());
 
   final SwappedVouchersList model;
   @override
@@ -107,7 +107,6 @@ class SwappedVoucherCard extends StatelessWidget {
     return InkWell(
       onTap: (){
         AppDialog(
-          model: model,
             exchangeRequestId: model.id!,
             requesteeVoucherName: model.requesteeVoucher!.name ?? '',
             requesteeVoucherCode: model.requesteeVoucher!.code ?? '',

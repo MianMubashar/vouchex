@@ -230,7 +230,7 @@ class CreateBusinessPage extends StatelessWidget {
                               dropdownIconPosition: IconPosition.trailing,
                               onChanged: (phone) {
                                 // print(phone.completeNumber);
-                                _businessController.phoneNumber.value = phone.completeNumber.toString();
+                                _businessController.phoneNumber.value = phone.number.toString();
                                 _businessController.countryCode.value = phone.countryISOCode;
                               },
                             ),
@@ -264,7 +264,7 @@ class CreateBusinessPage extends StatelessWidget {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: smallText(_businessController.address.value),
+                                      child: smallText(_businessController.address.value, size: 14, overflow: TextOverflow.ellipsis, ),
                                     ),
                                   ],
                                 ),
@@ -416,59 +416,92 @@ class CreateBusinessPage extends StatelessWidget {
                                     padding: const EdgeInsets.only(bottom: 8),
                                     child: smallText('Select Services', size: 18),
                                   ),
-                                  SizedBox(
-                                    height: 60,
-                                    child: FormBuilderDropdown<Service>(
-                                      decoration: const InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        border: OutlineInputBorder(
-                                            borderRadius:  BorderRadius.all(Radius.circular(12)),
-                                            borderSide: BorderSide(color: secondaryColor, width: 1)
-                                        ),
-                                        enabledBorder:  OutlineInputBorder(
-                                            borderRadius:  BorderRadius.all(Radius.circular(12)),
-                                            borderSide: BorderSide(color: secondaryColor, width: 1)
-                                        ),
-                                        focusedBorder:  OutlineInputBorder(
-                                            borderRadius:  BorderRadius.all(Radius.circular(12)),
-                                            borderSide: BorderSide(color: secondaryColor, width: 1)
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width/1.5,
+                                        height: 60,
+                                        child: FormBuilderDropdown<Service>(
+                                          decoration: const InputDecoration(
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            border: OutlineInputBorder(
+                                                borderRadius:  BorderRadius.all(Radius.circular(12)),
+                                                borderSide: BorderSide(color: secondaryColor, width: 1)
+                                            ),
+                                            enabledBorder:  OutlineInputBorder(
+                                                borderRadius:  BorderRadius.all(Radius.circular(12)),
+                                                borderSide: BorderSide(color: secondaryColor, width: 1)
+                                            ),
+                                            focusedBorder:  OutlineInputBorder(
+                                                borderRadius:  BorderRadius.all(Radius.circular(12)),
+                                                borderSide: BorderSide(color: secondaryColor, width: 1)
+                                            ),
+                                          ),
+                                          icon: const Icon(Icons.keyboard_arrow_down_sharp, color: Colors.black,),
+                                          autofocus: true,
+                                          onChanged: (Service? newValue) {
+                                            _businessController.selectedService.value = newValue!.title;
+                                            _businessController.selectedServiceId = newValue.id;
+                                            print(newValue);
+                                            if(_businessController.selectedServicesList.length <= 6) {
+                                              _businessController.selectedServicesList.add(newValue.title);
+                                              _businessController.selectedServicesListId.add(newValue.id);
+                                            }
+                                          },
+                                          name: 'voucherServices',
+                                          hint: const Text('Select'),
+                                          items: _businessController.getServicesList.map<DropdownMenuItem<Service>>((Service value) {
+                                            return DropdownMenuItem<Service>(
+                                              value: value,
+                                              child: Text(value.title),
+                                            );
+                                          }).toList(),
                                         ),
                                       ),
-                                      icon: const Icon(Icons.keyboard_arrow_down_sharp, color: Colors.black,),
-                                      autofocus: true,
-                                      onChanged: (Service? newValue) {
-                                        _businessController.selectedService.value = newValue!.title;
-                                        _businessController.selectedServiceId = newValue.id;
-                                        print(newValue);
-                                        if(_businessController.selectedServicesList.length <= 6) {
-                                          _businessController.selectedServicesList.add(newValue.title);
-                                          _businessController.selectedServicesListId.add(newValue.id);
-                                        }
-                                      },
-                                      name: 'voucherServices',
-                                      hint: const Text('Select'),
-                                      items: _businessController.getServicesList.map<DropdownMenuItem<Service>>((Service value) {
-                                        return DropdownMenuItem<Service>(
-                                          value: value,
-                                          child: Text(value.title),
-                                        );
-                                      }).toList(),
-                                    ),
+                                      SmallButton(
+                                        height: 50,
+                                        title: 'Add new',
+                                        onPress: () {
+                                          Get.defaultDialog(
+                                            title: 'Create New Service',
+                                            content: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(bottom: 8),
+                                                  child: smallText('Service', size: 18),
+                                                ),
+                                                VoucherFields(
+                                                  hintText: "Enter service",
+                                                  textEditingController: _businessController.addService,
+                                                  keyboardType: TextInputType.text,
+                                                ),
+                                              ],
+                                            ),
+                                            textCancel: 'Cancel',
+                                            onCancel: (){
+
+                                            },
+                                            textConfirm: 'Add',
+                                            onConfirm: () async {
+                                              if(_businessController.addService.text.isNotEmpty) {
+                                                await _businessController.addNewService();
+                                                await _businessController.getBusinessTypes();
+                                              } else {
+                                                Get.snackbar("Required", "Service name field must be filled");
+                                              }
+                                            },
+                                            buttonColor: Colors.black,
+                                            confirmTextColor: Colors.white,
+                                            cancelTextColor: Colors.black,
+                                          );
+                                        },
+                                      )
+                                    ],
                                   ),
                                   const SizedBox(height: 15,),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 8),
-                                    child: smallText('Voucher Type', size: 18),
-                                  ),
-                                  DropDownButton(
-                                    list: _businessController.vType,
-                                    borderColor: const Color.fromRGBO(0, 0, 0, 0.1),
-                                    name: 'businessTypes',
-                                    onChanged: (value) {
-                                      _businessController.selectedType.value = value!;
-                                    },
-                                  ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 5),
                                     child: smallText(_businessController.selectedServicesList.isNotEmpty ? "Note: you are able to Select 7 services " : " ", size: 12),
@@ -504,6 +537,40 @@ class CreateBusinessPage extends StatelessWidget {
                                       ),
                                     ),
                                   ) : Container(),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: RadioListTile(
+                                            value: 1,
+                                            activeColor: Colors.black,
+                                            contentPadding: EdgeInsets.zero,
+                                            onChanged: (value) {
+                                              _businessController.vType.value = value as int;
+                                              print("Selected V type ${_businessController.vType.value}");
+                                            },
+                                            groupValue: _businessController.vType.value,
+                                            title: smallText('Free', size: 12, clr: blackText),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: RadioListTile(
+                                            value: 0,
+                                            activeColor: Colors.black,
+                                            contentPadding: EdgeInsets.zero,
+                                            onChanged: (value) {
+                                              _businessController.vType.value = value as int;
+                                              print("Selected V type ${_businessController.vType.value}");
+                                            },
+                                            groupValue: _businessController.vType.value,
+                                            title: smallText('Not Free', size: 12, clr: blackText),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                   SizedBox(
                                     width: MediaQuery.of(context).size.width,
                                     child: Row(

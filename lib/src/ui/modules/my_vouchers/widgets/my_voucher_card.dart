@@ -90,6 +90,7 @@ class MyVoucherCard extends StatelessWidget {
                                 "market_value" : model.marketValue,
                                 "terms" : model.termsConditions,
                                 "is_static" : model.isStatic,
+                                "is_free" : model.isFree,
                                 "v_id" : model.id,
                               };
                               Get.toNamed("/CreateNewVoucher", arguments: voucherData);

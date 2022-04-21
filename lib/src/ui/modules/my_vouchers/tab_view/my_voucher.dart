@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:vouchex/src/controllers/controllers.dart';
 import 'package:vouchex/src/ui/modules/my_vouchers/widgets/my_voucher_card.dart';
-import 'package:vouchex/src/ui/widgets/custom_widgets/modal_progress.dart';
 import 'package:vouchex/src/ui/widgets/custom_widgets/text_widgets.dart';
 
 class MyVoucher extends StatelessWidget {

@@ -118,8 +118,8 @@ class PendingRequestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        /*var voucherData = {
+      /*onTap: (){
+        var voucherData = {
           "qrImage" : "assets/images/qr_code.png",
           "businessName" : 'Adidas',
           "expiryDate" : DateFormat("dd/MM/yyyy").format(model.requesterVoucher!.expiry!),
@@ -132,8 +132,8 @@ class PendingRequestCard extends StatelessWidget {
           'voucherId': model.id,
           'fromWhere' : 'pendingRequest'
         };
-        Get.toNamed('/VoucherDetails', arguments: voucherData);*/
-      },
+        Get.toNamed('/VoucherDetails', arguments: voucherData);
+      },*/
       child: Container(
         decoration:  BoxDecoration(
           boxShadow: [

@@ -15,7 +15,6 @@ import 'package:http/http.dart' as http;
 
 class CreateBusinessController extends GetxController{
 
-  EditBusinessController _editBusinessController=Get.put(EditBusinessController());
   var isLoading = false.obs;
   var loginDetails = GetStorage();
 
@@ -39,6 +38,7 @@ class CreateBusinessController extends GetxController{
   TextEditingController vDescription = TextEditingController();
   TextEditingController marketValue = TextEditingController();
   TextEditingController terms = TextEditingController();
+  TextEditingController addService = TextEditingController();
 
   TextEditingController businessName = TextEditingController();
   TextEditingController businessEmail = TextEditingController();
@@ -49,7 +49,8 @@ class CreateBusinessController extends GetxController{
   List<int> selectedServicesListId = [];
   List<int> selectedBusinessServicesListId = [];
   var selectedDate = DateTime.now().obs;
-  List<String> vType = ['Free', 'Not Free'];
+
+  var vType = 3.obs;
   var selectedType = ''.obs;
   var selectedServicesList = [].obs;
   var selectedBusinessServiceList = [].obs;
@@ -109,7 +110,6 @@ class CreateBusinessController extends GetxController{
 
       isLoading.value = true;
       String dateAsString = selectedDate.value.toString();
-      _editBusinessController.address.value=address.value;
       String formatDate = dateAsString.split('/').reversed.join('-');
       DateFormat inputFormat = DateFormat('yyyy-MM-dd');
       DateTime date = inputFormat.parse(formatDate);
@@ -135,13 +135,14 @@ class CreateBusinessController extends GetxController{
 
       if(isVoucherFieldsVisible.value == true) {
         if((vName.text.isNotEmpty) && (vCode.text.isNotEmpty) && (selectedDate.value != DateTime.now()) && (marketValue.text.isNotEmpty) &&
-            (terms.text.isNotEmpty) && (groupValue.value != 3) && (selectedServicesListId.isNotEmpty)) {
+            (terms.text.isNotEmpty) && (groupValue.value != 3) && (selectedServicesListId.isNotEmpty) && (vType.value != 3)) {
           request.fields['voucher_name'] = vName.text;
           request.fields['code'] = vCode.text;
           request.fields['voucher_expiry'] = format ;
           request.fields['voucher_market_value'] = marketValue.text;
           request.fields['voucher_terms'] = terms.text;
           request.fields['voucher_is_static'] = '${groupValue.value}';
+          request.fields['voucher_is_free'] = '${vType.value}';
           for(int i = 0; i < selectedServicesListId.length; i++){
             request.fields['voucher_service_ids[$i]'] = '${selectedServicesListId[i]}';
           }
@@ -191,6 +192,47 @@ class CreateBusinessController extends GetxController{
       isLoading.value = false;
       Get.snackbar("Error", "Something went wrong");
       debugPrint(e.toString());
+    }
+  }
+
+  Future<void> addNewService() async{
+    isLoading.value = true;
+    var token = loginDetails.read("token");
+
+    Map data = {
+      'title' : addService.text,
+    };
+    var body = json.encode(data);
+    var response = await http.post(Uri.parse('$baseUrl/create-service'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          "Authorization" : "Bearer $token"
+        },
+        body: body
+    );
+    isLoading.value = false;
+    addService.clear();
+    var result = json.decode(response.body);
+    var status = result['status'];
+    if(status == true) {
+      isLoading.value = false;
+      Get.back();
+      Get.snackbar("${result['message']}", "");
+      print("${result['service_id']}");
+      return result['service_id'];
+    } else {
+      isLoading.value = false;
+      if(result.containsKey("error")){
+        var errors = result["error"] as Map<String,dynamic>;
+        var errorMessage = "";
+        errors.forEach((key, value) {
+          var data = value[0];
+          errorMessage += data;
+          errorMessage += "\n";
+        });
+        Get.snackbar("Error", errorMessage);
+      }
     }
   }
 

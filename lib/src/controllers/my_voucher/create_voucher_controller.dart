@@ -17,6 +17,7 @@ class CreateVoucherController extends GetxController {
   TextEditingController vCode = TextEditingController();
   TextEditingController marketValue = TextEditingController();
   TextEditingController terms = TextEditingController();
+  TextEditingController addService = TextEditingController();
   final loginDetails = GetStorage();
 
   var selectedDate = DateTime.now().obs;
@@ -65,6 +66,47 @@ class CreateVoucherController extends GetxController {
     return getServicesList;
   }
 
+  Future<void> addNewService() async{
+    isLoading.value = true;
+    var token = loginDetails.read("token");
+
+    Map data = {
+      'title' : addService.text,
+    };
+    var body = json.encode(data);
+    var response = await http.post(Uri.parse('$baseUrl/create-service'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          "Authorization" : "Bearer $token"
+        },
+        body: body
+    );
+    isLoading.value = false;
+    addService.clear();
+    var result = json.decode(response.body);
+    var status = result['status'];
+    if(status == true) {
+      isLoading.value = false;
+      Get.back();
+      Get.snackbar("${result['message']}", "");
+      print("${result['service_id']}");
+      return result['service_id'];
+    } else {
+      isLoading.value = false;
+      if(result.containsKey("error")){
+        var errors = result["error"] as Map<String,dynamic>;
+        var errorMessage = "";
+        errors.forEach((key, value) {
+          var data = value[0];
+          errorMessage += data;
+          errorMessage += "\n";
+        });
+        Get.snackbar("Error", errorMessage);
+      }
+    }
+  }
+
 
   Future createVoucher() async {
 
@@ -77,7 +119,7 @@ class CreateVoucherController extends GetxController {
     var format = "${date.year}-${date.month}-${date.day}";
 
     if((vName.text.isNotEmpty) && (vCode.text.isNotEmpty) && (selectedServicesListId.isNotEmpty) &&
-        (marketValue.text.isNotEmpty) && (terms.text.isNotEmpty) && (groupValue.value != 3)) {
+        (marketValue.text.isNotEmpty) && (terms.text.isNotEmpty) && (groupValue.value != 3) && (vType.value != 3)) {
       Map data = {
         'name' : vName.text,
         'code' : vCode.text,
@@ -85,8 +127,8 @@ class CreateVoucherController extends GetxController {
         'expiry' : format,
         'market_value' : double.tryParse(marketValue.text)?.toDouble(),
         'terms' : terms.text,
-        'is_static' : selectedGroupValue.value,
-        'is_free' : selectedVType.value
+        'is_static' : groupValue.value,
+        'is_free' : vType.value
       };
       var body = json.encode(data);
       var response = await http.post(Uri.parse('$baseUrl/create-voucher'),
@@ -126,8 +168,8 @@ class CreateVoucherController extends GetxController {
       'expiry' : format,
       'market_value' : double.tryParse(marketValue.text)?.toDouble(),
       'terms' : terms.text,
-      'is_static' : selectedGroupValue.value,
-    //  'is_free' : selectedVType.value
+      'is_static' : groupValue.value,
+      'is_free' : selectedVType.value
     };
     var body = json.encode(data);
     var response = await http.post(Uri.parse('$baseUrl/edit-voucher'),
@@ -163,6 +205,7 @@ class CreateVoucherController extends GetxController {
     terms.text = Get.arguments["terms"] ?? "";
     groupValue.value = int.parse(Get.arguments["is_static"]);
     selectedDate.value = Get.arguments["expiry"];
+    vType.value = Get.arguments["is_free"];
     selectedServicesList.value = Get.arguments["selectedServiceTitle"] ?? [];
     super.onReady();
   }

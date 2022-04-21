@@ -54,7 +54,7 @@ class AppDialog {
       builder: (BuildContext context) => Dialog(
         insetPadding: const EdgeInsets.all(10),
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(12))
+            borderRadius: BorderRadius.all(Radius.circular(12))
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -93,11 +93,11 @@ class AppDialog {
             ),
             Container(
               color: const Color(0XFFF0F0F0),
-                width: MediaQuery.of(context).size.width,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 26, right: 26, top: 18, bottom: 18),
-                  child: smallText(requesterTerms),
-                ),
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 26, right: 26, top: 18, bottom: 18),
+                child: smallText(requesterTerms),
+              ),
             ),
             const SizedBox(height: 30,),
             Padding(
@@ -256,7 +256,7 @@ class AppDialog {
             const SizedBox(height: 5,),
             Row(
               children: [
-               showCancelButton == false ? SizedBox(): Expanded(
+                showCancelButton == false ? SizedBox(): Expanded(
                   child: InkWell(
                     onTap: cancelPressed,
                     child: Container(
@@ -264,7 +264,7 @@ class AppDialog {
                       decoration: const BoxDecoration(
                         color: secondaryColor,
                         borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(12)
+                            bottomLeft: Radius.circular(12)
                         ),
                       ),
                       child: Center(
