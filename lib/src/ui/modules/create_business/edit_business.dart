@@ -163,6 +163,42 @@ class EditBusiness extends StatelessWidget {
                               const SizedBox(height: 10,),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 8),
+                                child: smallText('Location', size: 18),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed('/Location')?.then((result) {
+                                    _businessController.latitude.value = result['lat'];
+                                    _businessController.longitude.value = result['long'];
+                                    _businessController.address.value = result['address'];
+                                  });
+                                },
+                                child: Container(
+                                  height: 60,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        width: 1,
+                                        color: const Color.fromRGBO(0, 0, 0, 0.1)
+                                    ),
+                                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: smallText(_businessController.address.value,overflow: TextOverflow.ellipsis),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10,),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
                                 child: smallText('Enter Your Phone Number', size: 18),
                               ),
                               IntlPhoneField(
@@ -191,7 +227,7 @@ class EditBusiness extends StatelessWidget {
                                 cursorColor: primaryColor,
                                 dropdownIconPosition: IconPosition.trailing,
                                 onChanged: (phone) {
-                                  _businessController.phoneNumber.value = phone.number;
+                                  _businessController.phoneNumber.value = phone.completeNumber;
                                   _businessController.countryCode.value = phone.countryISOCode;
                                   print(_businessController.countryCode.value);
                                 },

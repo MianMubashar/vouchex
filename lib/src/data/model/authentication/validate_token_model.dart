@@ -92,6 +92,8 @@ class ValidateBusiness {
     this.coverPhotoPath,
     this.profilePhotoPath,
     this.businessTypeId,
+    this.lat,
+    this.lon,
     this.createdAt,
     this.updatedAt,
     this.email,
@@ -106,6 +108,8 @@ class ValidateBusiness {
   String? coverPhotoPath;
   String? profilePhotoPath;
   int? businessTypeId;
+  double? lat;
+  double? lon;
   DateTime? createdAt;
   DateTime? updatedAt;
   String? email;
@@ -126,6 +130,8 @@ class ValidateBusiness {
     phoneNo: json["phone_no"],
     countryCode : json["country_code"],
     businessType: ValidateBusinessType.fromJson(json["business_type"]),
+    lat: double.parse(json['lat'].toString()) ,
+    lon: double.parse(json['lng'].toString())
   );
 
   Map<String, dynamic> toJson() => {
@@ -141,6 +147,8 @@ class ValidateBusiness {
     "phone_no": phoneNo,
     "country_code" : countryCode,
     "business_type": businessType!.toJson(),
+    'lat':lat,
+    'lon':lon
   };
 }
 

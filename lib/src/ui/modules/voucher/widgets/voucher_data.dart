@@ -17,7 +17,7 @@ class VoucherData extends StatelessWidget {
 
   final HomeTabs _homeTabs = Get.put(HomeTabs());
 
-  var list = <AllVoucherServices>[];
+  var list = [];
   int? userId;
   int? voucherId;
   String? uu_id;

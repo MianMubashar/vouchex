@@ -19,6 +19,8 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
   var countryCode = ''.obs;
   var businessId= ''.obs;
   var isLoading = false.obs;
+  var lat = 0.0.obs;
+  var lon = 0.0.obs;
 
   var loginDetails = GetStorage();
 
@@ -67,6 +69,8 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
         businessId.value = apiResponse.user.businessId.toString();
         businessEmail.value = apiResponse.user.business!.email!;
         countryCode.value = apiResponse.user.business!.countryCode!;
+        lat.value = apiResponse.user.business!.lat!;
+        lon.value = apiResponse.user.business!.lon!;
         return response;
       }
       else {

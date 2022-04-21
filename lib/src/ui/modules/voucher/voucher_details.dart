@@ -14,7 +14,7 @@ class VoucherDetails extends StatelessWidget {
           child: Column(
             children:  [
               CustomAppBar(
-                title: "Exchange Requests",
+                title: Get.arguments['fromWhere'] == "my_swapped_vouchers" ? "Details" : "Exchange Requests",
                 showLeadingIcon: true,
                 leadingIconPressed: (){Get.back();},
               ),

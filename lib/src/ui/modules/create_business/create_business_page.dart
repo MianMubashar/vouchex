@@ -229,7 +229,8 @@ class CreateBusinessPage extends StatelessWidget {
                               cursorColor: primaryColor,
                               dropdownIconPosition: IconPosition.trailing,
                               onChanged: (phone) {
-                                _businessController.phoneNumber.value = phone.number.toString();
+                                // print(phone.completeNumber);
+                                _businessController.phoneNumber.value = phone.completeNumber.toString();
                                 _businessController.countryCode.value = phone.countryISOCode;
                               },
                             ),

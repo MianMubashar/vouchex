@@ -10,10 +10,12 @@ import 'package:vouchex/src/data/services/api/fetch_data.dart';
 import 'package:http/http.dart' as http;
 
 import '../../ui/widgets/custom_widgets/simple_dialog.dart';
+import '../controllers.dart';
 
 class CancelSentPendingRequestVoucher extends GetxController{
 var isLoading=false.obs;
 var loginDetails=GetStorage();
+final SentPendingRequestController _pendingRequestController = Get.find();
 
 Future requestCancelSentPendingRequestVoucher(BuildContext context,int? exchange_request_id,String? status) async {
   var token = loginDetails.read('token');
@@ -37,6 +39,7 @@ Future requestCancelSentPendingRequestVoucher(BuildContext context,int? exchange
       if (status) {
         isLoading.value = false;
         Get.back();
+        _pendingRequestController.getSentPendingRequests(isRefresh: true);
         // ImageDialog(
         //     title: '${apiResponse['message']}',
         //     imageUrl: 'assets/images/congrats_img.png')

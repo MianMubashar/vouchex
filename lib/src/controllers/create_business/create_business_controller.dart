@@ -15,6 +15,7 @@ import 'package:http/http.dart' as http;
 
 class CreateBusinessController extends GetxController{
 
+  EditBusinessController _editBusinessController=Get.put(EditBusinessController());
   var isLoading = false.obs;
   var loginDetails = GetStorage();
 
@@ -108,6 +109,7 @@ class CreateBusinessController extends GetxController{
 
       isLoading.value = true;
       String dateAsString = selectedDate.value.toString();
+      _editBusinessController.address.value=address.value;
       String formatDate = dateAsString.split('/').reversed.join('-');
       DateFormat inputFormat = DateFormat('yyyy-MM-dd');
       DateTime date = inputFormat.parse(formatDate);

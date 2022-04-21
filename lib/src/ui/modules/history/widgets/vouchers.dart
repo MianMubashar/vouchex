@@ -107,6 +107,7 @@ class SwappedVoucherCard extends StatelessWidget {
     return InkWell(
       onTap: (){
         AppDialog(
+          model: model,
             exchangeRequestId: model.id!,
             requesteeVoucherName: model.requesteeVoucher!.name ?? '',
             requesteeVoucherCode: model.requesteeVoucher!.code ?? '',

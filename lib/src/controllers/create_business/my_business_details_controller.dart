@@ -22,6 +22,8 @@ class MyBusinessDetailsController extends GetxController {
    var businessId = 0;
    var profilePhoto = '';
    var coverPhoto = '';
+   var lat = 0.0;
+   var lon = 0.0;
 
    Future validateToken() async {
       var token = loginDetails.read("token");
@@ -41,6 +43,8 @@ class MyBusinessDetailsController extends GetxController {
          profilePhoto = apiResponse.user.business!.profilePhotoPath!;
          coverPhoto = apiResponse.user.business!.coverPhotoPath!;
          description = apiResponse.user.business!.description!;
+         lat = apiResponse.user.business!.lat!;
+         lon = apiResponse.user.business!.lon!;
       } else {
          isLoading.value = false;
          return response;

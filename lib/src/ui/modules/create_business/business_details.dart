@@ -152,7 +152,7 @@ class BusinessDetails extends StatelessWidget {
                                 padding: const EdgeInsets.only(bottom: 20, right: 20),
                                 child: Align(
                                   alignment: Alignment.bottomRight,
-                                  child: titleText(e.code != null ? e.code! : "" , size: 18),
+                                  child: titleText(e.code != null ? '#'+e.code! : "" , size: 18),
                                 ),
                               ),
                             ),

@@ -20,6 +20,9 @@ class EditBusinessController extends GetxController {
   var businessId = 0.obs;
   var loginDetails = GetStorage();
   var countryCode = ''.obs;
+  var latitude = 0.0.obs;
+  var longitude = 0.0.obs;
+  var address = 'Tap to get location'.obs;
 
 
   var profileFromServer = ''.obs;
@@ -52,6 +55,7 @@ class EditBusinessController extends GetxController {
     coverFromServer.value = Get.arguments['coverPhoto'];
     getBusinessTypeList = Get.arguments['businessTypeList'];
     businessId.value = Get.arguments['business_id'];
+
     super.onReady();
   }
 
@@ -66,11 +70,14 @@ class EditBusinessController extends GetxController {
       request.fields['description'] = description.text;
       request.fields['business_type_id'] = '$selectedBusinessID';
       request.fields['business_id'] = '${businessId.value}';
+
       if((selectedProfileImagePath.value != '') && (selectedCoverImagePath.value != '')) {
         request.files.add(await http.MultipartFile.fromPath('profile_photo', selectedProfileImagePath.value));
         request.files.add(await http.MultipartFile.fromPath('cover_photo', selectedCoverImagePath.value));
       }
       request.fields['country_code'] = countryCode.value;
+      request.fields['lat'] = latitude.value.toString();
+      request.fields['lng'] = longitude.value.toString();
       Map<String, String> headers = {
         "content-type": "multipart/form-data",
         'Accept': 'application/json',
@@ -86,6 +93,8 @@ class EditBusinessController extends GetxController {
       if(resStatus == true) {
         isLoading.value = false;
         Get.back();
+        //Get.arguments['name']=name.text;
+
         //Get.offAndToNamed('/Profile');
       } else {
         isLoading.value = false;

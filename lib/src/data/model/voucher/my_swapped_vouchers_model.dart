@@ -330,6 +330,7 @@ class RequesterVoucher {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
+    this.services
   });
 
   int? id;
@@ -350,6 +351,7 @@ class RequesterVoucher {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
+  List<Services>? services;
 
   factory RequesterVoucher.fromJson(Map<String, dynamic> json) => RequesterVoucher(
     id: json["id"],
@@ -370,6 +372,7 @@ class RequesterVoucher {
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
     deletedAt: json["deleted_at"],
+    services: json['service'] != null ? List<Services>.from(json['service'].map((e)=>Services.fromJson(e))) : null
   );
 
   Map<String, dynamic> toJson() => {
@@ -413,6 +416,7 @@ class RequesteeVoucher {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
+    this.services
   });
 
   int? id;
@@ -433,6 +437,7 @@ class RequesteeVoucher {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
+  List<Services>? services;
 
   factory RequesteeVoucher.fromJson(Map<String, dynamic> json) => RequesteeVoucher(
     id: json["id"],
@@ -453,6 +458,7 @@ class RequesteeVoucher {
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
     deletedAt: json["deleted_at"],
+    services: json['service'] != null ? List<Services>.from(json['service'].map((e)=>Services.fromJson(e))): null
   );
 
   Map<String, dynamic> toJson() => {
@@ -475,6 +481,17 @@ class RequesteeVoucher {
     "updated_at": updatedAt!.toIso8601String(),
     "deleted_at": deletedAt,
   };
+}
+
+class Services{
+  int? id;
+  String? title;
+  int? user_id;
+
+  Services({required this.id,required this.title,required this.user_id});
+  factory Services.fromJson(Map<String, dynamic> data){
+    return Services(id: data['id'], title: data['title'], user_id: data['user_id']);
+  }
 }
 
 class SwappedVoucherBusiness {
