@@ -32,6 +32,8 @@ class CreateVoucherController extends GetxController {
   var vType = 3.obs;
   var selectedVType = false.obs;
 
+
+
   var voucherId = 0.obs;
 
   selectDate() async {
@@ -168,8 +170,8 @@ class CreateVoucherController extends GetxController {
       'expiry' : format,
       'market_value' : double.tryParse(marketValue.text)?.toDouble(),
       'terms' : terms.text,
-      'is_static' : groupValue.value,
-      'is_free' : selectedVType.value
+      'is_static' : groupValue.value == 1 ? 'yes' : 'no',
+      'is_free' : vType.value == 1 ? 'yes' : 'no'
     };
     var body = json.encode(data);
     var response = await http.post(Uri.parse('$baseUrl/edit-voucher'),

@@ -55,6 +55,7 @@ class EditBusinessController extends GetxController {
     coverFromServer.value = Get.arguments['coverPhoto'];
     getBusinessTypeList = Get.arguments['businessTypeList'];
     businessId.value = Get.arguments['business_id'];
+    address.value= Get.arguments['address'];
 
     super.onReady();
   }
@@ -78,6 +79,7 @@ class EditBusinessController extends GetxController {
       request.fields['country_code'] = countryCode.value;
       request.fields['lat'] = latitude.value.toString();
       request.fields['lng'] = longitude.value.toString();
+      request.fields['address'] = address.value;
       Map<String, String> headers = {
         "content-type": "multipart/form-data",
         'Accept': 'application/json',

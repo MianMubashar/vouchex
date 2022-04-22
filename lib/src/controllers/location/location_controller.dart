@@ -59,7 +59,7 @@ class PickLocationController extends GetxController {
     print(placemarks);
     Placemark place = placemarks[0];
     address.value = '${place.street} ${place.subLocality} ${place.locality} ${place.postalCode} ${place.country}';
-    Get.snackbar("Location", address.value, colorText: Colors.white, backgroundColor: Colors.black, snackPosition: SnackPosition.BOTTOM);
+   // Get.snackbar("Location", address.value, colorText: Colors.white, backgroundColor: Colors.black, snackPosition: SnackPosition.BOTTOM);
   }
 
   Future<void> getAddressFromLatLong(lat, long)async {
@@ -67,6 +67,6 @@ class PickLocationController extends GetxController {
     print(placemarks);
     Placemark place = placemarks[0];
     address.value = '${place.street} ${place.subLocality} ${place.locality} ${place.postalCode} ${place.country}';
-    Get.snackbar("Location", address.value, colorText: Colors.white, backgroundColor: Colors.black, snackPosition: SnackPosition.BOTTOM);
+   // Get.snackbar("Location", address.value, colorText: Colors.white, backgroundColor: Colors.black, snackPosition: SnackPosition.BOTTOM);
   }
 }

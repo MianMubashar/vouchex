@@ -21,6 +21,7 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
   var isLoading = false.obs;
   var lat = 0.0.obs;
   var lon = 0.0.obs;
+  var address = 'Tap here to get address'.obs;
 
   var loginDetails = GetStorage();
 
@@ -62,6 +63,7 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
       var apiResponse = validateTokenModelFromJson(response.body);
       if (apiResponse.user.businessId != null) {
         userName.value = apiResponse.user.business!.name!;
+        loginDetails.write('businessName', apiResponse.user.business!.name!);
         profilePhotoPath.value = apiResponse.user.business!.profilePhotoPath!;
         loginDetails.write("profile", profilePhotoPath.value);
         coverPhotoUrl.value = apiResponse.user.business!.coverPhotoPath!;
@@ -71,6 +73,7 @@ class HomeTabs extends GetxController with GetSingleTickerProviderStateMixin{
         countryCode.value = apiResponse.user.business!.countryCode!;
         lat.value = apiResponse.user.business!.lat!;
         lon.value = apiResponse.user.business!.lon!;
+        address.value = apiResponse.user.business!.address!;
         return response;
       }
       else {

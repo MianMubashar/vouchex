@@ -173,6 +173,7 @@ class SearchScreen extends StatelessWidget {
                                         activeColor: Colors.black,
                                         contentPadding: EdgeInsets.zero,
                                         onChanged: (value) {
+                                          // print(value);
                                           _controller.groupValue.value = value as int;
                                           _controller.isEnd.value = 0;
                                           _controller.isStatic.value = 1;

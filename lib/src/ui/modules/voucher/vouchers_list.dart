@@ -50,6 +50,7 @@ class VoucherList extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () async{
+
                                   print(_requestVoucherExchangeController.myVouchersList[index].id);
                                  await _requestVoucherExchangeController.requestVoucherExchange(
                                    context,

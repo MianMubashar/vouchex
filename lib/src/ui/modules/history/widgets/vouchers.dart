@@ -107,12 +107,14 @@ class SwappedVoucherCard extends StatelessWidget {
     return InkWell(
       onTap: (){
         AppDialog(
+          model: model,
             exchangeRequestId: model.id!,
             requesteeVoucherName: model.requesteeVoucher!.name ?? '',
             requesteeVoucherCode: model.requesteeVoucher!.code ?? '',
             requesteeProfileImage:"$networkImageBaseUrl${loginDetails.read("profile")}",
             requesteeCoverImage: "$networkImageBaseUrl${loginDetails.read("cover")}",
             requesterVoucherName: model.requesterVoucher!.name!,
+          requesterBuisnessName: loginDetails.read("businessName"),
             requesterVoucherCode: model.requesterVoucher!.code!,
             requesterProfileImage:"$networkImageBaseUrl${model.requestee!.business!.profilePhotoPath}",
             requesterCoverImage: "$networkImageBaseUrl${model.requestee!.business!.coverPhotoPath}",

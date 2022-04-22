@@ -42,7 +42,7 @@ class ImageDialog {
                 ),
               ),
             ),
-            Image.asset(imageUrl, width: 273, height: 343,),
+            Image.asset(imageUrl, width: 260, height: 333,),
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 26, top: 18, bottom: 18),
               child: titleText(title, size: 20, textAlign: TextAlign.center),

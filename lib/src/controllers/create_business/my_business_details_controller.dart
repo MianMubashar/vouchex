@@ -24,6 +24,7 @@ class MyBusinessDetailsController extends GetxController {
    var coverPhoto = '';
    var lat = 0.0;
    var lon = 0.0;
+   var address = '';
 
    Future validateToken() async {
       var token = loginDetails.read("token");
@@ -45,6 +46,7 @@ class MyBusinessDetailsController extends GetxController {
          description = apiResponse.user.business!.description!;
          lat = apiResponse.user.business!.lat!;
          lon = apiResponse.user.business!.lon!;
+         address = apiResponse.user.business!.address!;
       } else {
          isLoading.value = false;
          return response;

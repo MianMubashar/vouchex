@@ -25,7 +25,7 @@ class AppDialog {
   final String requesterCoverImage;
   final String requesterTerms;
   String isRequesterOrRequestee ;
-
+  String? requesterBuisnessName;
   AppDialog({
     this.model,
     this.oKText = 'OK',
@@ -44,7 +44,8 @@ class AppDialog {
     required this.requesterProfileImage,
     required this.requesterCoverImage,
     required this.requesterTerms,
-    this.isRequesterOrRequestee = 'requester'
+    this.isRequesterOrRequestee = 'requester',
+    this.requesterBuisnessName,
 
   });
 
@@ -189,7 +190,7 @@ class AppDialog {
                         Get.back();
                         var voucherData = {
                           "qrImage" : "assets/images/qr_code.png",
-                          "businessName" : model?.requestee?.business == null ? '': model?.requestee?.business?.name ,
+                          "businessName" :requesterBuisnessName != null ? requesterBuisnessName : '' ,
                           "expiryDate" : DateFormat("dd/MM/yyyy").format(model!.requesterVoucher!.expiry!),
                           "terms" : model!.requesterVoucher!.termsConditions,
                           "services" : model?.requesterVoucher?.services ,

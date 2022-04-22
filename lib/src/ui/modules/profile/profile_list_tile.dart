@@ -32,6 +32,7 @@ class ProfileListTile extends StatelessWidget {
               "profilePhoto" : "$networkImageBaseUrl${_businessDetailsController.profilePhoto}",
               "coverPhoto" : "$networkImageBaseUrl${_businessDetailsController.coverPhoto}",
               "businessTypeList" : _businessDetailsController.getBusinessTypeList,
+              'address':_businessDetailsController.address
             };
 
             Get.toNamed(profileModel.route,arguments: data);

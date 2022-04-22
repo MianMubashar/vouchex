@@ -100,6 +100,7 @@ class ValidateBusiness {
     this.phoneNo,
     this.countryCode,
     this.businessType,
+    this.address
   });
 
   int? id;
@@ -116,6 +117,7 @@ class ValidateBusiness {
   String? phoneNo;
   String? countryCode;
   ValidateBusinessType? businessType;
+  String? address;
 
   factory ValidateBusiness.fromJson(Map<String, dynamic> json) => ValidateBusiness(
     id: json["id"],
@@ -131,7 +133,8 @@ class ValidateBusiness {
     countryCode : json["country_code"],
     businessType: ValidateBusinessType.fromJson(json["business_type"]),
     lat: double.parse(json['lat'].toString()) ,
-    lon: double.parse(json['lng'].toString())
+    lon: double.parse(json['lng'].toString()),
+      address: json['address']
   );
 
   Map<String, dynamic> toJson() => {
@@ -148,7 +151,8 @@ class ValidateBusiness {
     "country_code" : countryCode,
     "business_type": businessType!.toJson(),
     'lat':lat,
-    'lon':lon
+    'lon':lon,
+    'address':address
   };
 }
 

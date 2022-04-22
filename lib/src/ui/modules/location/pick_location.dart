@@ -80,17 +80,20 @@ class _PickLocationFromMapState extends State<PickLocationFromMap> {
                             onMapCreated: (GoogleMapController controller) {
                               _controller.googleMapController = controller;
                             },
-                            onTap: (latlng){
-                              if(kDebugMode) {
-                                print('${latlng.latitude} +"  "+${latlng.longitude}');
-                              }
-                              _controller.lat.value = latlng.latitude;
-                              _controller.long.value = latlng.longitude;
+
+                            onCameraIdle: (){
                               setState(() {
-                                _controller.markers.add(Marker(markerId: const MarkerId('newLocation'),position: LatLng(latlng.latitude, latlng.longitude),
+                                _controller.markers.add(Marker(markerId: const MarkerId('newLocation'),position: LatLng(_controller.lat.value, _controller.long.value),
                                     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan)));
-                                _controller.getAddressFromLatLong(latlng.latitude, latlng.longitude);
+                                _controller.getAddressFromLatLong(_controller.lat.value, _controller.long.value);
                               });
+                            },
+                            onCameraMove: (latlng){
+                              if(kDebugMode) {
+                                print('${latlng.target.latitude} +"  "+${latlng.target.longitude}');
+                              }
+                              _controller.lat.value = latlng.target.latitude;
+                              _controller.long.value = latlng.target.longitude;
                             },
                           ),
                           InkWell(
@@ -127,6 +130,25 @@ class _PickLocationFromMapState extends State<PickLocationFromMap> {
                               ),
                             ),
                           ),
+
+                          _controller.address.value == '' ? SizedBox() : Positioned(
+                            top: MediaQuery.of(context).size.height * 0.65,
+                            right: 30,
+                            left: 20,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20.0,right: 20),
+                              child: Container(
+                                // height: MediaQuery.of(context).size.height * 0.08,
+                                width: MediaQuery.of(context).size.width ,
+                                padding: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(10)
+                                ),
+                                child:Center(child: smallText(_controller.address.value,overflow: TextOverflow.visible,size: 12,clr: Colors.white,)) ,
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),

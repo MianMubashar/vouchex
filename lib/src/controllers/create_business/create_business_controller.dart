@@ -126,6 +126,7 @@ class CreateBusinessController extends GetxController{
       request.fields['country_code'] = countryCode.value;
       request.fields['lat'] = latitude.value.toString();
       request.fields['lng'] = longitude.value.toString();
+      request.fields['address'] = address.value;
 
       if(selectedBusinessServicesListId.isNotEmpty) {
         for(int i = 0; i < selectedBusinessServicesListId.length; i++){

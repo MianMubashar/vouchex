@@ -256,6 +256,7 @@ class CreateNewVoucher extends StatelessWidget {
                                       activeColor: Colors.black,
                                       contentPadding: EdgeInsets.zero,
                                       onChanged: (value) {
+                                        print(value);
                                         _createVoucherController.vType.value = value as int;
                                         print("Selected V type ${_createVoucherController.vType.value}");
                                         _createVoucherController.selectedVType.value = true;
@@ -270,6 +271,7 @@ class CreateNewVoucher extends StatelessWidget {
                                       activeColor: Colors.black,
                                       contentPadding: EdgeInsets.zero,
                                       onChanged: (value) {
+                                        print(value);
                                         _createVoucherController.vType.value = value as int;
                                         print("Selected V type ${_createVoucherController.vType.value}");
                                         _createVoucherController.selectedVType.value = false;
